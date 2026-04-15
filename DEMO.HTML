@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AlphaSynth — Investment Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:   #1B2A4A;
+  --blue:   #2E4D8E;
+  --teal:   #0D7C8C;
+  --teal-l: #E0F4F6;
+  --gold:   #B8860B;
+  --gold-l: #FFF8E1;
+  --green:  #1A6B3A;
+  --green-l:#E8F5E9;
+  --amber:  #B45309;
+  --red:    #8C1A1A;
+  --white:  #FFFFFF;
+  --off:    #F8F9FB;
+  --light:  #EEF2F7;
+  --border: #E2E8F0;
+  --body:   #2D3748;
+  --muted:  #718096;
+  --mono:   'JetBrains Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--body);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.container-wide { max-width: 1440px; margin: 0 auto; padding: 0 60px; }
+
+/* ── Navigation ───────────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; height: 68px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-mark {
+  width: 36px; height: 36px; background: var(--navy);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+}
+.logo-mark svg { width: 20px; height: 20px; }
+.logo-text { font-size: 18px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; }
+.logo-text span { color: var(--teal); }
+.nav-links { display: flex; gap: 36px; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+.nav-links a:hover { color: var(--navy); }
+.nav-cta { display: flex; align-items: center; gap: 16px; }
+.btn-ghost { font-size: 14px; font-weight: 500; color: var(--navy); padding: 8px 16px; border-radius: 6px; transition: background 0.2s; }
+.btn-ghost:hover { background: var(--light); }
+.btn-primary {
+  font-size: 14px; font-weight: 600; color: white;
+  background: var(--navy); padding: 10px 22px; border-radius: 7px;
+  transition: all 0.2s; box-shadow: 0 2px 8px rgba(27,42,74,0.2);
+}
+.btn-primary:hover { background: #243756; box-shadow: 0 4px 16px rgba(27,42,74,0.3); transform: translateY(-1px); }
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.hero {
+  padding: 160px 0 100px;
+  background: linear-gradient(160deg, #F8F9FB 0%, #EEF2F7 40%, #F0F7F8 100%);
+  overflow: hidden;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(13,124,140,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(13,124,140,0.08); border: 1px solid rgba(13,124,140,0.2);
+  color: var(--teal); font-size: 12px; font-weight: 600;
+  padding: 5px 12px; border-radius: 100px; margin-bottom: 24px;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.hero-eyebrow::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+.hero h1 {
+  font-size: 52px; font-weight: 800; color: var(--navy); line-height: 1.1;
+  letter-spacing: -1.5px; margin-bottom: 24px;
+}
+.hero h1 em { font-style: normal; color: var(--teal); }
+.hero-sub {
+  font-size: 18px; color: var(--muted); line-height: 1.7; margin-bottom: 40px;
+  max-width: 480px;
+}
+.hero-actions { display: flex; gap: 16px; align-items: center; margin-bottom: 56px; }
+.btn-hero {
+  font-size: 15px; font-weight: 700; color: white;
+  background: var(--navy); padding: 14px 28px; border-radius: 8px;
+  transition: all 0.2s; box-shadow: 0 4px 20px rgba(27,42,74,0.25);
+}
+.btn-hero:hover { background: #243756; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(27,42,74,0.3); }
+.btn-outline {
+  font-size: 15px; font-weight: 600; color: var(--navy);
+  border: 1.5px solid var(--border); padding: 14px 28px; border-radius: 8px;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--navy); background: var(--light); }
+.hero-stats { display: flex; gap: 40px; }
+.hero-stat-num { font-size: 28px; font-weight: 800; color: var(--navy); letter-spacing: -1px; }
+.hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* Hero visual */
+.hero-visual { position: relative; }
+.dashboard-card {
+  background: white; border-radius: 16px;
+  box-shadow: 0 24px 80px rgba(27,42,74,0.12), 0 4px 16px rgba(27,42,74,0.06);
+  overflow: hidden; border: 1px solid var(--border);
+}
+.dash-header {
+  background: var(--navy); padding: 14px 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.dash-dot { width: 10px; height: 10px; border-radius: 50%; }
+.dash-body { padding: 20px; }
+.screener-row {
+  display: grid; grid-template-columns: 32px 1fr 80px 60px 60px 70px;
+  gap: 12px; align-items: center; padding: 10px 0;
+  border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.screener-row:last-child { border-bottom: none; }
+.screener-row.header { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 6px; }
+.rank { font-size: 12px; color: var(--muted); font-weight: 600; text-align: center; }
+.stock-name { font-weight: 700; color: var(--navy); font-size: 13px; }
+.stock-sector { font-size: 11px; color: var(--muted); }
+.score-bar-wrap { position: relative; height: 20px; display: flex; align-items: center; gap: 8px; }
+.score-bar-bg { flex: 1; height: 5px; background: var(--light); border-radius: 3px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--teal), #0A9CAF); }
+.score-num { font-size: 12px; font-weight: 700; color: var(--teal); min-width: 26px; }
+.metric { font-size: 12px; color: var(--body); font-weight: 500; }
+.metric.green { color: var(--green); }
+.metric.red { color: var(--red); }
+.pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+.pill-buy { background: #DCFCE7; color: #15803D; }
+.pill-hold { background: #FEF9C3; color: #854D0E; }
+.float-badge {
+  position: absolute; bottom: -20px; right: -20px;
+  background: white; border-radius: 12px; padding: 14px 18px;
+  box-shadow: 0 8px 32px rgba(27,42,74,0.12);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px; min-width: 200px;
+}
+.float-icon { width: 40px; height: 40px; background: var(--teal-l); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.float-label { font-size: 11px; color: var(--muted); }
+.float-value { font-size: 16px; font-weight: 800; color: var(--navy); }
+
+/* ── Trust Bar ────────────────────────────────────────────────────────── */
+.trust-bar {
+  background: var(--navy); padding: 20px 0;
+}
+.trust-items { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+.trust-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 36px; border-right: 1px solid rgba(255,255,255,0.12);
+}
+.trust-item:last-child { border-right: none; }
+.trust-icon { font-size: 16px; }
+.trust-text { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); }
+.trust-text span { color: #7DD3DB; }
+
+/* ── Problem section ──────────────────────────────────────────────────── */
+.section { padding: 96px 0; }
+.section-alt { background: var(--off); }
+.section-label {
+  font-size: 11px; font-weight: 700; color: var(--teal);
+  text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px;
+}
+.section-title {
+  font-size: 40px; font-weight: 800; color: var(--navy);
+  letter-spacing: -1px; line-height: 1.15; margin-bottom: 16px;
+}
+.section-sub { font-size: 17px; color: var(--muted); max-width: 600px; line-height: 1.7; }
+.center { text-align: center; }
+.center .section-sub { margin: 0 auto; }
+
+.problem-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; margin-top: 60px; }
+.problem-card {
+  background: white; border: 1px solid var(--border); border-radius: 14px;
+  padding: 32px 28px; position: relative; overflow: hidden;
+}
+.problem-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--red), #C0392B);
+}
+.problem-num { font-size: 48px; font-weight: 800; color: var(--light); font-family: var(--mono); margin-bottom: 16px; }
+.problem-title { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+.problem-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* ── Differentiators ──────────────────────────────────────────────────── */
+.diff-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 60px; }
+.diff-card {
+  background: white; border: 1px solid var(--border); border-radius: 14px;
+  padding: 32px; transition: all 0.25s; cursor: default;
+}
+.diff-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(27,42,74,0.1); border-color: var(--teal); }
+.diff-icon {
+  width: 52px; height: 52px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin-bottom: 20px;
+}
+.diff-icon.navy-bg { background: var(--navy); }
+.diff-icon.teal-bg { background: var(--teal-l); }
+.diff-icon.gold-bg { background: var(--gold-l); }
+.diff-icon.green-bg { background: var(--green-l); }
+.diff-title { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.diff-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.diff-tag { display: inline-block; font-size: 10px; font-weight: 700; color: var(--teal); background: var(--teal-l); padding: 3px 8px; border-radius: 4px; margin-top: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── Six Pillars ──────────────────────────────────────────────────────── */
+.pillars-wrap {
+  background: var(--navy); padding: 96px 0;
+  position: relative; overflow: hidden;
+}
+.pillars-wrap::before {
+  content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  width: 1000px; height: 600px;
+  background: radial-gradient(circle, rgba(13,124,140,0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+.pillars-wrap .section-title { color: white; }
+.pillars-wrap .section-sub { color: rgba(255,255,255,0.6); }
+.pillars-wrap .section-label { color: #7DD3DB; }
+.pillar-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; margin-top: 60px; }
+.pillar-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 28px 20px; text-align: center;
+  transition: all 0.25s; cursor: default;
+}
+.pillar-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(13,124,140,0.5); transform: translateY(-4px); }
+.pillar-num { font-size: 10px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-family: var(--mono); }
+.pillar-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+.pillar-name { font-size: 14px; font-weight: 700; color: white; margin-bottom: 8px; }
+.pillar-desc { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.pillar-note { text-align: center; margin-top: 40px; font-size: 14px; color: rgba(255,255,255,0.4); }
+.pillar-note strong { color: rgba(255,255,255,0.8); }
+
+/* ── Score Display ────────────────────────────────────────────────────── */
+.score-showcase {
+  display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 48px; flex-wrap: wrap;
+}
+.score-circle {
+  width: 80px; height: 80px; border-radius: 50%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; font-family: var(--mono);
+}
+.score-circle-num { font-size: 22px; font-weight: 700; line-height: 1; }
+.score-circle-lbl { font-size: 9px; margin-top: 2px; opacity: 0.7; }
+.sc-high { background: rgba(13,124,140,0.2); border: 2px solid rgba(13,124,140,0.5); color: #7DD3DB; }
+.sc-mid { background: rgba(184,134,11,0.2); border: 2px solid rgba(184,134,11,0.4); color: #D4A017; }
+.arrow-right { color: rgba(255,255,255,0.3); font-size: 20px; }
+.composite-score {
+  background: linear-gradient(135deg, var(--teal), #0A9CAF);
+  border-radius: 16px; padding: 20px 32px; text-align: center; color: white;
+}
+.composite-num { font-size: 48px; font-weight: 800; font-family: var(--mono); line-height: 1; }
+.composite-label { font-size: 12px; margin-top: 4px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+.composite-rec { font-size: 14px; font-weight: 700; background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 6px; margin-top: 10px; display: inline-block; }
+
+/* ── Platform Features ────────────────────────────────────────────────── */
+.features-nav {
+  display: flex; gap: 8px; margin-bottom: 48px; flex-wrap: wrap;
+}
+.feature-tab {
+  font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: 7px;
+  cursor: pointer; transition: all 0.2s; border: 1.5px solid var(--border); color: var(--muted);
+  background: white;
+}
+.feature-tab.active, .feature-tab:hover { background: var(--navy); color: white; border-color: var(--navy); }
+
+.feature-block { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+.feature-block.reverse { direction: rtl; }
+.feature-block.reverse > * { direction: ltr; }
+.feature-label {
+  display: inline-block; font-size: 11px; font-weight: 700; color: var(--teal);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  background: var(--teal-l); padding: 4px 10px; border-radius: 5px;
+}
+.feature-title { font-size: 32px; font-weight: 800; color: var(--navy); letter-spacing: -0.8px; line-height: 1.2; margin-bottom: 16px; }
+.feature-sub { font-size: 15px; color: var(--muted); line-height: 1.75; margin-bottom: 32px; }
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.feature-list li { display: flex; align-items: flex-start; gap: 12px; }
+.feature-list li::before {
+  content: '✓'; flex-shrink: 0; width: 20px; height: 20px;
+  background: var(--teal-l); color: var(--teal); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; margin-top: 2px;
+}
+.feature-list span { font-size: 14px; color: var(--body); line-height: 1.6; }
+.feature-list strong { color: var(--navy); }
+.feature-visual {
+  background: var(--off); border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden;
+}
+.fv-header { background: var(--navy); padding: 12px 16px; display: flex; align-items: center; gap: 8px; }
+.fv-dot { width: 8px; height: 8px; border-radius: 50%; }
+.fv-body { padding: 20px; }
+.fv-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+
+/* Mini visualisations */
+.metric-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.metric-row:last-child { border-bottom: none; }
+.metric-key { color: var(--muted); }
+.metric-val { font-weight: 700; color: var(--navy); }
+.metric-val.pos { color: var(--green); }
+.metric-val.neg { color: var(--red); }
+.radar-wrap { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.radar-item { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+.radar-label { width: 120px; color: var(--muted); flex-shrink: 0; }
+.radar-bar { flex: 1; height: 8px; background: var(--light); border-radius: 4px; overflow: hidden; }
+.radar-fill { height: 100%; border-radius: 4px; }
+.radar-score { width: 32px; text-align: right; font-weight: 700; font-size: 12px; color: var(--navy); }
+
+.portfolio-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; padding: 20px; }
+.p-metric { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.p-metric-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.p-metric-val { font-size: 22px; font-weight: 800; color: var(--navy); font-family: var(--mono); }
+.p-metric-change { font-size: 12px; margin-top: 4px; font-weight: 600; }
+.p-metric-change.up { color: var(--green); }
+.p-metric-change.down { color: var(--red); }
+
+/* ── Zero Hallucination ────────────────────────────────────────────────── */
+.zh-section {
+  background: linear-gradient(135deg, var(--navy) 0%, #243756 100%);
+  padding: 96px 0;
+}
+.zh-section .section-title { color: white; }
+.zh-section .section-sub { color: rgba(255,255,255,0.6); max-width: 700px; }
+.zh-section .section-label { color: #7DD3DB; }
+.zh-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 0; margin-top: 60px; position: relative; }
+.zh-grid::before {
+  content: ''; position: absolute; top: 50%; left: 0; right: 0;
+  height: 2px; background: rgba(255,255,255,0.08); transform: translateY(-50%);
+}
+.zh-step {
+  text-align: center; padding: 0 16px; position: relative;
+}
+.zh-step-num {
+  width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; position: relative; z-index: 2;
+}
+.zh-step-num.active { background: var(--teal); color: white; box-shadow: 0 0 0 6px rgba(13,124,140,0.2); }
+.zh-step-num.inactive { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+.zh-step-title { font-size: 13px; font-weight: 700; color: white; margin-bottom: 8px; }
+.zh-step-text { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.zh-guarantee {
+  background: rgba(13,124,140,0.12); border: 1px solid rgba(13,124,140,0.3);
+  border-radius: 14px; padding: 36px; margin-top: 56px; text-align: center;
+}
+.zh-guarantee p { font-size: 18px; font-weight: 600; color: white; line-height: 1.6; }
+.zh-guarantee p em { font-style: normal; color: #7DD3DB; }
+
+/* ── Deployment ────────────────────────────────────────────────────────── */
+.deploy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.deploy-steps { display: flex; flex-direction: column; gap: 32px; }
+.deploy-step { display: flex; gap: 24px; align-items: flex-start; }
+.step-num {
+  width: 44px; height: 44px; border-radius: 10px; background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800; color: white; flex-shrink: 0;
+}
+.step-content-title { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.step-content-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.deploy-visual {
+  background: var(--navy); border-radius: 20px; padding: 40px;
+  position: relative; overflow: hidden;
+}
+.deploy-visual::before {
+  content: ''; position: absolute; top: -50px; right: -50px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(13,124,140,0.2) 0%, transparent 70%);
+}
+.aws-badge {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px; padding: 20px; margin-bottom: 16px;
+}
+.aws-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.aws-value { font-size: 15px; font-weight: 600; color: white; }
+.aws-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.escrow-note { font-size: 12px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; }
+.escrow-note span { color: rgba(255,255,255,0.7); }
+
+/* ── Roles section ─────────────────────────────────────────────────────── */
+.roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 56px; }
+.role-card {
+  border: 1px solid var(--border); border-radius: 16px; padding: 32px;
+  background: white; transition: all 0.25s;
+}
+.role-card:hover { box-shadow: 0 12px 40px rgba(27,42,74,0.08); transform: translateY(-3px); }
+.role-icon { font-size: 32px; margin-bottom: 16px; }
+.role-title { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.role-subtitle { font-size: 13px; color: var(--teal); font-weight: 600; margin-bottom: 16px; }
+.role-text { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+.role-features { display: flex; flex-direction: column; gap: 8px; }
+.role-feature { font-size: 13px; color: var(--body); display: flex; gap: 8px; }
+.role-feature::before { content: '→'; color: var(--teal); flex-shrink: 0; }
+
+/* ── Gamification callout ─────────────────────────────────────────────── */
+.game-section {
+  background: linear-gradient(135deg, #0D7C8C 0%, #0A9CAF 100%);
+  padding: 80px 0;
+}
+.game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.game-title { font-size: 36px; font-weight: 800; color: white; letter-spacing: -0.8px; line-height: 1.2; margin-bottom: 16px; }
+.game-sub { font-size: 16px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 32px; }
+.game-features { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.game-feat { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; }
+.game-feat-icon { font-size: 24px; margin-bottom: 10px; }
+.game-feat-title { font-size: 14px; font-weight: 700; color: white; margin-bottom: 6px; }
+.game-feat-text { font-size: 12px; color: rgba(255,255,255,0.65); }
+.game-visual { display: flex; flex-direction: column; gap: 12px; }
+.badge-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.badge {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 100px; padding: 8px 16px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: white;
+}
+.badge-earned { background: rgba(255,255,255,0.2); }
+.streak-card {
+  background: rgba(255,255,255,0.1); border-radius: 14px; padding: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.streak-label { font-size: 12px; color: rgba(255,255,255,0.65); }
+.streak-val { font-size: 36px; font-weight: 800; color: white; font-family: var(--mono); }
+.depth-meter { background: rgba(255,255,255,0.1); border-radius: 14px; padding: 20px; }
+.depth-label { font-size: 12px; color: rgba(255,255,255,0.65); margin-bottom: 12px; display: flex; justify-content: space-between; }
+.depth-bar-bg { height: 8px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
+.depth-bar-fill { height: 100%; background: white; border-radius: 4px; width: 72%; }
+.depth-steps { display: flex; justify-content: space-between; margin-top: 12px; }
+.depth-step { font-size: 10px; color: rgba(255,255,255,0.4); text-align: center; }
+.depth-step.done { color: rgba(255,255,255,0.8); font-weight: 600; }
+
+/* ── CTA ───────────────────────────────────────────────────────────────── */
+.cta-section { padding: 120px 0; text-align: center; }
+.cta-section .section-title { font-size: 48px; }
+.cta-section .section-sub { margin: 20px auto 48px; }
+.cta-actions { display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.btn-cta {
+  font-size: 16px; font-weight: 700; color: white; background: var(--navy);
+  padding: 16px 36px; border-radius: 10px; transition: all 0.2s;
+  box-shadow: 0 4px 24px rgba(27,42,74,0.25);
+}
+.btn-cta:hover { background: #243756; transform: translateY(-2px); box-shadow: 0 8px 40px rgba(27,42,74,0.3); }
+.btn-cta-outline {
+  font-size: 16px; font-weight: 600; color: var(--navy);
+  border: 2px solid var(--border); padding: 16px 36px; border-radius: 10px; transition: all 0.2s;
+}
+.btn-cta-outline:hover { border-color: var(--navy); }
+.cta-note { font-size: 13px; color: var(--muted); margin-top: 20px; }
+
+/* ── Footer ────────────────────────────────────────────────────────────── */
+footer {
+  background: var(--navy); padding: 60px 0 40px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+.footer-logo { font-size: 22px; font-weight: 800; color: white; margin-bottom: 16px; }
+.footer-logo span { color: #7DD3DB; }
+.footer-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 280px; }
+.footer-col-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 14px; color: rgba(255,255,255,0.55); transition: color 0.2s; }
+.footer-links a:hover { color: white; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.35); }
+.footer-badges { display: flex; gap: 12px; }
+.footer-badge { font-size: 11px; color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.08); }
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.mt-32 { margin-top: 32px; }
+.mt-48 { margin-top: 48px; }
+.mt-60 { margin-top: 60px; }
+.divider { height: 1px; background: var(--border); }
+.highlight { color: var(--teal); }
+.tag-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+.tag { font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 6px; background: var(--light); color: var(--body); }
+.tag.teal { background: var(--teal-l); color: var(--teal); }
+.tag.navy { background: var(--navy); color: white; }
+
+/* ── Scroll animation ──────────────────────────────────────────────────── */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+@media (max-width: 960px) {
+  .hero-grid, .feature-block, .deploy-grid, .game-grid { grid-template-columns: 1fr; }
+  .pillar-grid { grid-template-columns: repeat(3,1fr); }
+  .diff-grid, .problem-grid, .roles-grid { grid-template-columns: repeat(2,1fr); }
+  .zh-grid { grid-template-columns: repeat(3,1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero h1 { font-size: 38px; }
+  .container-wide { padding: 0 24px; }
+  .container { padding: 0 24px; }
+  .nav-inner { padding: 0 24px; }
+  .hero { padding: 120px 0 72px; }
+  .hero-visual { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ─────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 15L8 9L11 12L16 5" stroke="#0D7C8C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="16" cy="5" r="2" fill="#C9A84C"/>
+        </svg>
+      </div>
+      <span class="logo-text">Alpha<span>Synth</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#platform">Platform</a>
+      <a href="#pillars">Six Pillars</a>
+      <a href="#deployment">Deployment</a>
+      <a href="#roles">For Your Team</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn-ghost">Sign in</a>
+      <a href="#cta" class="btn-primary">Request Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">NSE Certified · India-First Platform</div>
+        <h1>Research that <em>thinks</em><br/>as rigorously<br/>as you do.</h1>
+        <p class="hero-sub">AlphaSynth is the investment intelligence platform built for India's equity professionals — where every number is calculated, never guessed, and every insight is earned through evidence.</p>
+        <div class="hero-actions">
+          <a href="#cta" class="btn-hero">Request a Demo</a>
+          <a href="#platform" class="btn-outline">Explore the Platform</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">6</div>
+            <div class="hero-stat-label">Analytical Pillars</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">200+</div>
+            <div class="hero-stat-label">Calculations, All Deterministic</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">0</div>
+            <div class="hero-stat-label">Hallucinated Numbers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Preview -->
+      <div class="hero-visual">
+        <div class="dashboard-card">
+          <div class="dash-header">
+            <div class="dash-dot" style="background:#FF5F56"></div>
+            <div class="dash-dot" style="background:#FFBD2E"></div>
+            <div class="dash-dot" style="background:#27C93F"></div>
+            <span style="font-size:12px;color:rgba(255,255,255,0.5);margin-left:10px;font-family:var(--mono)">AlphaSynth · Quality Compounders</span>
+          </div>
+          <div class="dash-body">
+            <div class="screener-row header">
+              <span>#</span><span>Stock</span><span>AS Score</span><span>P/E</span><span>ROE</span><span>Signal</span>
+            </div>
+            <div class="screener-row">
+              <span class="rank">1</span>
+              <div><div class="stock-name">ASIAN PAINTS</div><div class="stock-sector">Consumer Goods</div></div>
+              <div class="score-bar-wrap"><div class="score-bar-bg"><div class="score-bar-fill" style="width:88%"></div></div><span class="score-num">88</span></div>
+              <span class="metric">53.2</span><span class="metric green">27.4%</span><span class="pill pill-buy">BUY</span>
+            </div>
+            <div class="screener-row">
+              <span class="rank">2</span>
+              <div><div class="stock-name">HDFC BANK</div><div class="stock-sector">Banking</div></div>
+              <div class="score-bar-wrap"><div class="score-bar-bg"><div class="score-bar-fill" style="width:82%"></div></div><span class="score-num">82</span></div>
+              <span class="metric">19.1</span><span class="metric green">17.8%</span><span class="pill pill-buy">BUY</span>
+            </div>
+            <div class="screener-row">
+              <span class="rank">3</span>
+              <div><div class="stock-name">PIDILITE IND</div><div class="stock-sector">Chemicals</div></div>
+              <div class="score-bar-wrap"><div class="score-bar-bg"><div class="score-bar-fill" style="width:76%"></div></div><span class="score-num">76</span></div>
+              <span class="metric">72.4</span><span class="metric green">23.1%</span><span class="pill pill-hold">HOLD</span>
+            </div>
+            <div class="screener-row">
+              <span class="rank">4</span>
+              <div><div class="stock-name">TITAN COMPANY</div><div class="stock-sector">Consumer Goods</div></div>
+              <div class="score-bar-wrap"><div class="score-bar-bg"><div class="score-bar-fill" style="width:71%"></div></div><span class="score-num">71</span></div>
+              <span class="metric">87.3</span><span class="metric green">22.5%</span><span class="pill pill-hold">HOLD</span>
+            </div>
+          </div>
+        </div>
+        <div class="float-badge">
+          <div class="float-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12.39 7.26L18 8.18L14 12.08L14.97 18L10 15.27L5.03 18L6 12.08L2 8.18L7.61 7.26L10 2Z" fill="#0D7C8C"/></svg>
+          </div>
+          <div>
+            <div class="float-label">Portfolio Health Score</div>
+            <div class="float-value">74 / 100</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST BAR ──────────────────────────────────────────────────────── -->
+<div class="trust-bar">
+  <div class="trust-items">
+    <div class="trust-item"><span class="trust-icon">🔐</span><span class="trust-text"><span>NSE Certified</span> Data via Global Data Feed</span></div>
+    <div class="trust-item"><span class="trust-icon">☁️</span><span class="trust-text">Deployed into <span>Your AWS Environment</span></span></div>
+    <div class="trust-item"><span class="trust-icon">⚖️</span><span class="trust-text"><span>SEBI Compliant</span> Maker-Checker Workflow</span></div>
+    <div class="trust-item"><span class="trust-icon">🔢</span><span class="trust-text"><span>Zero Hallucinations</span> — Every Number Calculated</span></div>
+    <div class="trust-item"><span class="trust-icon">🔒</span><span class="trust-text">Source Code in <span>Independent Escrow</span></span></div>
+  </div>
+</div>
+
+<!-- ── PROBLEM ────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="center fade-up">
+      <div class="section-label">The Problem We Solve</div>
+      <h2 class="section-title">Indian equity research deserves<br/>better infrastructure.</h2>
+      <p class="section-sub">The tools used by most research teams today are fragmented, generic, and dangerously dependent on data that cannot be verified at the point of use.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card fade-up delay-1">
+        <div class="problem-num">01</div>
+        <div class="problem-title">Fragmented Workflows</div>
+        <p class="problem-text">Analysts toggle between Excel models, third-party charting platforms, BSE filing portals, and chat threads for every single research note. There is no unified workspace where fundamental, technical, macro, and sentiment data converge.</p>
+      </div>
+      <div class="problem-card fade-up delay-2">
+        <div class="problem-num">02</div>
+        <div class="problem-title">AI That Invents Numbers</div>
+        <p class="problem-text">Generic AI tools will confidently quote a company's P/E ratio, ROE, or target price — with no source, no formula, and no guarantee of accuracy. In investment research, a hallucinated number is not an inconvenience. It is a liability.</p>
+      </div>
+      <div class="problem-card fade-up delay-3">
+        <div class="problem-num">03</div>
+        <div class="problem-title">No Compliance Architecture</div>
+        <p class="problem-text">SEBI Research Analyst Regulations require conflict-of-interest disclosures, maker-checker workflows, and audit trails. Most platforms treat these as afterthoughts. AlphaSynth treats them as architecture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DIFFERENTIATORS ────────────────────────────────────────────────── -->
+<section class="section section-alt" id="platform">
+  <div class="container">
+    <div class="center fade-up">
+      <div class="section-label">Why AlphaSynth</div>
+      <h2 class="section-title">Five decisions that make<br/>this platform different.</h2>
+      <p class="section-sub">These are not features. They are architectural commitments — choices that cannot be quietly removed in a future update.</p>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-card fade-up delay-1">
+        <div class="diff-icon navy-bg">🔢</div>
+        <div class="diff-title">Deterministic Calculation Engine</div>
+        <p class="diff-text">Every ratio, score, attribution figure, and VaR estimate is computed by a versioned Python formula library. Same inputs, same outputs, always. The engine is separate from the AI layer — they cannot interact. Change a formula and the version increments; all downstream calculations rerun automatically.</p>
+        <div class="diff-tag">Zero Hallucination Guarantee</div>
+      </div>
+      <div class="diff-card fade-up delay-2">
+        <div class="diff-icon teal-bg">🇮🇳</div>
+        <div class="diff-title">Built for India, Not Adapted for It</div>
+        <p class="diff-text">AlphaSynth is built ground-up for NSE and BSE — not a global platform retrofitted for Indian data. NSE-certified data from Global Data Feed. SEBI regulatory workflows. Nifty 50, Bank Nifty, and all 12 sector indices. Indian corporate governance standards, IndAS accounting, and CRISIL/ICRA credit frameworks.</p>
+        <div class="diff-tag">NSE Certified Data</div>
+      </div>
+      <div class="diff-card fade-up delay-3">
+        <div class="diff-icon gold-bg">🏛️</div>
+        <div class="diff-title">Your Data Never Leaves Your Environment</div>
+        <p class="diff-text">AlphaSynth is deployed directly into your AWS account using Infrastructure as Code. You own the infrastructure. You hold the encryption keys. Intellectus AI Labs operates the software — your portfolio data, research notes, and proprietary models never transit our servers. True data sovereignty for financial institutions.</p>
+        <div class="diff-tag">AWS Client Deployment</div>
+      </div>
+      <div class="diff-card fade-up delay-1">
+        <div class="diff-icon green-bg">⚖️</div>
+        <div class="diff-title">Compliance Is Not an Add-On</div>
+        <p class="diff-text">The SEBI RA Regulations 2014 maker-checker workflow is a first-class feature, not a checkbox. Every recommendation goes through mandatory conflict-of-interest disclosure, Checker review with historical accuracy data, and an immutable audit trail. Seven-year data retention, cryptographically hashed log chains, and downloadable compliance reports.</p>
+        <div class="diff-tag">SEBI RA Compliant</div>
+      </div>
+      <div class="diff-card fade-up delay-2">
+        <div class="diff-icon teal-bg">🤖</div>
+        <div class="diff-title">AI That Knows What It Doesn't Know</div>
+        <p class="diff-text">AlphaSynth uses Claude (Anthropic) and Perplexity for narrative intelligence — never for numbers. Every LLM response is grounded in pre-computed, verified data. If data is unavailable, the platform says so. "Insufficient data for this analysis" is a valid and respected answer. The alternative — confident fiction — is not acceptable here.</p>
+        <div class="diff-tag">Grounded AI Layer</div>
+      </div>
+      <div class="diff-card fade-up delay-3">
+        <div class="diff-icon navy-bg">🎯</div>
+        <div class="diff-title">Guided Research, Not Just Data</div>
+        <p class="diff-text">A contextual suggestion engine watches where you are in the research workflow and nudges you deeper. "You have completed the P&L analysis. The Operating Cash Flow / PAT ratio is 0.62 — below sector median. Would you like to examine the working capital quality?" AlphaSynth improves the analyst, not just the output.</p>
+        <div class="diff-tag">Guided Intelligence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SIX PILLARS ────────────────────────────────────────────────────── -->
+<section class="pillars-wrap" id="pillars">
+  <div class="container">
+    <div class="center fade-up">
+      <div class="section-label">The Analytical Framework</div>
+      <h2 class="section-title">Six pillars. One score.<br/>Complete conviction.</h2>
+      <p class="section-sub">Most platforms give you one lens — fundamental or technical. AlphaSynth synthesises six independent analytical dimensions into a single composite score that captures the full picture.</p>
+    </div>
+    <div class="pillar-grid">
+      <div class="pillar-card fade-up delay-1">
+        <div class="pillar-num">Pillar 01</div>
+        <span class="pillar-icon">📊</span>
+        <div class="pillar-name">Fundamental</div>
+        <p class="pillar-desc">E-I-C framework. 27 financial ratios. DCF, SOTP, relative valuation. Forensic accounting. DuPont decomposition.</p>
+      </div>
+      <div class="pillar-card fade-up delay-2">
+        <div class="pillar-num">Pillar 02</div>
+        <span class="pillar-icon">📈</span>
+        <div class="pillar-name">Technical</div>
+        <p class="pillar-desc">12 institutional combination strategies. Elliott Wave. Harmonic patterns. 20+ indicators across all timeframes.</p>
+      </div>
+      <div class="pillar-card fade-up delay-3">
+        <div class="pillar-num">Pillar 03</div>
+        <span class="pillar-icon">🌏</span>
+        <div class="pillar-name">Macroeconomic</div>
+        <p class="pillar-desc">GDP, inflation, RBI policy, fiscal deficit, FII/DII flows, currency, and global index correlation — all scored.</p>
+      </div>
+      <div class="pillar-card fade-up delay-1">
+        <div class="pillar-num">Pillar 04</div>
+        <span class="pillar-icon">💬</span>
+        <div class="pillar-name">Sentiment</div>
+        <p class="pillar-desc">20-factor model. News NLP. FII behaviour. Put/call ratios. Social signal intensity. Geopolitical risk index.</p>
+      </div>
+      <div class="pillar-card fade-up delay-2">
+        <div class="pillar-num">Pillar 05</div>
+        <span class="pillar-icon">⚡</span>
+        <div class="pillar-name">Earnings Momentum</div>
+        <p class="pillar-desc">Consensus EPS revisions over 30/60/90 days. Beat/miss streak. Management guidance tracker. PEG ratio.</p>
+      </div>
+      <div class="pillar-card fade-up delay-3">
+        <div class="pillar-num">Pillar 06</div>
+        <span class="pillar-icon">🛡️</span>
+        <div class="pillar-name">Geopolitical</div>
+        <p class="pillar-desc">Active conflict risk. Supply chain disruption scoring. Commodity cycle overlay. Sector-specific exposure matrix.</p>
+      </div>
+    </div>
+
+    <!-- Score synthesis visual -->
+    <div class="score-showcase fade-up mt-48">
+      <div class="score-circle sc-high"><span class="score-circle-num">84</span><span class="score-circle-lbl">FUNDAMENTAL</span></div>
+      <span class="arrow-right">+</span>
+      <div class="score-circle sc-high"><span class="score-circle-num">72</span><span class="score-circle-lbl">TECHNICAL</span></div>
+      <span class="arrow-right">+</span>
+      <div class="score-circle sc-mid"><span class="score-circle-num">61</span><span class="score-circle-lbl">MACRO</span></div>
+      <span class="arrow-right">+</span>
+      <div class="score-circle sc-high"><span class="score-circle-num">78</span><span class="score-circle-lbl">SENTIMENT</span></div>
+      <span class="arrow-right">+</span>
+      <div class="score-circle sc-mid"><span class="score-circle-num">65</span><span class="score-circle-lbl">EARNINGS</span></div>
+      <span class="arrow-right">+</span>
+      <div class="score-circle sc-high"><span class="score-circle-num">80</span><span class="score-circle-lbl">GEOPOLITICAL</span></div>
+      <span class="arrow-right" style="font-size:28px;font-weight:300">=</span>
+      <div class="composite-score">
+        <div class="composite-num">74</div>
+        <div class="composite-label">AlphaSynth Score</div>
+        <div class="composite-rec">STRONG BUY</div>
+      </div>
+    </div>
+    <p class="pillar-note">Each pillar is scored 0–100 independently. The composite score is a <strong>weighted synthesis</strong> — not an average. Pillar weights are calibrated to the prevailing market regime.</p>
+  </div>
+</section>
+
+<!-- ── PLATFORM FEATURES ──────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="center fade-up">
+      <div class="section-label">The Platform</div>
+      <h2 class="section-title">Six modules. One workspace.</h2>
+      <p class="section-sub">Every module is purpose-built for the equity research workflow — from the first idea to the published recommendation.</p>
+    </div>
+
+    <!-- Feature 1: Discover & Screen -->
+    <div class="mt-60 feature-block fade-up">
+      <div>
+        <div class="feature-label">Section I</div>
+        <h3 class="feature-title">Discover &amp; Screen</h3>
+        <p class="feature-sub">Seven precision-engineered screener models surface high-conviction opportunities from the NSE universe. Stop scrolling through 5,000 stocks. Let the engine find what matches your thesis.</p>
+        <ul class="feature-list">
+          <li><span><strong>Quality Compounders</strong> — ROE &gt;15%, low debt, consistent earnings growth, strong moat. The Buffett-style compounder screen.</span></li>
+          <li><span><strong>Deep Value</strong> — Stocks trading at a &gt;30% margin of safety to their Graham number. Undervalued and overlooked.</span></li>
+          <li><span><strong>Growth Leaders</strong> — Revenue and PAT CAGR &gt;20%. High-growth businesses in secular tailwind sectors.</span></li>
+          <li><span><strong>Momentum Leaders, Multibagger Early, Low Risk Alpha</strong> — Three more models for three distinct mandates.</span></li>
+          <li><span><strong>Custom Scan Builder</strong> — Type "ROE above 15% and PE below 20" in plain English. AI converts to filters. Save, schedule, and alert.</span></li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag teal">Institutional Intent Scans</span>
+          <span class="tag teal">Chart Pattern Detection</span>
+          <span class="tag teal">IPO Analysis</span>
+          <span class="tag teal">Big Bull Tracker</span>
+        </div>
+      </div>
+      <div class="feature-visual">
+        <div class="fv-header">
+          <div class="fv-dot" style="background:#FF5F56"></div>
+          <div class="fv-dot" style="background:#FFBD2E"></div>
+          <div class="fv-dot" style="background:#27C93F"></div>
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:8px;font-family:var(--mono)">Six-Pillar Radar · ASIAN PAINTS</span>
+        </div>
+        <div class="fv-body">
+          <div class="fv-title">Research Depth Score — 72%</div>
+          <div class="radar-wrap">
+            <div class="radar-item"><span class="radar-label">Fundamental</span><div class="radar-bar"><div class="radar-fill" style="width:84%;background:linear-gradient(90deg,#0D7C8C,#0A9CAF)"></div></div><span class="radar-score">84</span></div>
+            <div class="radar-item"><span class="radar-label">Technical</span><div class="radar-bar"><div class="radar-fill" style="width:72%;background:linear-gradient(90deg,#0D7C8C,#0A9CAF)"></div></div><span class="radar-score">72</span></div>
+            <div class="radar-item"><span class="radar-label">Macroeconomic</span><div class="radar-bar"><div class="radar-fill" style="width:61%;background:linear-gradient(90deg,#B8860B,#D4A017)"></div></div><span class="radar-score">61</span></div>
+            <div class="radar-item"><span class="radar-label">Sentiment</span><div class="radar-bar"><div class="radar-fill" style="width:78%;background:linear-gradient(90deg,#0D7C8C,#0A9CAF)"></div></div><span class="radar-score">78</span></div>
+            <div class="radar-item"><span class="radar-label">Earnings Mom.</span><div class="radar-bar"><div class="radar-fill" style="width:65%;background:linear-gradient(90deg,#B8860B,#D4A017)"></div></div><span class="radar-score">65</span></div>
+            <div class="radar-item"><span class="radar-label">Geopolitical</span><div class="radar-bar"><div class="radar-fill" style="width:80%;background:linear-gradient(90deg,#0D7C8C,#0A9CAF)"></div></div><span class="radar-score">80</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mt-60" style="margin-bottom:60px"></div>
+
+    <!-- Feature 2: Market Intelligence -->
+    <div class="feature-block fade-up" style="direction:rtl">
+      <div style="direction:ltr">
+        <div class="feature-label">Section II</div>
+        <h3 class="feature-title">Market Intelligence</h3>
+        <p class="feature-sub">Every great stock idea lives inside a market context. AlphaSynth builds that context before you even open a company page — so you know whether the tide is with you or against you.</p>
+        <ul class="feature-list">
+          <li><span><strong>Index Breadth Analytics</strong> — Advance/Decline, % constituents above 200-DMA, Dow Theory confirmations across all 12 Nifty sectors.</span></li>
+          <li><span><strong>Delivery Volume Intelligence</strong> — Institutional vs. speculative activity at a glance. Unusual delivery spikes flagged before the breakout.</span></li>
+          <li><span><strong>Economic Analysis (E-I-C Framework)</strong> — GDP, inflation, RBI rate decisions, fiscal deficit, FPI flows — synthesised into an economic scorecard.</span></li>
+          <li><span><strong>Sector Deep-Dives</strong> — 12 Nifty sectors, 64 sector-specific KPIs, Porter's Five Forces, PESTLE, BCG, SCP. Industry attractiveness scored 1–35.</span></li>
+          <li><span><strong>Earnings Dashboard</strong> — Market-wide results season tracker. Net revision ratio. Sector-wise earnings quality ranking.</span></li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag teal">20-Factor Sentiment Model</span>
+          <span class="tag teal">Macro Regime Alerts</span>
+          <span class="tag teal">FII/DII Monitor</span>
+        </div>
+      </div>
+      <div style="direction:ltr" class="feature-visual">
+        <div class="fv-header">
+          <div class="fv-dot" style="background:#FF5F56"></div>
+          <div class="fv-dot" style="background:#FFBD2E"></div>
+          <div class="fv-dot" style="background:#27C93F"></div>
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:8px;font-family:var(--mono)">Market Intelligence · Live</span>
+        </div>
+        <div class="fv-body">
+          <div class="metric-row"><span class="metric-key">Nifty 50 Breadth</span><span class="metric-val pos">68% above 200-DMA</span></div>
+          <div class="metric-row"><span class="metric-key">Advance / Decline</span><span class="metric-val pos">1,847 / 623</span></div>
+          <div class="metric-row"><span class="metric-key">Net Revision Ratio</span><span class="metric-val pos">0.71 — Optimistic</span></div>
+          <div class="metric-row"><span class="metric-key">FII Flow (30-day)</span><span class="metric-val pos">+₹12,400 Cr Net Buy</span></div>
+          <div class="metric-row"><span class="metric-key">India VIX</span><span class="metric-val">13.4 — Low Fear</span></div>
+          <div class="metric-row"><span class="metric-key">Macro Regime</span><span class="metric-val pos">EXPANSION</span></div>
+          <div class="metric-row"><span class="metric-key">Economic Scorecard</span><span class="metric-val pos">Favourable (5/7)</span></div>
+          <div style="margin-top:16px;padding:12px;background:var(--teal-l);border-radius:8px;font-size:12px;color:var(--teal);font-weight:600">
+            💡 Guided Insight: Broad-based bull with positive FII flows. Cyclical sectors historically outperform in this regime. 3 of your watchlist stocks are in leading sectors.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mt-60" style="margin-bottom:60px"></div>
+
+    <!-- Feature 3: Company Research -->
+    <div class="feature-block fade-up">
+      <div>
+        <div class="feature-label">Section III</div>
+        <h3 class="feature-title">Company &amp; Fundamental Research</h3>
+        <p class="feature-sub">The deepest layer. From business model to balance sheet to valuation — every number calculated, every assumption visible, every conclusion traceable.</p>
+        <ul class="feature-list">
+          <li><span><strong>Full E-I-C Framework</strong> — Economy → Industry → Company analysis with structured templates and AI-assisted narrative generation grounded in your calculations.</span></li>
+          <li><span><strong>27-Ratio Suite</strong> — Profitability, returns, leverage, liquidity, efficiency, valuation. DuPont 5-factor decomposition. Peer comparison ranked within sector.</span></li>
+          <li><span><strong>Valuation Engine</strong> — Multi-scenario DCF (FCFF, FCFE, DDM). SOTP. Relative valuation. WACC from first principles. Terminal value sensitivity matrix.</span></li>
+          <li><span><strong>Forensic Accounting</strong> — Beneish M-Score, Piotroski F-Score, Altman Z-Score, Sloan Ratio. Automated red flags before you read a single note.</span></li>
+          <li><span><strong>Corporate Actions Tracker</strong> — Dividends, buybacks, rights issues, mergers, demergers. Automatic EPS adjustment. Historical corporate action log.</span></li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="fv-header">
+          <div class="fv-dot" style="background:#FF5F56"></div>
+          <div class="fv-dot" style="background:#FFBD2E"></div>
+          <div class="fv-dot" style="background:#27C93F"></div>
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:8px;font-family:var(--mono)">Valuation Engine · HDFC Bank</span>
+        </div>
+        <div class="fv-body">
+          <div class="fv-title">Multi-Model Valuation (FY26E)</div>
+          <div class="metric-row"><span class="metric-key">DCF (FCFE, 3-stage)</span><span class="metric-val">₹1,820</span></div>
+          <div class="metric-row"><span class="metric-key">DDM (H-Model, g=14%)</span><span class="metric-val">₹1,745</span></div>
+          <div class="metric-row"><span class="metric-key">Relative (P/B 2.8×, Peers avg 2.6×)</span><span class="metric-val">₹1,680</span></div>
+          <div class="metric-row"><span class="metric-key">Blended Fair Value</span><span class="metric-val pos">₹1,760</span></div>
+          <div class="metric-row"><span class="metric-key">Current Market Price</span><span class="metric-val">₹1,612</span></div>
+          <div class="metric-row"><span class="metric-key">Margin of Safety</span><span class="metric-val pos">+9.2% Upside</span></div>
+          <div class="metric-row"><span class="metric-key">Piotroski F-Score</span><span class="metric-val pos">8 / 9 — Strong</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mt-60" style="margin-bottom:60px"></div>
+
+    <!-- Feature 4 & 5 combined card row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px" class="fade-up">
+      <div class="diff-card">
+        <div class="feature-label">Section IV</div>
+        <h3 class="feature-title" style="font-size:24px">Technical &amp; Quantitative</h3>
+        <p class="diff-text" style="margin-bottom:20px">Institutional-grade technical analysis. Not just charts — strategies. 12 pre-built combination strategies (RSI Divergence + Bollinger Squeeze, Dow Theory + OBV + RSI, and 10 more), each with historical win rates. Backtesting engine with Monte Carlo and walk-forward optimisation. Elliott Wave and Harmonic pattern detection.</p>
+        <div class="tag-row">
+          <span class="tag teal">12 Combo Strategies</span>
+          <span class="tag teal">80-88% Win Rate (Dow Theory)</span>
+          <span class="tag teal">Backtesting Engine</span>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="feature-label">Section V</div>
+        <h3 class="feature-title" style="font-size:24px">Forensic &amp; Advanced Analytics</h3>
+        <p class="diff-text" style="margin-bottom:20px">The tools most platforms don't have. Forensic accounting layer catches manipulation before it reaches your model. Sentiment engine runs 20 factors. Red Team Analysis challenges your Buy thesis systematically. Predictive analytics surfaces breakout probability scores and earnings surprise signals.</p>
+        <div class="tag-row">
+          <span class="tag teal">Beneish M-Score</span>
+          <span class="tag teal">Red Team Analysis</span>
+          <span class="tag teal">20-Factor Sentiment</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mt-60" style="margin-bottom:60px"></div>
+
+    <!-- Feature 6: Portfolio Management -->
+    <div class="feature-block fade-up" style="direction:rtl">
+      <div style="direction:ltr">
+        <div class="feature-label">Section VI</div>
+        <h3 class="feature-title">Portfolio Management<br/>&amp; Risk Analytics</h3>
+        <p class="feature-sub">AlphaSynth's portfolio module transforms you from a stock analyst into a portfolio architect — with the tools to manage risk, attribute returns, and rebalance with precision.</p>
+        <ul class="feature-list">
+          <li><span><strong>Portfolio Health Score (0–100)</strong> — A composite metric across six dimensions: Diversification, Quality, Risk, Momentum, Valuation, and Liquidity. No other Indian platform offers this.</span></li>
+          <li><span><strong>Brinson Performance Attribution</strong> — Decompose returns into Allocation Effect, Selection Effect, and Interaction Effect. Know whether your alpha came from sector calls or stock picks.</span></li>
+          <li><span><strong>VaR, CVaR &amp; Stress Testing</strong> — Historical, parametric, and Monte Carlo methods. Six pre-built stress scenarios including 2008, 2020, and 2016 demonetisation.</span></li>
+          <li><span><strong>Tax-Aware Rebalancing Engine</strong> — Quantitative rebalancing that prioritises LTCG positions, minimises transaction costs, and respects Liquidity Score constraints for illiquid holdings.</span></li>
+          <li><span><strong>Fixed Income Analytics</strong> — Portfolio YTM, modified duration, credit rating tracker, and yield curve inversion monitor for multi-asset portfolios.</span></li>
+        </ul>
+      </div>
+      <div style="direction:ltr" class="feature-visual">
+        <div class="fv-header">
+          <div class="fv-dot" style="background:#FF5F56"></div>
+          <div class="fv-dot" style="background:#FFBD2E"></div>
+          <div class="fv-dot" style="background:#27C93F"></div>
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:8px;font-family:var(--mono)">Portfolio Dashboard · June 2025</span>
+        </div>
+        <div class="portfolio-grid">
+          <div class="p-metric"><div class="p-metric-label">Portfolio Value</div><div class="p-metric-val">₹4.2Cr</div><div class="p-metric-change up">+18.4% YTD</div></div>
+          <div class="p-metric"><div class="p-metric-label">Health Score</div><div class="p-metric-val">74/100</div><div class="p-metric-change up">↑ 6 this month</div></div>
+          <div class="p-metric"><div class="p-metric-label">Alpha vs Nifty</div><div class="p-metric-val">+6.4%</div><div class="p-metric-change up">Annualised</div></div>
+          <div class="p-metric"><div class="p-metric-label">Portfolio VaR (95%)</div><div class="p-metric-val">-2.8%</div><div class="p-metric-change">1-day 95% conf.</div></div>
+        </div>
+        <div style="padding:0 16px 16px;font-size:12px;color:var(--teal);background:var(--teal-l);margin:0 20px 20px;border-radius:8px;padding:12px">
+          <strong>Rebalancing Alert:</strong> INFY has drifted to 14.2% (target: 8%). Tax-aware sell order suggested: 380 shares (LTCG eligible).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ZERO HALLUCINATION ─────────────────────────────────────────────── -->
+<section class="zh-section">
+  <div class="container">
+    <div class="center fade-up">
+      <div class="section-label">The Trust Architecture</div>
+      <h2 class="section-title">How we guarantee every<br/>number is accurate.</h2>
+      <p class="section-sub">The Zero Hallucination Framework is a five-gate sequence that governs every interaction between your data and the AI layer. It is not a feature — it is the architecture.</p>
+    </div>
+    <div class="zh-grid fade-up mt-48">
+      <div class="zh-step">
+        <div class="zh-step-num active">G1</div>
+        <div class="zh-step-title">Data Presence Check</div>
+        <p class="zh-step-text">Does source data exist? If not, the system returns "Insufficient data" — no LLM call is made.</p>
+      </div>
+      <div class="zh-step">
+        <div class="zh-step-num active">G2</div>
+        <div class="zh-step-title">Calculation Completion</div>
+        <p class="zh-step-text">Pre-computed numbers must be verified by the Deterministic Engine before the AI layer sees them.</p>
+      </div>
+      <div class="zh-step">
+        <div class="zh-step-num active">G3</div>
+        <div class="zh-step-title">Structured Prompt Injection</div>
+        <p class="zh-step-text">The LLM receives only verified numbers. Template: "The calculated ROE is X. Write an interpretation." It cannot invent.</p>
+      </div>
+      <div class="zh-step">
+        <div class="zh-step-num active">G4</div>
+        <div class="zh-step-title">Output Schema Validation</div>
+        <p class="zh-step-text">Every numerical claim in the LLM response is cross-checked against pre-computed values. Off-schema responses are rejected.</p>
+      </div>
+      <div class="zh-step">
+        <div class="zh-step-num active">G5</div>
+        <div class="zh-step-title">Confidence Scoring</div>
+        <p class="zh-step-text">AI outputs a confidence score. Score &lt;3 appends a disclaimer. Low confidence is displayed, not suppressed.</p>
+      </div>
+    </div>
+    <div class="zh-guarantee fade-up">
+      <p><em>If AlphaSynth does not have the data to answer a question, it says so.</em><br/>Every number you see has a Calculation ID that traces to a source data row, a formula version, and a timestamp.<br/>This is the standard we hold ourselves to — and the standard your research deserves.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DEPLOYMENT ─────────────────────────────────────────────────────── -->
+<section class="section section-alt" id="deployment">
+  <div class="container">
+    <div class="deploy-grid">
+      <div>
+        <div class="section-label fade-up">Enterprise Deployment</div>
+        <h2 class="section-title fade-up">In your environment.<br/>On your terms.</h2>
+        <p class="section-sub fade-up">AlphaSynth is not a SaaS platform that holds your data. It deploys into your AWS account using Infrastructure as Code. You own everything. We operate the software.</p>
+        <div class="deploy-steps mt-48">
+          <div class="deploy-step fade-up delay-1">
+            <div class="step-num">1</div>
+            <div>
+              <div class="step-content-title">You provide your AWS account</div>
+              <p class="step-content-text">Share your AWS Account ID and a designated IAM role. No additional cloud infrastructure to procure — if you have AWS, you are ready.</p>
+            </div>
+          </div>
+          <div class="deploy-step fade-up delay-2">
+            <div class="step-num">2</div>
+            <div>
+              <div class="step-content-title">We deploy via CDK in under 30 minutes</div>
+              <p class="step-content-text">One command deploys the full AlphaSynth stack — VPC, databases, services, API, and frontend — into your account. Your encryption keys. Your VPC. Your data never transits our servers.</p>
+            </div>
+          </div>
+          <div class="deploy-step fade-up delay-3">
+            <div class="step-num">3</div>
+            <div>
+              <div class="step-content-title">Updates roll without downtime</div>
+              <p class="step-content-text">New platform versions deploy as rolling updates via your account's CI/CD pipeline. Zero downtime. Full version history. Rollback in one command if needed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="deploy-visual fade-up">
+        <div class="aws-badge">
+          <div class="aws-title">Deployment Region</div>
+          <div class="aws-value">ap-south-1 (Mumbai)</div>
+          <div class="aws-sub">Data sovereignty — all data stays in India</div>
+        </div>
+        <div class="aws-badge">
+          <div class="aws-title">Encryption</div>
+          <div class="aws-value">AWS KMS — Customer Managed Keys</div>
+          <div class="aws-sub">You hold the keys. We cannot access your data.</div>
+        </div>
+        <div class="aws-badge">
+          <div class="aws-title">Compliance Logs</div>
+          <div class="aws-value">7-Year Immutable Audit Trail</div>
+          <div class="aws-sub">Cryptographically hashed. SEBI RA Regulation compliant.</div>
+        </div>
+        <div class="aws-badge">
+          <div class="aws-title">Infrastructure as Code</div>
+          <div class="aws-value">AWS CDK (TypeScript)</div>
+          <div class="aws-sub">Your DevOps team can read, audit, and extend every resource.</div>
+        </div>
+        <div class="escrow-note"><span>Source code held in independent escrow</span> (NCC Group / Iron Mountain). Release triggered by clearly defined conditions. Your investment in the platform is protected.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ROLES ─────────────────────────────────────────────────────────── -->
+<section class="section" id="roles">
+  <div class="container">
+    <div class="center fade-up">
+      <div class="section-label">Built for Your Team</div>
+      <h2 class="section-title">Every role has a purpose.<br/>Every action is tracked.</h2>
+      <p class="section-sub">AlphaSynth is not one-size-fits-all. Role-based access ensures every member of your team sees exactly what they need — and nothing they shouldn't.</p>
+    </div>
+    <div class="roles-grid">
+      <div class="role-card fade-up delay-1">
+        <div class="role-icon">🏦</div>
+        <div class="role-title">CIO / Fund Manager</div>
+        <div class="role-subtitle">Strategic Oversight</div>
+        <p class="role-text">Portfolio-level intelligence, attribution, and risk management. See the health of every portfolio and the quality of every analyst's recommendations — historically verified.</p>
+        <div class="role-features">
+          <div class="role-feature">Portfolio Health Score across all mandates</div>
+          <div class="role-feature">Analyst recommendation accuracy tracking</div>
+          <div class="role-feature">Brinson attribution by sector and stock</div>
+          <div class="role-feature">VaR, CVaR, and stress test reports</div>
+        </div>
+      </div>
+      <div class="role-card fade-up delay-2">
+        <div class="role-icon">🔬</div>
+        <div class="role-title">Senior Research Analyst</div>
+        <div class="role-subtitle">Checker / Approver</div>
+        <p class="role-text">Before approving any recommendation, see the full research trail, the analyst's historical hit rate, and the six-pillar conviction score. Approve, reject, or modify with a full audit trail.</p>
+        <div class="role-features">
+          <div class="role-feature">Maker-checker approval workflow</div>
+          <div class="role-feature">Analyst historical accuracy overlay</div>
+          <div class="role-feature">SEBI conflict-of-interest disclosure verification</div>
+          <div class="role-feature">One-click report approval with digital signature</div>
+        </div>
+      </div>
+      <div class="role-card fade-up delay-3">
+        <div class="role-icon">📝</div>
+        <div class="role-title">Research Analyst</div>
+        <div class="role-subtitle">Maker / Creator</div>
+        <p class="role-text">The full AlphaSynth toolkit — all six sections, guided suggestions, module chatbots, and research report generation. AlphaSynth improves your analysis by nudging you deeper at every step.</p>
+        <div class="role-features">
+          <div class="role-feature">Full access to all six platform sections</div>
+          <div class="role-feature">Guided suggestions based on analysis gaps</div>
+          <div class="role-feature">Module chatbots with persistent memory</div>
+          <div class="role-feature">Research depth score and badge system</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GAMIFICATION ───────────────────────────────────────────────────── -->
+<section class="game-section">
+  <div class="container">
+    <div class="game-grid">
+      <div>
+        <div class="section-label" style="color:rgba(255,255,255,0.5)">Research Excellence</div>
+        <h2 class="game-title">Great research<br/>should feel like it.</h2>
+        <p class="game-sub">AlphaSynth gamifies the research process — not to make it a game, but to make depth rewarding, consistency visible, and quality measurable. The best analysts in your organisation will stand out.</p>
+        <div class="game-features">
+          <div class="game-feat">
+            <div class="game-feat-icon">🎯</div>
+            <div class="game-feat-title">Research Depth Score</div>
+            <p class="game-feat-text">Each stock has a completeness score (0–100%). Completing all six analytical pillars unlocks the full conviction badge.</p>
+          </div>
+          <div class="game-feat">
+            <div class="game-feat-icon">🏆</div>
+            <div class="game-feat-title">Accuracy Leaderboard</div>
+            <p class="game-feat-text">Monthly ranking by recommendation hit rate within your organisation. Resets to zero every month.</p>
+          </div>
+          <div class="game-feat">
+            <div class="game-feat-icon">🔥</div>
+            <div class="game-feat-title">Research Streak</div>
+            <p class="game-feat-text">Daily active analysis streak. Gamified consistency — because the best analysts don't take days off during earnings season.</p>
+          </div>
+          <div class="game-feat">
+            <div class="game-feat-icon">🛡️</div>
+            <div class="game-feat-title">Achievement Badges</div>
+            <p class="game-feat-text">Forensic Investigator. Macro Watcher. Portfolio Architect. Badges signal genuine analytical capability, not just usage.</p>
+          </div>
+        </div>
+      </div>
+      <div class="game-visual">
+        <div class="badge-row">
+          <div class="badge badge-earned">🛡️ Forensic Investigator</div>
+          <div class="badge badge-earned">📊 Valuation Master</div>
+          <div class="badge">🌏 Macro Watcher</div>
+        </div>
+        <div class="badge-row" style="margin-top:0">
+          <div class="badge badge-earned">🔬 Deep Dive · 50 stocks</div>
+          <div class="badge">🏆 Top Analyst</div>
+        </div>
+        <div class="streak-card mt-16">
+          <div><div class="streak-label">Research Streak</div><div class="streak-val">14 days</div></div>
+          <div style="text-align:right"><div class="streak-label">Hit Rate (90 days)</div><div class="streak-val">73%</div></div>
+        </div>
+        <div class="depth-meter mt-16">
+          <div class="depth-label"><span>Research Depth · RELIANCE</span><span style="color:white;font-weight:700">72% complete</span></div>
+          <div class="depth-bar-bg"><div class="depth-bar-fill"></div></div>
+          <div class="depth-steps">
+            <div class="depth-step done">Economy ✓</div>
+            <div class="depth-step done">Industry ✓</div>
+            <div class="depth-step done">Financials ✓</div>
+            <div class="depth-step done">Valuation ✓</div>
+            <div class="depth-step">Forensic</div>
+            <div class="depth-step">Sentiment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────────────── -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="section-label center">Get Started</div>
+    <h2 class="section-title center">Ready to build the research<br/>infrastructure you deserve?</h2>
+    <p class="section-sub center">AlphaSynth is available for pilot deployment to select Indian investment firms. Onboarding takes two to four weeks. Your team is productive from day one.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn-cta">Request a Demo</a>
+      <a href="#" class="btn-cta-outline">Download Platform Overview</a>
+    </div>
+    <p class="cta-note">Competitive pricing structured for Indian fund houses. Per-seat and enterprise licensing available. <a href="#" style="color:var(--teal)">Talk to us about your team size →</a></p>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Alpha<span>Synth</span></div>
+        <p class="footer-desc">Investment intelligence platform for India's equity professionals. NSE-certified data. Deterministic calculations. Zero hallucinations. Deployed in your AWS environment.</p>
+        <div style="margin-top:20px;display:flex;gap:12px">
+          <span class="footer-badge">NSE Certified</span>
+          <span class="footer-badge">SEBI Compliant</span>
+          <span class="footer-badge">AWS Deployed</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <div class="footer-links">
+          <a href="#">Discover &amp; Screen</a>
+          <a href="#">Market Intelligence</a>
+          <a href="#">Company Research</a>
+          <a href="#">Technical Analysis</a>
+          <a href="#">Portfolio Management</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-links">
+          <a href="#">About Intellectus AI Labs</a>
+          <a href="#">Architecture Overview</a>
+          <a href="#">Security &amp; Compliance</a>
+          <a href="#">Code Escrow Policy</a>
+          <a href="#">Careers</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <div class="footer-links">
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">SEBI RA Disclosure</a>
+          <a href="#">Data Processing Agreement</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Intellectus AI Labs Pvt. Ltd. AlphaSynth is a registered product. All calculations are deterministic and verifiable. Not an investment advisor.</div>
+      <div class="footer-badges">
+        <span class="footer-badge">ap-south-1 (Mumbai)</span>
+        <span class="footer-badge">v2.0</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── SCROLL ANIMATIONS ──────────────────────────────────────────────── -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Smooth active nav
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 100;
+  sections.forEach(s => {
+    const top = s.offsetTop, bottom = top + s.offsetHeight;
+    if (y >= top && y < bottom) {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + s.id ? '#1B2A4A' : '';
+        a.style.fontWeight = a.getAttribute('href') === '#' + s.id ? '700' : '';
+      });
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1074 @@
+/* NEW DESIGN SYSTEM - Gamified Trading App */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import 'reactflow/dist/style.css';
+
+/* ReactFlow Styles */
+.react-flow__edge-path {
+  stroke-width: 4px !important;
+}
+
+.react-flow__edge {
+  pointer-events: all !important;
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+    background-color: transparent;
+  }
+  50% {
+    opacity: 0.7;
+    background-color: rgba(167, 196, 160, 0.2);
+  }
+}
+
+.react-flow__edge-text {
+  fill: #2D3748 !important;
+  font-weight: bold !important;
+  font-size: 11px !important;
+}
+
+.react-flow__edge-textbg {
+  fill: white !important;
+  fill-opacity: 0.9 !important;
+}
+
+.react-flow__arrowhead {
+  fill: currentColor !important;
+}
+
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+/* 🎨 ALPHASYNTH DESIGN SYSTEM - COLOR VARIABLES */
+:root {
+  /* AlphaSynth Color Palette */
+  --navy:   #1B2A4A;
+  --blue:   #2E4D8E;
+  --teal:   #0D7C8C;
+  --teal-l: #E0F4F6;
+  --gold:   #B8860B;
+  --gold-l: #FFF8E1;
+  --green:  #1A6B3A;
+  --green-l:#E8F5E9;
+  --amber:  #B45309;
+  --red:    #8C1A1A;
+  --white:  #FFFFFF;
+  --off:    #F8F9FB;
+  --light:  #EEF2F7;
+  --border: #E2E8F0;
+  --body:   #2D3748;
+  --muted:  #718096;
+  
+  /* Core Colors (mapped to AlphaSynth palette) */
+  --color-primary: #1B2A4A;      /* Navy - Primary */
+  --color-accent: #0D7C8C;       /* Teal - Accent */
+  --color-gold: #B8860B;         /* Gold - Rewards, XP, HOLD */
+  --color-blue: #2E4D8E;         /* Blue - Secondary */
+  --color-bg: #F8F9FB;           /* Off-white background */
+  --color-surface: #FFFFFF;      /* White cards/sections */
+  --color-danger: #8C1A1A;       /* Red - Loss/Danger */
+  --color-success: #1A6B3A;      /* Green - Success/Profit */
+  --color-text: #2D3748;         /* Body text */
+  --color-muted: #718096;        /* Muted text */
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #1B2A4A, #2E4D8E);
+  --gradient-teal: linear-gradient(135deg, #0D7C8C, #0A9CAF);
+  --gradient-gold: linear-gradient(135deg, #B8860B, #D4A017);
+  --gradient-red: linear-gradient(135deg, #8C1A1A, #C0392B);
+  --gradient-green: linear-gradient(135deg, #1A6B3A, #27AE60);
+  
+  /* Spacing (8px grid) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  
+  /* Shadows */
+  --shadow-soft: 0 4px 12px rgba(27,42,74,0.05);
+  --shadow-medium: 0 8px 24px rgba(27,42,74,0.08);
+  --shadow-hard: 0 12px 32px rgba(27,42,74,0.12);
+}
+
+/* 🔤 TYPOGRAPHY SYSTEM */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #2D3748;
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Scale */
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1B2A4A;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #1B2A4A;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #1B2A4A;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #2D3748;
+}
+
+small {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #718096;
+}
+
+/* Default text color for all elements - EXCEPT SVG icons */
+*:not(svg):not(svg *) {
+  color: inherit;
+}
+
+/* ICON COLOR SYSTEM - Automatic contrast based on background */
+
+/* Icons on dark backgrounds (navy, teal, blue, red, green) should be WHITE */
+.bg-\[\#1B2A4A\] svg,
+.bg-\[\#0D7C8C\] svg,
+.bg-\[\#2E4D8E\] svg,
+.bg-\[\#8C1A1A\] svg,
+.bg-\[\#1A6B3A\] svg,
+.bg-\[\#B45309\] svg,
+[style*="background-color: #1B2A4A"] svg,
+[style*="background-color: #0D7C8C"] svg,
+[style*="background-color: #2E4D8E"] svg,
+[style*="background-color: #8C1A1A"] svg,
+[style*="background-color: #1A6B3A"] svg,
+[style*="backgroundColor: #1B2A4A"] svg,
+[style*="backgroundColor: #0D7C8C"] svg,
+[style*="backgroundColor: #2E4D8E"] svg,
+div[class*="bg-gradient"] svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+/* Icons on light backgrounds should use theme colors based on context */
+.bg-white svg,
+.bg-\[\#F8F9FB\] svg,
+.bg-\[\#EEF2F7\] svg,
+[style*="background-color: #FFFFFF"] svg,
+[style*="background-color: #F8F9FB"] svg {
+  color: #2E4D8E !important;
+  stroke: #2E4D8E !important;
+}
+
+/* Icons on light green backgrounds */
+.bg-\[\#E8F5E9\] svg,
+[style*="background-color: #E8F5E9"] svg {
+  color: #1A6B3A !important;
+  stroke: #1A6B3A !important;
+}
+
+/* Icons on light gold/amber backgrounds */
+.bg-\[\#FFF8E1\] svg,
+[style*="background-color: #FFF8E1"] svg {
+  color: #B45309 !important;
+  stroke: #B45309 !important;
+}
+
+/* Icons on light teal backgrounds */
+.bg-\[\#E0F4F6\] svg,
+[style*="background-color: #E0F4F6"] svg {
+  color: #0D7C8C !important;
+  stroke: #0D7C8C !important;
+}
+
+/* Ensure all text elements use navy/body text by default */
+/* COMMENTED OUT: This rule was too broad and caused contrast violations on dark backgrounds
+div, span, label, input, textarea, select {
+  color: #2D3748;
+}
+*/
+
+/* Trading-specific typography */
+.price {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.profit {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.loss {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.reward {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* 🔲 COMPONENT SYSTEM */
+
+/* Buttons - ALPHASYNTH NAVY WITH TEAL ACCENTS */
+button, .btn, [role="button"] {
+  border: 2px solid rgba(13, 124, 140, 0.3) !important;
+}
+
+.btn {
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 15px;
+  border: 2px solid rgba(13, 124, 140, 0.3);
+  cursor: pointer;
+  font-family: 'Inter';
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #0D7C8C;
+  border-color: rgba(13, 124, 140, 0.5);
+  color: #FFFFFF;
+}
+
+.btn:active {
+  transform: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #1B2A4A;
+  color: #FFFFFF;
+  font-weight: 600;
+  border: 2px solid rgba(27, 42, 74, 0.3);
+}
+
+.btn-primary:hover {
+  background: #2E4D8E;
+  border-color: rgba(46, 77, 142, 0.5);
+}
+
+.btn-accent {
+  background: #0D7C8C;
+  color: #FFFFFF;
+  font-weight: 600;
+  border: 2px solid rgba(13, 124, 140, 0.3);
+}
+
+.btn-accent:hover {
+  background: #0A5F6B;
+  border-color: rgba(13, 124, 140, 0.5);
+}
+
+.btn-danger {
+  background: #8C1A1A;
+  color: #FFFFFF;
+  border: 2px solid rgba(140, 26, 26, 0.4);
+}
+
+.btn-danger:hover {
+  background: #A52A2A;
+  border-color: rgba(165, 42, 42, 0.5);
+}
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: #1B2A4A;
+  border: 2px solid rgba(27, 42, 74, 0.3);
+}
+
+.btn-secondary:hover {
+  background: #EEF2F7;
+  border-color: rgba(27, 42, 74, 0.5);
+}
+
+/* Cards - ALPHASYNTH STYLING */
+.card {
+  background: #FFFFFF;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(27,42,74,0.04);
+  transition: box-shadow 0.2s ease;
+  border: 1px solid #E2E8F0;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(27,42,74,0.08);
+}
+
+.card-white {
+  background: #FFFFFF;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(27,42,74,0.04);
+  border: 1px solid #E2E8F0;
+}
+
+/* 🔲 ICON SYSTEM - ALPHASYNTH */
+.icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.8;
+}
+
+.icon-default {
+  color: #718096;
+}
+
+.icon-profit {
+  color: #1A6B3A;
+}
+
+.icon-loss {
+  color: #8C1A1A;
+}
+
+.icon-reward {
+  color: #0D7C8C;
+}
+
+.icon-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ⚡ ANIMATION SYSTEM */
+
+/* Global transition - MINIMAL */
+button, a, .card {
+  transition: all 0.2s ease;
+}
+
+/* Remove all other global transitions */
+* {
+  transition: none;
+}
+
+/* Only animate interactive elements */
+button:hover,
+a:hover,
+.card:hover {
+  transition: all 0.2s ease;
+}
+
+/* REMOVED: Profit pulse animation - too distracting */
+/* REMOVED: Gold glow animation - unnecessary */
+/* REMOVED: Loss shake animation - annoying */
+
+/* Keep only fade in for page loads */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* 📈 PROGRESS BAR (XP System) */
+.progress {
+  height: 8px;
+  border-radius: 6px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+/* 🎯 UTILITY CLASSES */
+
+/* Force white text on navy and teal backgrounds - EXCEPT nav buttons and white buttons */
+/* IMPORTANT: These rules must override the global "color: inherit" rule AND Tailwind utilities */
+section.bg-\[\#1B2A4A\],
+section.bg-\[\#1b2a4a\],
+.bg-\[\#1B2A4A\]:not(a),
+.bg-\[\#1b2a4a\]:not(a),
+[style*="background-color: #1B2A4A"]:not(a),
+[style*="background-color: #1b2a4a"]:not(a),
+[style*="backgroundColor: #1B2A4A"]:not(a),
+[style*="backgroundColor: #1b2a4a"]:not(a),
+.bg-\[\#0D7C8C\]:not(a),
+.bg-\[\#0d7c8c\]:not(a),
+[style*="background-color: #0D7C8C"]:not(a),
+[style*="background-color: #0d7c8c"]:not(a),
+[style*="backgroundColor: #0D7C8C"]:not(a),
+[style*="backgroundColor: #0d7c8c"]:not(a) {
+  color: #FFFFFF !important;
+}
+
+/* Force ALL children to be white - NUCLEAR OPTION */
+section.bg-\[\#1B2A4A\] *:not(a):not(.bg-white):not(.bg-white *):not(svg):not(svg *),
+section.bg-\[\#1b2a4a\] *:not(a):not(.bg-white):not(.bg-white *):not(svg):not(svg *),
+.bg-\[\#1B2A4A\] *:not(a):not(.bg-white):not(.bg-white *):not(svg):not(svg *),
+.bg-\[\#1b2a4a\] *:not(a):not(.bg-white):not(.bg-white *):not(svg):not(svg *),
+.bg-\[\#0D7C8C\] *:not(a):not(.bg-white):not(.bg-white *):not(svg):not(svg *),
+.bg-\[\#0d7c8c\] *:not(a):not(.bg-white):not(.bg-white *):not(svg):not(svg *) {
+  color: #FFFFFF !important;
+}
+
+/* Override Tailwind text color utilities on dark backgrounds */
+section.bg-\[\#1B2A4A\] h1,
+section.bg-\[\#1B2A4A\] h2,
+section.bg-\[\#1B2A4A\] h3,
+section.bg-\[\#1B2A4A\] h4,
+section.bg-\[\#1B2A4A\] h5,
+section.bg-\[\#1B2A4A\] h6,
+section.bg-\[\#1B2A4A\] p,
+section.bg-\[\#1B2A4A\] span,
+section.bg-\[\#1B2A4A\] div:not(.bg-white):not(.bg-white *),
+section.bg-\[\#1b2a4a\] h1,
+section.bg-\[\#1b2a4a\] h2,
+section.bg-\[\#1b2a4a\] h3,
+section.bg-\[\#1b2a4a\] h4,
+section.bg-\[\#1b2a4a\] h5,
+section.bg-\[\#1b2a4a\] h6,
+section.bg-\[\#1b2a4a\] p,
+section.bg-\[\#1b2a4a\] span,
+section.bg-\[\#1b2a4a\] div:not(.bg-white):not(.bg-white *) {
+  color: #FFFFFF !important;
+}
+
+/* FORCE white text on ALL elements with inline styles too */
+section[class*="bg-[#1B2A4A]"] *:not(.bg-white):not(.bg-white *),
+section[class*="bg-[#1b2a4a]"] *:not(.bg-white):not(.bg-white *) {
+  color: #FFFFFF !important;
+}
+
+/* SVG icons on dark backgrounds */
+section.bg-\[\#1B2A4A\] svg,
+section.bg-\[\#1b2a4a\] svg,
+.bg-\[\#1B2A4A\] svg,
+.bg-\[\#1b2a4a\] svg,
+.bg-\[\#0D7C8C\] svg,
+.bg-\[\#0d7c8c\] svg {
+  stroke: #FFFFFF !important;
+}
+
+/* Ensure white buttons inside dark containers have dark text */
+.bg-\[\#1B2A4A\] .bg-white,
+.bg-\[\#1b2a4a\] .bg-white,
+.bg-\[\#0D7C8C\] .bg-white,
+.bg-\[\#0d7c8c\] .bg-white,
+.bg-\[\#2E4D8E\] .bg-white {
+  color: #2D3748 !important;
+}
+
+.bg-\[\#1B2A4A\] .bg-white *,
+.bg-\[\#1b2a4a\] .bg-white *,
+.bg-\[\#0D7C8C\] .bg-white *,
+.bg-\[\#0d7c8c\] .bg-white *,
+.bg-\[\#2E4D8E\] .bg-white * {
+  color: #2D3748 !important;
+  stroke: #2D3748 !important;
+}
+
+/* Ensure nav links with navy bg have white text */
+a[style*="backgroundColor: #1B2A4A"],
+a[style*="background-color: #1B2A4A"] {
+  color: #FFFFFF !important;
+}
+
+/* Force white text on buttons with navy/teal inline background styles */
+button[style*="backgroundColor: #1B2A4A"],
+button[style*="background-color: #1B2A4A"],
+button[style*="backgroundColor: #0D7C8C"],
+button[style*="background-color: #0D7C8C"],
+button[style*="backgroundColor: #2E4D8E"],
+button[style*="background-color: #2E4D8E"] {
+  color: #FFFFFF !important;
+}
+
+button[style*="backgroundColor: #1B2A4A"] *,
+button[style*="background-color: #1B2A4A"] *,
+button[style*="backgroundColor: #0D7C8C"] *,
+button[style*="background-color: #0D7C8C"] *,
+button[style*="backgroundColor: #2E4D8E"] *,
+button[style*="background-color: #2E4D8E"] * {
+  color: #FFFFFF !important;
+}
+
+/* Additional specificity for button text nodes */
+button[style*="#1B2A4A"],
+button[style*="#0D7C8C"],
+button[style*="#2E4D8E"] {
+  color: #FFFFFF !important;
+}
+
+button[style*="#1B2A4A"] *,
+button[style*="#0D7C8C"] *,
+button[style*="#2E4D8E"] * {
+  color: #FFFFFF !important;
+}
+
+/* CTA buttons with dark backgrounds must have white text */
+.cta-button,
+.cta-demo-btn,
+.cta-download-btn {
+  color: #FFFFFF !important;
+}
+
+/* Maximum specificity for CTA buttons */
+button.cta-demo-btn,
+button.cta-download-btn {
+  color: #FFFFFF !important;
+}
+
+section#cta button.cta-demo-btn,
+section#cta button.cta-download-btn {
+  color: #FFFFFF !important;
+}
+
+/* Force white icons on navy and teal backgrounds */
+.bg-\[\#1B2A4A\] svg,
+.bg-\[\#1b2a4a\] svg,
+.bg-\[\#0D7C8C\] svg,
+.bg-\[\#0d7c8c\] svg,
+[style*="background-color: #1B2A4A"] svg,
+[style*="background-color: #0D7C8C"] svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: #FFFFFF !important;
+}
+
+/* Force black/dark text on white and light backgrounds */
+.bg-white,
+.bg-\[\#F8F9FB\],
+.bg-\[\#EEF2F7\],
+.bg-\[\#E0F4F6\],
+[style*="background-color: #FFFFFF"],
+[style*="background-color: #ffffff"],
+[style*="backgroundColor: #FFFFFF"],
+[style*="backgroundColor: #ffffff"],
+[style*="background-color: #F8F9FB"],
+[style*="background-color: #EEF2F7"],
+[style*="background-color: #E0F4F6"] {
+  color: #2D3748 !important;
+}
+
+.bg-white *,
+.bg-\[\#F8F9FB\] *,
+.bg-\[\#EEF2F7\] *,
+.bg-\[\#E0F4F6\] *,
+[style*="background-color: #FFFFFF"] *,
+[style*="background-color: #ffffff"] *,
+[style*="backgroundColor: #FFFFFF"] *,
+[style*="backgroundColor: #ffffff"] *,
+[style*="background-color: #F8F9FB"] *,
+[style*="background-color: #EEF2F7"] *,
+[style*="background-color: #E0F4F6"] * {
+  color: #2D3748 !important;
+  stroke: #2D3748 !important;
+}
+
+/* Force dark icons on white and light backgrounds */
+.bg-white svg,
+.bg-\[\#F8F9FB\] svg,
+.bg-\[\#EEF2F7\] svg,
+.bg-\[\#E0F4F6\] svg,
+[style*="background-color: #FFFFFF"] svg,
+[style*="background-color: #ffffff"] svg,
+[style*="backgroundColor: #FFFFFF"] svg,
+[style*="backgroundColor: #ffffff"] svg,
+[style*="background-color: #F8F9FB"] svg,
+[style*="background-color: #EEF2F7"] svg,
+[style*="background-color: #E0F4F6"] svg {
+  color: #2D3748 !important;
+  stroke: #2D3748 !important;
+  fill: #2D3748 !important;
+}
+
+/* Text colors */
+.text-primary {
+  color: #1B2A4A;
+}
+
+.text-accent {
+  color: #0D7C8C;
+}
+
+.text-danger {
+  color: #8C1A1A;
+}
+
+.text-muted {
+  color: #718096;
+}
+
+.text-black {
+  color: #1B2A4A !important;
+}
+
+.text-success {
+  color: #1A6B3A;
+}
+
+/* Background colors */
+.bg-primary {
+  background: #1B2A4A;
+}
+
+.bg-accent {
+  background: #0D7C8C;
+}
+
+.bg-surface {
+  background: #FFFFFF;
+}
+
+.bg-danger {
+  background: #8C1A1A;
+}
+
+.bg-success {
+  background: #1A6B3A;
+}
+
+.bg-light {
+  background: #EEF2F7;
+}
+
+.bg-off {
+  background: #F8F9FB;
+}
+
+/* Gradients */
+.gradient-primary {
+  background: linear-gradient(135deg, #1B2A4A, #2E4D8E);
+}
+
+.gradient-teal {
+  background: linear-gradient(135deg, #0D7C8C, #0A9CAF);
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #B8860B, #D4A017);
+}
+
+.gradient-red {
+  background: linear-gradient(135deg, #8C1A1A, #C0392B);
+}
+
+.gradient-green {
+  background: linear-gradient(135deg, #1A6B3A, #27AE60);
+}
+
+/* Shadows */
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+
+.shadow-hard {
+  box-shadow: var(--shadow-hard);
+}
+
+/* 🎨 CUSTOM SCROLLBAR - ALPHASYNTH */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8F9FB;
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0D7C8C;
+  border-radius: 6px;
+  border: 2px solid #F8F9FB;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0A5F6B;
+}
+
+/* Table Scrollbar - More Visible */
+.table-scroll::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  background: #F9FAFB;
+  border-radius: 8px;
+  border: 2px solid #E2E8F0;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #0D7C8C;
+  border-radius: 8px;
+  border: 3px solid #F9FAFB;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #0A5F6B;
+}
+
+/* Firefox Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0D7C8C #F8F9FB;
+}
+
+.table-scroll {
+  scrollbar-width: auto;
+  scrollbar-color: #0D7C8C #F9FAFB;
+}
+
+/* ✨ FOCUS STYLES (Accessibility) - ALPHASYNTH */
+*:focus-visible {
+  outline: 2px solid #1B2A4A;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 🎨 ALPHASYNTH LANDING PAGE - FORCE WHITE TEXT */
+.font-jakarta {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.nav-link {
+  transition: all 0.3s ease;
+}
+
+.nav-link.active {
+  color: #1b2a4a;
+  font-weight: 700;
+}
+
+/* FORCE WHITE TEXT IN PILLARS SECTION */
+#pillars .pillar-num {
+  color: #7DD3DB !important;
+}
+
+#pillars .pillar-name {
+  color: #FFFFFF !important;
+}
+
+#pillars .pillar-desc {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* FORCE WHITE TEXT IN SCORE CIRCLES */
+.score-number {
+  color: #7DD3DB !important;
+}
+
+.score-label {
+  color: rgba(125, 211, 219, 0.7) !important;
+}
+
+.score-equals {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.score-final-number {
+  color: #FFFFFF !important;
+}
+
+.score-final-label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.score-final-badge {
+  color: #FFFFFF !important;
+}
+
+/* 🎮 GAMIFICATION ELEMENTS - ALPHASYNTH */
+
+/* XP Badge */
+.xp-badge {
+  background: linear-gradient(135deg, #0D7C8C, #0A9CAF);
+  color: #FFFFFF;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(13,124,140,0.3);
+}
+
+/* Level Badge */
+.level-badge {
+  background: #0D7C8C;
+  color: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 0 12px rgba(13,124,140,0.4);
+}
+
+/* Streak Indicator */
+.streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0D7C8C;
+  font-weight: 700;
+}
+
+/* 📱 RESPONSIVE UTILITIES */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 28px;
+  }
+  
+  h2 {
+    font-size: 22px;
+  }
+  
+  h3 {
+    font-size: 18px;
+  }
+  
+  .btn {
+    height: 44px;
+  }
+}
+
+/* 🎯 ANIMATION DELAYS */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+
+/* 🔥 FINAL TOUCHES */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* Footer links on dark background must be white */
+footer.bg-\[\#1B2A4A\] a,
+footer[class*="bg-[#1B2A4A]"] a {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+footer.bg-\[\#1B2A4A\] a:hover,
+footer[class*="bg-[#1B2A4A]"] a:hover {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+/* Icons on gradient backgrounds must be white */
+[class*="bg-gradient-to"] svg,
+.bg-gradient-to-br svg,
+.bg-gradient-to-r svg,
+.bg-gradient-to-br > svg,
+[class*="bg-gradient"] svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+
+/* Force white icons inside gradient containers */
+div[class*="bg-gradient-to-br"] svg,
+div[class*="bg-gradient-to-r"] svg,
+div[class*="from-"] svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+button {
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* BUT allow styled anchor tags to work */
+a.hero-btn,
+a.hero-btn-outline {
+  background: auto !important;
+  border: auto !important;
+  padding: auto !important;
+  cursor: pointer !important;
+}
+
+
+/* Scrolling Ticker Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Custom Scrollbar Styles for Modal */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #0D7C8C #f1f1f1;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #0D7C8C;
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #2E4D8E;
+}
+
+.scrollbar-thumb-\[#0D7C8C\]::-webkit-scrollbar-thumb {
+  background-color: #0D7C8C;
+}
+
+.scrollbar-track-gray-100::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+}
+
+
+/* ========================================
+   NUCLEAR FIX FOR CONTRAST VIOLATIONS
+   Force white text on navy backgrounds
+   ======================================== */
+
+/* Trust bar - force white */
+.bg-\[\#1B2A4A\] *,
+.bg-\[\#1b2a4a\] *,
+[style*="background-color: #1B2A4A"] *,
+[style*="background-color: #1b2a4a"] * {
+  color: #FFFFFF !important;
+}
+
+/* Trust bar icons - force white */
+.bg-\[\#1B2A4A\] svg,
+.bg-\[\#1b2a4a\] svg,
+[style*="background-color: #1B2A4A"] svg,
+[style*="background-color: #1b2a4a"] svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+
+/* Six Pillars section - force white */
+#pillars *:not(.bg-white):not(.bg-white *) {
+  color: #FFFFFF !important;
+}
+
+#pillars svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+
+/* Footer - force white */
+footer.bg-\[\#1B2A4A\] *,
+footer[style*="background-color: #1B2A4A"] * {
+  color: #FFFFFF !important;
+}
+
+footer.bg-\[\#1B2A4A\] svg,
+footer[style*="background-color: #1B2A4A"] svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+/* Deployment section - force white */
+[class*="bg-[#1B2A4A]"] *:not(.bg-white):not(.bg-white *) {
+  color: #FFFFFF !important;
+}

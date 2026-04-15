@@ -1,5 +1,0 @@
-This is a temporary file to help structure the remaining tabs content.
-
-All tabs (7-12) need to be added before the closing of selectedTab === 0 section.
-
-The content structure is ready based on the images provided.

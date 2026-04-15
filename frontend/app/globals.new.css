@@ -1,0 +1,505 @@
+/* NEW DESIGN SYSTEM - Gamified Trading App */
+@import 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap';
+@import 'reactflow/dist/style.css';
+
+/* ReactFlow Styles */
+.react-flow__edge-path {
+  stroke-width: 4px !important;
+}
+
+.react-flow__edge {
+  pointer-events: all !important;
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+.react-flow__edge-text {
+  fill: #2D3748 !important;
+  font-weight: bold !important;
+  font-size: 11px !important;
+}
+
+.react-flow__edge-textbg {
+  fill: white !important;
+  fill-opacity: 0.9 !important;
+}
+
+.react-flow__arrowhead {
+  fill: currentColor !important;
+}
+
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+/* 🎨 NEW DESIGN SYSTEM - COLOR VARIABLES */
+:root {
+  /* Core Colors */
+  --color-primary: #2E4D8E;      /* Green - Profit, Buy, Active */
+  --color-accent: #E9C46A;       /* Gold - Rewards, XP, Highlights */
+  --color-bg: #F8F9FB;           /* Main background */
+  --color-surface: #0D7C8C;      /* Cards, sections */
+  --color-danger: #8C1A1A;       /* Red - Loss, warnings */
+  --color-text: #2D3748;         /* Main text */
+  --color-muted: #718096;        /* Secondary text */
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #2E4D8E, #0D7C8C);
+  --gradient-gold: linear-gradient(135deg, #E9C46A, #FFD166);
+  --gradient-red: linear-gradient(135deg, #8C1A1A, #D62828);
+  
+  /* Spacing (8px grid) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  
+  /* Shadows */
+  --shadow-soft: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-medium: 0 8px 24px rgba(0,0,0,0.08);
+  --shadow-hard: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+/* 🔤 TYPOGRAPHY SYSTEM */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Scale */
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+small {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-muted);
+}
+
+/* Trading-specific typography */
+.price {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.profit {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.loss {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.reward {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* 🔲 COMPONENT SYSTEM */
+
+/* Buttons */
+.btn {
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.btn:hover {
+  transform: scale(1.02);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-accent {
+  background: var(--color-accent);
+  color: #2D3748;
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--color-text);
+  border: 2px solid var(--color-muted);
+}
+
+/* Cards */
+.card {
+  background: var(--color-surface);
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-2px);
+}
+
+.card-white {
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* 🔲 ICON SYSTEM */
+.icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.8;
+  transition: all 0.2s ease;
+}
+
+.icon-default {
+  color: var(--color-muted);
+}
+
+.icon-profit {
+  color: var(--color-primary);
+}
+
+.icon-loss {
+  color: var(--color-danger);
+}
+
+.icon-reward {
+  color: var(--color-accent);
+}
+
+.icon:hover {
+  transform: scale(1.08);
+}
+
+.icon:active {
+  transform: scale(0.92);
+}
+
+.icon-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ⚡ ANIMATION SYSTEM */
+
+/* Global transition */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Profit pulse animation */
+@keyframes profitPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.animate-profit {
+  animation: profitPulse 0.6s ease-out;
+}
+
+/* Gold glow animation */
+@keyframes goldGlow {
+  0% { box-shadow: 0 0 0px rgba(233,196,106,0.4); }
+  50% { box-shadow: 0 0 12px rgba(233,196,106,0.8); }
+  100% { box-shadow: 0 0 0px rgba(233,196,106,0.4); }
+}
+
+.animate-reward {
+  animation: goldGlow 1.5s ease-in-out infinite;
+}
+
+/* Loss shake animation */
+@keyframes lossShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.animate-loss {
+  animation: lossShake 0.4s ease-out;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* 📈 PROGRESS BAR (XP System) */
+.progress {
+  height: 8px;
+  border-radius: 6px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+/* 🎯 UTILITY CLASSES */
+
+/* Text colors */
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.text-danger {
+  color: var(--color-danger);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+/* Background colors */
+.bg-primary {
+  background: var(--color-primary);
+}
+
+.bg-accent {
+  background: var(--color-accent);
+}
+
+.bg-surface {
+  background: var(--color-surface);
+}
+
+.bg-danger {
+  background: var(--color-danger);
+}
+
+/* Gradients */
+.gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.gradient-gold {
+  background: var(--gradient-gold);
+}
+
+.gradient-red {
+  background: var(--gradient-red);
+}
+
+/* Shadows */
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+
+.shadow-hard {
+  box-shadow: var(--shadow-hard);
+}
+
+/* 🎨 CUSTOM SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5a8040;
+}
+
+/* ✨ FOCUS STYLES (Accessibility) */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 🎮 GAMIFICATION ELEMENTS */
+
+/* XP Badge */
+.xp-badge {
+  background: var(--gradient-gold);
+  color: #2D3748;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(233,196,106,0.3);
+}
+
+/* Level Badge */
+.level-badge {
+  background: var(--color-accent);
+  color: #2D3748;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 0 12px rgba(233,196,106,0.4);
+}
+
+/* Streak Indicator */
+.streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* 📱 RESPONSIVE UTILITIES */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 28px;
+  }
+  
+  h2 {
+    font-size: 22px;
+  }
+  
+  h3 {
+    font-size: 18px;
+  }
+  
+  .btn {
+    height: 44px;
+  }
+}
+
+/* 🎯 ANIMATION DELAYS */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+
+/* 🔥 FINAL TOUCHES */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+button {
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
