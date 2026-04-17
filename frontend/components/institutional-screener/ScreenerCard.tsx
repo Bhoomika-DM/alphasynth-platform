@@ -30,23 +30,23 @@ export default function ScreenerCard({
     <div
       className="rounded-lg p-4 cursor-pointer transition-all duration-300 hover:shadow-lg border"
       style={{
-        backgroundColor: '#1A1F2E',
+        backgroundColor: bgColor,
         borderColor: borderColor,
       }}
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="flex items-start justify-between mb-2">
         <div className="text-2xl">{emoji}</div>
-        <button className="p-1 rounded hover:bg-gray-700 transition-colors">
+        <button className="p-1 rounded hover:bg-[#F8F9FB] transition-colors">
           <Info size={14} style={{ color: accentColor }} />
         </button>
       </div>
 
-      <h3 className="text-sm font-bold mb-1 text-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <h3 className="text-sm font-bold mb-1 text-[#1B2A4A]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {title}
       </h3>
 
-      <p className="text-xs mb-3 text-gray-400 line-clamp-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <p className="text-xs mb-3 text-[#718096] line-clamp-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {description}
       </p>
 
@@ -56,9 +56,9 @@ export default function ScreenerCard({
             key={idx}
             className="text-xs px-2 py-0.5 rounded-full"
             style={{
-              backgroundColor: `${accentColor}20`,
+              backgroundColor: `${accentColor}15`,
               color: accentColor,
-              border: `1px solid ${accentColor}40`,
+              border: `1px solid ${accentColor}30`,
               fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
@@ -66,7 +66,7 @@ export default function ScreenerCard({
           </span>
         ))}
         {factors.length > 2 && (
-          <span className="text-xs px-2 py-0.5 text-gray-400" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <span className="text-xs px-2 py-0.5 text-[#718096]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             +{factors.length - 2} more
           </span>
         )}
