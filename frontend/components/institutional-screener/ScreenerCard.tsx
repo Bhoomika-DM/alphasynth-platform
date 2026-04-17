@@ -32,6 +32,7 @@ export default function ScreenerCard({
       style={{
         backgroundColor: bgColor,
         borderColor: borderColor,
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}
       onClick={() => setIsExpanded(!isExpanded)}
     >

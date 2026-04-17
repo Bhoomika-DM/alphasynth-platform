@@ -389,7 +389,7 @@ export default function DashboardPage() {
       )}
       
       {/* Top Ticker - Stocks */}
-      <div className="bg-white border-b border-[#E2E8F0] py-2 overflow-hidden">
+      <div className="bg-white border-b border-[#E2E8F0] py-2 overflow-hidden" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="flex items-center gap-4 animate-scroll">
           {[...stockTickers, ...stockTickers].map((stock, idx) => (
             <a
@@ -398,6 +398,7 @@ export default function DashboardPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 whitespace-nowrap hover:bg-[#EEF2F7] px-3 py-1 rounded transition-colors cursor-pointer"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
               <div className="w-0.5 h-6 bg-[#1B2A4A]"></div>
               <div className="flex items-center gap-2">
@@ -413,7 +414,7 @@ export default function DashboardPage() {
       </div>
 
       {/* NIFTY Indices Ticker */}
-      <div className="bg-white border-b border-[#E2E8F0] py-3 relative z-10">
+      <div className="bg-white border-b border-[#E2E8F0] py-3 relative z-10" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="px-6 flex items-center gap-4">
           {/* Left Arrow */}
           <button
@@ -454,6 +455,7 @@ export default function DashboardPage() {
                   }`}
                   type="button"
                   aria-label={`Select ${index.name}`}
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                 >
                   <div className={`text-xs font-bold uppercase mb-1 ${
                     isSelected ? 'text-[#0D7C8C]' : 'text-[#718096]'
@@ -496,18 +498,18 @@ export default function DashboardPage() {
       <div className="px-6 py-6 space-y-6">
         
         {/* Row 1: Selected NIFTY Index Chart + Market Statistics */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           {/* Selected NIFTY Index with Compact NSE Layout */}
-          <div className="bg-white rounded-lg border border-[#E2E8F0] p-4 shadow-sm">
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-4 shadow-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {/* Header Row: Title + Updated Time */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-[#1B2A4A] uppercase">
+                <h3 className="text-base font-bold text-[#1B2A4A] uppercase" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   {selectedIndex.name}
                 </h3>
                 <IconTrendingUp className="w-4 h-4 text-[#1A6B3A]" stroke={1.5} />
               </div>
-              <div className="text-xs text-[#718096]">
+              <div className="text-xs text-[#718096]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 Updated: {new Date().toLocaleString('en-IN', { 
                   day: '2-digit', 
                   month: 'short', 
@@ -524,7 +526,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Price Row: Large Price + OHLC Data + Time Buttons */}
-            <div className="flex items-center justify-between mb-3 gap-4">
+            <div className="flex items-center justify-between mb-3 gap-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               {/* Left: Price and Change */}
               <div className="flex-shrink-0">
                 <div className="text-2xl font-black text-[#1B2A4A] leading-none mb-1">
@@ -536,7 +538,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Middle: OHLC Data */}
-              <div className="flex items-center gap-6 flex-shrink-0">
+              <div className="flex items-center gap-6 flex-shrink-0" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 <div>
                   <div className="flex items-center gap-1.5 mb-0.5">
                     <div className="w-2 h-2 rounded-full bg-[#2E4D8E]"></div>
@@ -567,7 +569,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Right: Time Period Buttons */}
-              <div className="flex gap-1.5 flex-shrink-0">
+              <div className="flex gap-1.5 flex-shrink-0" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 {periods.map((period) => (
                   <button
                     key={period}
@@ -589,10 +591,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Market Statistics */}
-          <div className="bg-white rounded-lg border border-[#E2E8F0] p-4 shadow-sm">
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-4 shadow-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-black text-[#1B2A4A]">Market Statistics</h3>
-              <div className="text-sm text-[#718096]">As on {marketStats.date} 16:00 IST</div>
+              <h3 className="text-xl font-black text-[#1B2A4A]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Market Statistics</h3>
+              <div className="text-sm text-[#718096]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>As on {marketStats.date} 16:00 IST</div>
             </div>
             
             {/* Top Row: 4 Main Stats with Colored Left Borders - Now Clickable */}

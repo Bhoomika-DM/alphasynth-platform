@@ -70,21 +70,21 @@ export default function ScreenerPage() {
   const [activeTab, setActiveTab] = useState<'prebuilt' | 'custom'>('prebuilt')
 
   return (
-    <div style={{ backgroundColor: '#F8F9FB', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: '#F8F9FB', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Header */}
-      <div style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
+      <div style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="max-w-full mx-auto px-6 py-4">
-          <h1 className="text-sm font-bold text-[#1B2A4A] tracking-wide" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h1 className="text-sm font-bold text-[#1B2A4A] tracking-wide">
             INSTITUTIONAL SCREENER
           </h1>
-          <p style={{ color: '#718096', fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '12px', marginTop: '4px' }}>
+          <p style={{ color: '#718096', fontSize: '12px', marginTop: '4px' }}>
             Click any model to instantly rank the universe
           </p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
+      <div style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="max-w-full mx-auto px-6">
           <div className="flex gap-8">
             {[
@@ -98,7 +98,6 @@ export default function ScreenerPage() {
                 style={{
                   color: activeTab === tab.id ? '#1B2A4A' : '#718096',
                   borderColor: activeTab === tab.id ? '#0D7C8C' : 'transparent',
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
                 }}
               >
                 {tab.label}
@@ -109,14 +108,14 @@ export default function ScreenerPage() {
       </div>
 
       {/* Main Content - 50/50 Split */}
-      <div className="max-w-full mx-auto px-6 py-6">
+      <div className="max-w-full mx-auto px-6 py-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {activeTab === 'prebuilt' && (
           <div className="flex gap-6">
             {/* Left: Screener Cards - 50% */}
             <div className="w-1/2">
               <div className="mb-4 flex items-center justify-between">
                 <div>
-                  <p style={{ color: '#718096', fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '12px' }}>
+                  <p style={{ color: '#718096', fontSize: '12px' }}>
                     Prebuilt Screeners
                   </p>
                 </div>
@@ -158,14 +157,14 @@ export default function ScreenerPage() {
 
             {/* Right: Logic Builder - 50% */}
             <div className="w-1/2">
-              <div className="p-6 rounded-lg" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
-                <h3 className="text-[#1B2A4A] font-bold text-sm mb-5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <div className="p-6 rounded-lg" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <h3 className="text-[#1B2A4A] font-bold text-sm mb-5">
                   Logic Builder
                 </h3>
 
                 {/* Describe Criteria */}
                 <div className="mb-5">
-                  <p style={{ color: '#718096', fontSize: '11px', marginBottom: '8px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <p style={{ color: '#718096', fontSize: '11px', marginBottom: '8px' }}>
                     Describe your criteria
                   </p>
                   <input
@@ -194,7 +193,7 @@ export default function ScreenerPage() {
 
                 {/* Manual Factor Filters */}
                 <div className="mb-5 pt-5 border-t" style={{ borderColor: '#E2E8F0' }}>
-                  <p style={{ color: '#718096', fontSize: '11px', marginBottom: '8px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <p style={{ color: '#718096', fontSize: '11px', marginBottom: '8px' }}>
                     Manual Factor Filters
                   </p>
                   <button
@@ -212,7 +211,7 @@ export default function ScreenerPage() {
 
                 {/* Rank Results By */}
                 <div className="mb-5 pt-5 border-t" style={{ borderColor: '#E2E8F0' }}>
-                  <p style={{ color: '#718096', fontSize: '11px', marginBottom: '8px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <p style={{ color: '#718096', fontSize: '11px', marginBottom: '8px' }}>
                     RANK RESULTS BY
                   </p>
                   <button
@@ -244,7 +243,7 @@ export default function ScreenerPage() {
         )}
         {activeTab === 'custom' && (
           <div className="text-center py-12">
-            <p style={{ color: '#718096', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <p style={{ color: '#718096' }}>
               Compare Models coming soon...
             </p>
           </div>
