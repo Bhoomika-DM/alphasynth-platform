@@ -573,37 +573,37 @@ export default function DashboardPage() {
                 href="https://www.nseindia.com/market-data/stocks-traded" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-[#F8F9FB] rounded-lg p-3 border-l-4 border-[#1B2A4A] hover:shadow-lg transition-all cursor-pointer"
+                className="bg-[#F8F9FB] rounded-lg p-3 border-l-4 border-[#718096] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Stock Traded</div>
-                <div className="text-2xl font-black text-[#1B2A4A]">{marketStats.stockTraded}</div>
+                <div className="text-2xl font-black text-[#718096]">{marketStats.stockTraded}</div>
               </a>
               <a 
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-[#E8F5E9] rounded-lg p-3 border-l-4 border-[#1A6B3A] hover:shadow-lg transition-all cursor-pointer"
+                className="bg-[#E8F5E9] rounded-lg p-3 border-l-4 border-[#16a34a] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Advances</div>
-                <div className="text-2xl font-black text-[#1A6B3A]">{marketStats.advances}</div>
+                <div className="text-2xl font-black text-[#16a34a]">{marketStats.advances}</div>
               </a>
               <a 
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-[#FFF8E1] rounded-lg p-3 border-l-4 border-[#8C1A1A] hover:shadow-lg transition-all cursor-pointer"
+                className="bg-[#FEF2F2] rounded-lg p-3 border-l-4 border-[#dc2626] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Declines</div>
-                <div className="text-2xl font-black text-[#8C1A1A]">{marketStats.declines}</div>
+                <div className="text-2xl font-black text-[#dc2626]">{marketStats.declines}</div>
               </a>
               <a 
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-[#FFF8E1] rounded-lg p-3 border-l-4 border-[#B45309] hover:shadow-lg transition-all cursor-pointer"
+                className="bg-[#F8F9FB] rounded-lg p-3 border-l-4 border-[#718096] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Unchanged</div>
-                <div className="text-2xl font-black text-[#B45309]">{marketStats.unchanged}</div>
+                <div className="text-2xl font-black text-[#718096]">{marketStats.unchanged}</div>
               </a>
             </div>
 
@@ -619,8 +619,8 @@ export default function DashboardPage() {
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks at</div>
                   <div className="text-sm font-bold text-[#2D3748] mb-1">52 Week High</div>
                   <div className="flex items-center gap-1">
-                    <IconArrowUp className="w-4 h-4 text-[#0D7C8C]" stroke={2} />
-                    <span className="text-2xl font-black text-[#4A5568]">{marketStats.week52High}</span>
+                    <IconArrowUp className="w-4 h-4 text-[#16a34a]" stroke={2} />
+                    <span className="text-2xl font-black text-[#16a34a]">{marketStats.week52High}</span>
                   </div>
                 </a>
                 
@@ -633,8 +633,8 @@ export default function DashboardPage() {
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks at</div>
                   <div className="text-sm font-bold text-[#2D3748] mb-1">52 Week Low</div>
                   <div className="flex items-center gap-1">
-                    <IconArrowDown className="w-4 h-4 text-[#C85A54]" stroke={2} />
-                    <span className="text-2xl font-black text-[#4A5568]">{marketStats.week52Low}</span>
+                    <IconArrowDown className="w-4 h-4 text-[#dc2626]" stroke={2} />
+                    <span className="text-2xl font-black text-[#dc2626]">{marketStats.week52Low}</span>
                   </div>
                 </a>
 
@@ -653,7 +653,7 @@ export default function DashboardPage() {
                 >
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks in</div>
                   <div className="text-sm font-bold text-[#2D3748] mb-1">Upper Circuit</div>
-                  <div className="text-2xl font-black text-[#0D7C8C]">{marketStats.upperCircuit}</div>
+                  <div className="text-2xl font-black text-[#16a34a]">{marketStats.upperCircuit}</div>
                 </a>
 
                 <a 
@@ -664,7 +664,7 @@ export default function DashboardPage() {
                 >
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks in</div>
                   <div className="text-sm font-bold text-[#2D3748] mb-1">Lower Circuit</div>
-                  <div className="text-2xl font-black text-[#C85A54]">{marketStats.lowerCircuit}</div>
+                  <div className="text-2xl font-black text-[#dc2626]">{marketStats.lowerCircuit}</div>
                 </a>
               </div>
             </div>
@@ -715,21 +715,21 @@ export default function DashboardPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                    <th className="text-left py-3 px-4 text-sm font-bold uppercase">PRODUCTS</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                      <div>VOLUME</div>
-                      <div className="text-xs font-normal">(SHARES/CONTRACTS)</div>
+                  <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                    <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>PRODUCTS</th>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <div style={{ color: '#FFFFFF' }}>VOLUME</div>
+                      <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(SHARES/CONTRACTS)</div>
                     </th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                      <div>VALUE</div>
-                      <div className="text-xs font-normal">(₹ CRORES)</div>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <div style={{ color: '#FFFFFF' }}>VALUE</div>
+                      <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(₹ CRORES)</div>
                     </th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                      <div>OPEN INTEREST</div>
-                      <div className="text-xs font-normal">(CONTRACTS)</div>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <div style={{ color: '#FFFFFF' }}>OPEN INTEREST</div>
+                      <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(CONTRACTS)</div>
                     </th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">UPDATED AT</th>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UPDATED AT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -798,18 +798,18 @@ export default function DashboardPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                    <th className="text-left py-3 px-4 text-sm font-bold uppercase">SYMBOL</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">LTP</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">CHNG</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">%CHNG</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                      <div>VOLUME</div>
-                      <div className="text-xs font-normal">(Lakhs)</div>
+                  <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                    <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>SYMBOL</th>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <div style={{ color: '#FFFFFF' }}>VOLUME</div>
+                      <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(Lakhs)</div>
                     </th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                      <div>VALUE</div>
-                      <div className="text-xs font-normal">(₹ Crores)</div>
+                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <div style={{ color: '#FFFFFF' }}>VALUE</div>
+                      <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(₹ Crores)</div>
                     </th>
                   </tr>
                 </thead>
@@ -874,11 +874,11 @@ export default function DashboardPage() {
               <div className="max-h-[400px] overflow-y-auto table-scroll">
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                      <th className="text-left py-2 px-3 text-xs font-bold uppercase">CONTRACT</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">LTP</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">CHNG</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">%CHNG</th>
+                    <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -919,11 +919,11 @@ export default function DashboardPage() {
               <div className="max-h-[400px] overflow-y-auto table-scroll">
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                      <th className="text-left py-2 px-3 text-xs font-bold uppercase">CONTRACT</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">LTP</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">CHNG</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">%CHNG</th>
+                    <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -964,11 +964,11 @@ export default function DashboardPage() {
               <div className="max-h-[400px] overflow-y-auto table-scroll">
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                      <th className="text-left py-2 px-3 text-xs font-bold uppercase">CONTRACT</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">LTP</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">CHNG</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase">%CHNG</th>
+                    <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
+                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1064,8 +1064,8 @@ export default function DashboardPage() {
                           <span className="font-semibold">Broadcast Date:</span> {item.date}
                         </div>
                       </div>
-                      <button className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#E5C76A] text-white rounded hover:bg-[#D4B65A] transition-colors">
-                        <IconFileTypePdf className="w-6 h-6" stroke={1.5} />
+                      <button className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-white border border-[#E5E7EB] rounded hover:bg-[#F8F9FB] transition-colors">
+                        <IconFileTypePdf className="w-6 h-6 text-[#dc2626]" stroke={1.5} />
                       </button>
                     </div>
                   ))}
@@ -1110,8 +1110,8 @@ export default function DashboardPage() {
                         </div>
                         <div className="text-xs"><span className="font-semibold text-[#718096]">Broadcast Date:</span> <span className="text-[#2D3748]">{item.broadcastDate}</span></div>
                       </div>
-                      <button className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#C85A54] text-white rounded hover:bg-[#B84A44] transition-colors">
-                        <IconFileTypeXml className="w-6 h-6" stroke={1.5} />
+                      <button className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-white border border-[#E5E7EB] rounded hover:bg-[#F8F9FB] transition-colors">
+                        <IconFileTypeXml className="w-6 h-6 text-[#16a34a]" stroke={1.5} />
                       </button>
                     </div>
                   ))}
@@ -1274,11 +1274,11 @@ export default function DashboardPage() {
               {referenceRatesTab === 0 && (
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase">CURRENCY</th>
-                      <th className="text-center py-3 px-4 text-sm font-bold uppercase">UNIT</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">TODAY'S VALUE</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">PREVIOUS DAY VALUE</th>
+                    <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>CURRENCY</th>
+                      <th className="text-center py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UNIT</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>TODAY'S VALUE</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>PREVIOUS DAY VALUE</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1312,10 +1312,10 @@ export default function DashboardPage() {
               {referenceRatesTab === 1 && (
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase">UNDERLYING</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">PRICE</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">YIELD</th>
+                    <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UNDERLYING</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>PRICE</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>YIELD</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1347,12 +1347,12 @@ export default function DashboardPage() {
               {referenceRatesTab === 2 && (
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase">SYMBOL</th>
-                      <th className="text-center py-3 px-4 text-sm font-bold uppercase">UNIT</th>
-                      <th className="text-center py-3 px-4 text-sm font-bold uppercase">UPDATED DATE</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">SPOT PRICE (IN ₹)<br/>POLLED AT 12:30 HRS</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">SPOT PRICE (IN ₹)<br/>POLLED AT 16:30 HRS</th>
+                    <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>SYMBOL</th>
+                      <th className="text-center py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UNIT</th>
+                      <th className="text-center py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UPDATED DATE</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>SPOT PRICE (IN ₹)<br/>POLLED AT 12:30 HRS</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>SPOT PRICE (IN ₹)<br/>POLLED AT 16:30 HRS</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1429,19 +1429,19 @@ export default function DashboardPage() {
               {currencySnapshotTab === 0 && (
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase">CONTRACTS</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">LTP</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">%CHNG</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                        <div>VOLUME</div>
-                        <div className="text-xs font-normal">(Contracts)</div>
+                    <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACTS</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                        <div style={{ color: '#FFFFFF' }}>VOLUME</div>
+                        <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(Contracts)</div>
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                        <div>TURNOVER</div>
-                        <div className="text-xs font-normal">(₹ Crores)</div>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                        <div style={{ color: '#FFFFFF' }}>TURNOVER</div>
+                        <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(₹ Crores)</div>
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">OPEN INTEREST</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>OPEN INTEREST</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1476,19 +1476,19 @@ export default function DashboardPage() {
               {currencySnapshotTab === 1 && (
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#0D7C8C] text-[#2D3748]">
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase">CONTRACTS</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">LTP</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">%CHNG</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                        <div>VOLUME</div>
-                        <div className="text-xs font-normal">(Contracts)</div>
+                    <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACTS</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                        <div style={{ color: '#FFFFFF' }}>VOLUME</div>
+                        <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(Contracts)</div>
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">
-                        <div>TURNOVER</div>
-                        <div className="text-xs font-normal">(₹ Crores)</div>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                        <div style={{ color: '#FFFFFF' }}>TURNOVER</div>
+                        <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(₹ Crores)</div>
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase">OPEN INTEREST</th>
+                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>OPEN INTEREST</th>
                     </tr>
                   </thead>
                   <tbody>

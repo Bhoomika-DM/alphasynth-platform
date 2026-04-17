@@ -10,8 +10,21 @@ interface OnboardingCardProps {
   index: number
 }
 
+// Tinted/pastel color mapping for each gradient
+const getTintedColor = (gradient: string) => {
+  if (gradient.includes('blue') && gradient.includes('cyan')) return { bg: 'bg-[#D4F1F4]', icon: 'text-[#0D7C8C]' } // Light teal
+  if (gradient.includes('green') && gradient.includes('emerald')) return { bg: 'bg-[#D4EDD9]', icon: 'text-[#1A6B3A]' } // Light green
+  if (gradient.includes('purple') && gradient.includes('indigo')) return { bg: 'bg-[#E8E4FF]', icon: 'text-[#5B21B6]' } // Light purple
+  if (gradient.includes('orange') && gradient.includes('amber')) return { bg: 'bg-[#FFE4D4]', icon: 'text-[#B45309]' } // Light orange
+  if (gradient.includes('red') && gradient.includes('pink')) return { bg: 'bg-[#FFE4E6]', icon: 'text-[#DC2626]' } // Light red/pink
+  if (gradient.includes('teal') && gradient.includes('cyan')) return { bg: 'bg-[#D4F1F4]', icon: 'text-[#0D7C8C]' } // Light teal
+  // Default fallback
+  return { bg: 'bg-[#D4F1F4]', icon: 'text-[#0D7C8C]' }
+}
+
 export default function OnboardingCard({ option, onClick, index }: OnboardingCardProps) {
   const Icon = option.icon
+  const tintedColor = getTintedColor(option.gradient)
 
   return (
     <motion.div
@@ -28,11 +41,11 @@ export default function OnboardingCard({ option, onClick, index }: OnboardingCar
                  transition-all duration-200 hover:border-[#2E4D8E]/40 hover:shadow-xl overflow-hidden"
     >
       <div className="relative flex items-start gap-5">
-        {/* Icon with sage gradient */}
-        <div className={`flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br ${option.gradient} 
-                        flex items-center justify-center shadow-lg group-hover:shadow-xl 
+        {/* Icon with tinted background */}
+        <div className={`flex-shrink-0 w-16 h-16 rounded-xl ${tintedColor.bg}
+                        flex items-center justify-center shadow-md group-hover:shadow-lg 
                         transition-all duration-200`}>
-          <Icon className="w-8 h-8 text-white" strokeWidth={2.5} />
+          <Icon className={`w-8 h-8 ${tintedColor.icon}`} strokeWidth={2.5} />
         </div>
         
         {/* Content */}

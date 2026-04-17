@@ -132,7 +132,7 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
             {/* Search Bar with Categories Dropdown */}
             <div ref={searchContainerRef} className="relative">
               <div className="relative w-[500px]">
-                <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#718096]" stroke={1.5} />
+                <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#0D7C8C]" stroke={1.5} />
                 <input
                   type="text"
                   placeholder="Search by Company name, Index or Symbol"
@@ -149,19 +149,28 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
                   {/* Category Buttons */}
                   <div className="p-3 border-b border-[#E5E7EB]">
                     <div className="flex gap-2">
-                      {categories.map((category) => (
-                        <button
-                          key={category}
-                          onClick={() => setSelectedCategory(category)}
-                          className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                            selectedCategory === category
-                              ? 'bg-[#2E4D8E] text-white'
-                              : 'bg-[#F8F9FB] text-[#718096] hover:bg-[#E5E7EB]'
-                          }`}
-                        >
-                          {category}
-                        </button>
-                      ))}
+                      {categories.map((category, index) => {
+                        const tintedColors = [
+                          'bg-[#D4F1F4] text-[#1B2A4A]', // All - Light teal
+                          'bg-[#D4EDD9] text-[#1B2A4A]', // Equity Stocks - Light green
+                          'bg-[#FFE4D4] text-[#1B2A4A]', // Derivatives - Light peach
+                          'bg-[#FFF4D4] text-[#1B2A4A]', // ETFs - Light gold
+                          'bg-[#E8E4FF] text-[#1B2A4A]', // Debt/Others - Light purple
+                        ]
+                        return (
+                          <button
+                            key={category}
+                            onClick={() => setSelectedCategory(category)}
+                            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                              selectedCategory === category
+                                ? tintedColors[index]
+                                : 'bg-[#F8F9FB] text-[#718096] hover:bg-[#E5E7EB]'
+                            }`}
+                          >
+                            {category}
+                          </button>
+                        )
+                      })}
                     </div>
                   </div>
 
@@ -233,7 +242,9 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center gap-3 px-4 py-2.5 bg-white border border-[#2E4D8E]/20 hover:border-[#2E4D8E]/30 rounded-md transition-all duration-200 hover:bg-[#F8F9FB]"
                 >
-                  <div className="w-2 h-2 bg-[#2E4D8E] rounded-full"></div>
+                  <div className="w-8 h-8 bg-[#D4F1F4] rounded-full flex items-center justify-center">
+                    <IconUser className="w-4 h-4 text-[#0D7C8C]" stroke={2} />
+                  </div>
                   <span className="text-sm font-medium text-[#2D3748]">
                     {user?.user_metadata?.first_name || user?.email?.split('@')[0]}
                   </span>
@@ -249,8 +260,8 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
                     {/* User Info */}
                     <div className="px-4 py-3 border-b border-[#E5E7EB] bg-[#F8F9FB]">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[#0D7C8C] rounded-full flex items-center justify-center">
-                          <IconUser className="w-5 h-5 text-[#2D3748]" stroke={2} />
+                        <div className="w-10 h-10 bg-[#D4F1F4] rounded-full flex items-center justify-center">
+                          <IconUser className="w-5 h-5 text-[#0D7C8C]" stroke={2} />
                         </div>
                         <div>
                           <div className="text-sm font-bold text-[#2D3748]">
@@ -271,7 +282,7 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
                         href="/profile"
                         className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-[#F8F9FB] transition-colors text-left"
                       >
-                        <IconUser className="w-5 h-5 text-[#2E4D8E]" stroke={1.5} />
+                        <IconUser className="w-5 h-5 text-[#0D7C8C]" stroke={1.5} />
                         <span className="text-sm font-semibold text-[#2D3748]">
                           View Profile
                         </span>

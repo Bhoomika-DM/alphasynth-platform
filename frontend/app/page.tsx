@@ -1,15 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Intro from '@/components/intro/Intro'
-import AlphaSynthLandingPage from '@/components/AlphaSynthLandingPage'
 
 export default function HomePage() {
   const [showIntro, setShowIntro] = useState(true)
 
-  if (showIntro) {
-    return <Intro onComplete={() => setShowIntro(false)} />
+  const handleIntroComplete = () => {
+    // Redirect to the static HTML landing page
+    window.location.href = '/index.html'
   }
 
-  return <AlphaSynthLandingPage />
+  if (showIntro) {
+    return <Intro onComplete={handleIntroComplete} />
+  }
+
+  return null
 }

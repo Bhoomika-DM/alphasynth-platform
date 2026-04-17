@@ -304,10 +304,10 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 0.1, type: 'spring', stiffness: 150, damping: 15 }}
                 className="inline-flex items-center justify-center w-16 h-16 mb-5 
-                           bg-gradient-to-br from-[#0D7C8C] to-[#2E4D8E] border-2 border-[#B8860B]/30
+                           bg-[#D4F1F4] border-2 border-[#0D7C8C]/30
                            rounded-2xl shadow-lg"
               >
-                <IconSparkles className="w-8 h-8 text-[#FFFFFF]" stroke={2.5} />
+                <IconSparkles className="w-8 h-8 text-[#0D7C8C]" stroke={2.5} />
               </motion.div>
               
               <h2 className="text-3xl md:text-4xl font-bold text-[#1B2A4A] mb-3 leading-tight">
@@ -345,8 +345,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                   onClick={() => handleUserTypeSelect('individual')}
                   className="p-8 bg-white border-2 border-[#E2E8F0] hover:border-[#0D7C8C] rounded-2xl transition-all duration-300 text-left group hover:shadow-xl"
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#0D7C8C] to-[#1A6B3A] rounded-2xl flex items-center justify-center mb-4 group-hover:shadow-lg transition-all duration-300">
-                    <IconUser className="w-8 h-8 text-[#FFFFFF]" stroke={2} />
+                  <div className="w-16 h-16 bg-[#D4F1F4] rounded-2xl flex items-center justify-center mb-4 group-hover:shadow-lg transition-all duration-300">
+                    <IconUser className="w-8 h-8 text-[#0D7C8C]" stroke={2} />
                   </div>
                   <h3 className="text-2xl font-bold text-[#1B2A4A] mb-2">Individual Investor</h3>
                   <p className="text-[#2D3748] text-sm">
@@ -360,8 +360,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                   onClick={() => handleUserTypeSelect('institutional')}
                   className="p-8 bg-white border-2 border-[#E2E8F0] hover:border-[#2E4D8E] rounded-2xl transition-all duration-300 text-left group hover:shadow-xl"
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#2E4D8E] to-[#B8860B] rounded-2xl flex items-center justify-center mb-4 group-hover:shadow-lg transition-all duration-300">
-                    <IconShield className="w-8 h-8 text-[#FFFFFF]" stroke={2} />
+                  <div className="w-16 h-16 bg-[#E8E4FF] rounded-2xl flex items-center justify-center mb-4 group-hover:shadow-lg transition-all duration-300">
+                    <IconShield className="w-8 h-8 text-[#5B21B6]" stroke={2} />
                   </div>
                   <h3 className="text-2xl font-bold text-[#1B2A4A] mb-2">Institutional User</h3>
                   <p className="text-[#2D3748] text-sm">
@@ -381,8 +381,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                   transition={{ duration: 0.4, ease: "easeOut" }}
                 >
                   <div className="flex items-center justify-center gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2E4D8E] to-[#0D7C8C] flex items-center justify-center shadow-lg">
-                      <IconTrendingUp className="w-6 h-6 text-[#FFFFFF]" stroke={2.5} />
+                    <div className="w-12 h-12 rounded-full bg-[#D4F1F4] flex items-center justify-center shadow-lg">
+                      <IconTrendingUp className="w-6 h-6 text-[#0D7C8C]" stroke={2.5} />
                     </div>
                     <label className="text-xl font-bold text-[#1B2A4A]">
                       What's your investment experience level?
@@ -415,8 +415,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   >
                     <div className="flex items-center justify-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#1A6B3A] to-[#B8860B] flex items-center justify-center shadow-lg">
-                        <IconTarget className="w-6 h-6 text-[#FFFFFF]" stroke={2.5} />
+                      <div className="w-12 h-12 rounded-full bg-[#D4EDD9] flex items-center justify-center shadow-lg">
+                        <IconTarget className="w-6 h-6 text-[#1A6B3A]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
                         What's your primary investment goal?
@@ -450,8 +450,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   >
                     <div className="flex items-center justify-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#8C1A1A] to-[#2E4D8E] flex items-center justify-center shadow-lg">
-                        <IconShield className="w-6 h-6 text-[#FFFFFF]" stroke={2.5} />
+                      <div className="w-12 h-12 rounded-full bg-[#FFE4D4] flex items-center justify-center shadow-lg">
+                        <IconShield className="w-6 h-6 text-[#B45309]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
                         How would you describe your risk tolerance?
@@ -485,8 +485,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   >
                     <div className="flex items-center justify-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#B8860B] to-[#0D7C8C] flex items-center justify-center shadow-lg">
-                        <IconClock className="w-6 h-6 text-[#FFFFFF]" stroke={2.5} />
+                      <div className="w-12 h-12 rounded-full bg-[#FFF4D4] flex items-center justify-center shadow-lg">
+                        <IconClock className="w-6 h-6 text-[#B8860B]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
                         What's your investment time horizon?
@@ -546,8 +546,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                   transition={{ duration: 0.4, ease: "easeOut" }}
                 >
                   <div className="flex items-center justify-center gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2E4D8E] to-[#0D7C8C] flex items-center justify-center shadow-lg">
-                      <IconShield className="w-6 h-6 text-[#FFFFFF]" stroke={2.5} />
+                    <div className="w-12 h-12 rounded-full bg-[#E8E4FF] flex items-center justify-center shadow-lg">
+                      <IconShield className="w-6 h-6 text-[#5B21B6]" stroke={2.5} />
                     </div>
                     <label className="text-xl font-bold text-[#1B2A4A]">
                       What type of institution do you represent?
@@ -580,8 +580,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   >
                     <div className="flex items-center justify-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#1A6B3A] to-[#B8860B] flex items-center justify-center shadow-lg">
-                        <IconTarget className="w-6 h-6 text-[#FFFFFF]" stroke={2.5} />
+                      <div className="w-12 h-12 rounded-full bg-[#D4EDD9] flex items-center justify-center shadow-lg">
+                        <IconTarget className="w-6 h-6 text-[#1A6B3A]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
                         What's your primary use case?
@@ -615,8 +615,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   >
                     <div className="flex items-center justify-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#8C1A1A] to-[#2E4D8E] flex items-center justify-center shadow-lg">
-                        <IconTrendingUp className="w-6 h-6 text-[#FFFFFF]" stroke={2.5} />
+                      <div className="w-12 h-12 rounded-full bg-[#FFE4D4] flex items-center justify-center shadow-lg">
+                        <IconTrendingUp className="w-6 h-6 text-[#B45309]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
                         What's your assets under management range?
@@ -650,8 +650,8 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   >
                     <div className="flex items-center justify-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#B8860B] to-[#0D7C8C] flex items-center justify-center shadow-lg">
-                        <IconUser className="w-6 h-6 text-[#FFFFFF]" stroke={2.5} />
+                      <div className="w-12 h-12 rounded-full bg-[#FFF4D4] flex items-center justify-center shadow-lg">
+                        <IconUser className="w-6 h-6 text-[#B8860B]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
                         What's your team size?
