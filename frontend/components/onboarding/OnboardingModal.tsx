@@ -22,15 +22,15 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
   const [mounted, setMounted] = useState(false)
   const [personaData, setPersonaData] = useState({
     // Individual fields
-    experience: '',
-    investmentGoal: '',
-    riskTolerance: '',
-    investmentHorizon: '',
+    experience: [] as string[],
+    investmentGoal: [] as string[],
+    riskTolerance: [] as string[],
+    investmentHorizon: [] as string[],
     // Institutional fields
-    institutionType: '',
-    primaryUseCase: '',
-    assetsUnderManagement: '',
-    teamSize: ''
+    institutionType: [] as string[],
+    primaryUseCase: [] as string[],
+    assetsUnderManagement: [] as string[],
+    teamSize: [] as string[]
   })
   const router = useRouter()
   const supabase = createClient()
@@ -93,14 +93,14 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
   }
 
   const handlePersonaNext = async () => {
-    // Validate based on user type
+    // Validate based on user type - at least one selection per field
     const isIndividualComplete = userType === 'individual' && 
-      personaData.experience && personaData.investmentGoal && 
-      personaData.riskTolerance && personaData.investmentHorizon
+      personaData.experience.length > 0 && personaData.investmentGoal.length > 0 && 
+      personaData.riskTolerance.length > 0 && personaData.investmentHorizon.length > 0
     
     const isInstitutionalComplete = userType === 'institutional' && 
-      personaData.institutionType && personaData.primaryUseCase && 
-      personaData.assetsUnderManagement && personaData.teamSize
+      personaData.institutionType.length > 0 && personaData.primaryUseCase.length > 0 && 
+      personaData.assetsUnderManagement.length > 0 && personaData.teamSize.length > 0
     
     if (isIndividualComplete || isInstitutionalComplete) {
       // Save persona data to database
@@ -115,15 +115,15 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
           }
 
           if (userType === 'individual') {
-            profileData.experience = personaData.experience
-            profileData.investment_goal = personaData.investmentGoal
-            profileData.risk_tolerance = personaData.riskTolerance
-            profileData.investment_horizon = personaData.investmentHorizon
+            profileData.experience = personaData.experience.join(',')
+            profileData.investment_goal = personaData.investmentGoal.join(',')
+            profileData.risk_tolerance = personaData.riskTolerance.join(',')
+            profileData.investment_horizon = personaData.investmentHorizon.join(',')
           } else {
-            profileData.institution_type = personaData.institutionType
-            profileData.primary_use_case = personaData.primaryUseCase
-            profileData.assets_under_management = personaData.assetsUnderManagement
-            profileData.team_size = personaData.teamSize
+            profileData.institution_type = personaData.institutionType.join(',')
+            profileData.primary_use_case = personaData.primaryUseCase.join(',')
+            profileData.assets_under_management = personaData.assetsUnderManagement.join(',')
+            profileData.team_size = personaData.teamSize.join(',')
           }
 
           const { error } = await supabase
@@ -168,6 +168,24 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
       setStep(2)
     } else if (step === 2) {
       setStep(1)
+    }
+  }
+
+  // Toggle selection for multi-select fields
+  const toggleSelection = (field: keyof typeof personaData, value: string) => {
+    const currentArray = personaData[field] as string[]
+    const isSelected = currentArray.includes(value)
+    
+    if (isSelected) {
+      setPersonaData({
+        ...personaData,
+        [field]: currentArray.filter(item => item !== value)
+      })
+    } else {
+      setPersonaData({
+        ...personaData,
+        [field]: [...currentArray, value]
+      })
     }
   }
 
@@ -385,7 +403,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                       <IconTrendingUp className="w-6 h-6 text-[#0D7C8C]" stroke={2.5} />
                     </div>
                     <label className="text-xl font-bold text-[#1B2A4A]">
-                      What's your investment experience level?
+                      What's your investment experience level? (Select all that apply)
                     </label>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -394,9 +412,9 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         key={level}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => setPersonaData({ ...personaData, experience: level })}
+                        onClick={() => toggleSelection('experience', level)}
                         className={`p-6 rounded-2xl border-2 transition-all duration-300 text-lg font-bold ${
-                          personaData.experience === level
+                          (personaData.experience as string[]).includes(level)
                             ? 'bg-[#D4F1F4] border-[#0D7C8C] text-[#1B2A4A] shadow-lg scale-105'
                             : 'bg-white border-[#E2E8F0] text-[#2D3748] hover:border-[#0D7C8C] hover:bg-[#F8F9FB] hover:shadow-md'
                         }`}
@@ -408,7 +426,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 </motion.div>
 
                 {/* Question 2: Investment Goal - Shows after Q1 is answered */}
-                {personaData.experience && (
+                {personaData.experience.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -419,7 +437,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconTarget className="w-6 h-6 text-[#1A6B3A]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What's your primary investment goal?
+                        What are your investment goals? (Select all that apply)
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -428,9 +446,9 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                           key={goal}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setPersonaData({ ...personaData, investmentGoal: goal })}
+                          onClick={() => toggleSelection('investmentGoal', goal)}
                           className={`p-6 rounded-2xl border-2 transition-all duration-300 text-lg font-bold ${
-                            personaData.investmentGoal === goal
+                            (personaData.investmentGoal as string[]).includes(goal)
                               ? 'bg-[#D4EDD9] border-[#1A6B3A] text-[#1B2A4A] shadow-lg scale-105'
                               : 'bg-white border-[#E2E8F0] text-[#2D3748] hover:border-[#1A6B3A] hover:bg-[#F8F9FB] hover:shadow-md'
                           }`}
@@ -443,7 +461,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 )}
 
                 {/* Question 3: Risk Tolerance - Shows after Q2 is answered */}
-                {personaData.investmentGoal && (
+                {personaData.investmentGoal.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -454,7 +472,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconShield className="w-6 h-6 text-[#B45309]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        How would you describe your risk tolerance?
+                        What are your risk tolerances? (Select all that apply)
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -463,9 +481,9 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                           key={risk}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setPersonaData({ ...personaData, riskTolerance: risk })}
+                          onClick={() => toggleSelection('riskTolerance', risk)}
                           className={`p-6 rounded-2xl border-2 transition-all duration-300 text-lg font-bold ${
-                            personaData.riskTolerance === risk
+                            (personaData.riskTolerance as string[]).includes(risk)
                               ? 'bg-[#FFE4D4] border-[#B45309] text-[#1B2A4A] shadow-lg scale-105'
                               : 'bg-white border-[#E2E8F0] text-[#2D3748] hover:border-[#8C1A1A] hover:bg-[#F8F9FB] hover:shadow-md'
                           }`}
@@ -478,7 +496,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 )}
 
                 {/* Question 4: Investment Horizon - Shows after Q3 is answered */}
-                {personaData.riskTolerance && (
+                {personaData.riskTolerance.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -489,7 +507,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconClock className="w-6 h-6 text-[#B8860B]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What's your investment time horizon?
+                        What are your investment time horizons? (Select all that apply)
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -498,9 +516,9 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                           key={horizon}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setPersonaData({ ...personaData, investmentHorizon: horizon })}
+                          onClick={() => toggleSelection('investmentHorizon', horizon)}
                           className={`p-6 rounded-2xl border-2 transition-all duration-300 text-lg font-bold ${
-                            personaData.investmentHorizon === horizon
+                            (personaData.investmentHorizon as string[]).includes(horizon)
                               ? 'bg-[#FFF4D4] border-[#B8860B] text-[#1B2A4A] shadow-lg scale-105'
                               : 'bg-white border-[#E2E8F0] text-[#2D3748] hover:border-[#B8860B] hover:bg-[#F8F9FB] hover:shadow-md'
                           }`}
@@ -513,7 +531,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 )}
 
                 {/* Continue Button - Shows after all questions are answered */}
-                {personaData.experience && personaData.investmentGoal && personaData.riskTolerance && personaData.investmentHorizon && (
+                {personaData.experience.length > 0 && personaData.investmentGoal.length > 0 && personaData.riskTolerance.length > 0 && personaData.investmentHorizon.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -550,7 +568,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                       <IconShield className="w-6 h-6 text-[#5B21B6]" stroke={2.5} />
                     </div>
                     <label className="text-xl font-bold text-[#1B2A4A]">
-                      What type of institution do you represent?
+                      What types of institutions do you represent? (Select all that apply)
                     </label>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -559,9 +577,9 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         key={type}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => setPersonaData({ ...personaData, institutionType: type })}
+                        onClick={() => toggleSelection('institutionType', type)}
                         className={`p-6 rounded-2xl border-2 transition-all duration-300 text-lg font-bold ${
-                          personaData.institutionType === type
+                          (personaData.institutionType as string[]).includes(type)
                             ? 'bg-[#D4DFED] border-[#2E4D8E] text-[#1B2A4A] shadow-lg scale-105'
                             : 'bg-white border-[#E2E8F0] text-[#2D3748] hover:border-[#2E4D8E] hover:bg-[#F8F9FB] hover:shadow-md'
                         }`}
@@ -573,7 +591,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 </motion.div>
 
                 {/* Question 2: Primary Use Case - Shows after Q1 is answered */}
-                {personaData.institutionType && (
+                {personaData.institutionType.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -584,7 +602,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconTarget className="w-6 h-6 text-[#1A6B3A]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What's your primary use case?
+                        What are your primary use cases? (Select all that apply)
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -593,9 +611,9 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                           key={useCase}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setPersonaData({ ...personaData, primaryUseCase: useCase })}
+                          onClick={() => toggleSelection('primaryUseCase', useCase)}
                           className={`p-6 rounded-2xl border-2 transition-all duration-300 text-lg font-bold ${
-                            personaData.primaryUseCase === useCase
+                            (personaData.primaryUseCase as string[]).includes(useCase)
                               ? 'bg-[#D4EDD9] border-[#1A6B3A] text-[#1B2A4A] shadow-lg scale-105'
                               : 'bg-white border-[#E2E8F0] text-[#2D3748] hover:border-[#1A6B3A] hover:bg-[#F8F9FB] hover:shadow-md'
                           }`}
@@ -608,7 +626,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 )}
 
                 {/* Question 3: Assets Under Management - Shows after Q2 is answered */}
-                {personaData.primaryUseCase && (
+                {personaData.primaryUseCase.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -619,7 +637,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconTrendingUp className="w-6 h-6 text-[#B45309]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What's your assets under management range?
+                        What are your assets under management ranges? (Select all that apply)
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -628,9 +646,9 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                           key={aum}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setPersonaData({ ...personaData, assetsUnderManagement: aum })}
+                          onClick={() => toggleSelection('assetsUnderManagement', aum)}
                           className={`p-6 rounded-2xl border-2 transition-all duration-300 text-lg font-bold ${
-                            personaData.assetsUnderManagement === aum
+                            (personaData.assetsUnderManagement as string[]).includes(aum)
                               ? 'bg-[#FFE4D4] border-[#B45309] text-[#1B2A4A] shadow-lg scale-105'
                               : 'bg-white border-[#E2E8F0] text-[#2D3748] hover:border-[#8C1A1A] hover:bg-[#F8F9FB] hover:shadow-md'
                           }`}
@@ -643,7 +661,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 )}
 
                 {/* Question 4: Team Size - Shows after Q3 is answered */}
-                {personaData.assetsUnderManagement && (
+                {personaData.assetsUnderManagement.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -654,7 +672,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconUser className="w-6 h-6 text-[#B8860B]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What's your team size?
+                        What are your team sizes? (Select all that apply)
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -663,9 +681,9 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                           key={size}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setPersonaData({ ...personaData, teamSize: size })}
+                          onClick={() => toggleSelection('teamSize', size)}
                           className={`p-6 rounded-2xl border-2 transition-all duration-300 text-lg font-bold ${
-                            personaData.teamSize === size
+                            (personaData.teamSize as string[]).includes(size)
                               ? 'bg-[#FFF4D4] border-[#B8860B] text-[#1B2A4A] shadow-lg scale-105'
                               : 'bg-white border-[#E2E8F0] text-[#2D3748] hover:border-[#B8860B] hover:bg-[#F8F9FB] hover:shadow-md'
                           }`}
@@ -678,7 +696,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                 )}
 
                 {/* Continue Button - Shows after all questions are answered */}
-                {personaData.institutionType && personaData.primaryUseCase && personaData.assetsUnderManagement && personaData.teamSize && (
+                {personaData.institutionType.length > 0 && personaData.primaryUseCase.length > 0 && personaData.assetsUnderManagement.length > 0 && personaData.teamSize.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}

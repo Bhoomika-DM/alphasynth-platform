@@ -1,0 +1,252 @@
+'use client'
+
+import { useState } from 'react'
+import ScreenerCard from '@/components/institutional-screener/ScreenerCard'
+
+const SCREENERS = [
+  {
+    id: 'quality-compounders',
+    title: 'Quality Compounders',
+    description: 'High ROE, ROCE conversion with low average debt for buy-and-hold compounders.',
+    emoji: '⭐',
+    factors: ['ROE > 15%', 'ROCE > 12%', 'Revenue CAGR > 10%', 'EPS CAGR > 10%', 'Debt/Equity < 0.5'],
+    bgColor: '#1A1F2E',
+    borderColor: '#0D7C8C',
+    accentColor: '#0D7C8C',
+  },
+  {
+    id: 'deep-value',
+    title: 'Deep Value',
+    description: 'Cheap on PE, EV/EBITDA, FCF Yield with a quality floor. Mean-reversion focused.',
+    emoji: '🎯',
+    factors: ['P/E < 12', 'EV/EBITDA < 8', 'FCF Yield > 5%', 'Current Ratio > 1.5', 'Debt/Equity < 0.8'],
+    bgColor: '#1A1F2E',
+    borderColor: '#1A6B3A',
+    accentColor: '#1A6B3A',
+  },
+  {
+    id: 'growth-leaders',
+    title: 'Growth Leaders',
+    description: 'Companies accelerating revenue and EPS with strong expansion. GARP strategy.',
+    emoji: '📈',
+    factors: ['Revenue CAGR > 20%', 'EPS CAGR > 15%', '12M Momentum > 20%', 'P/E < 25', 'ROE > 12%'],
+    bgColor: '#1A1F2E',
+    borderColor: '#B8860B',
+    accentColor: '#B8860B',
+  },
+  {
+    id: 'momentum-leaders',
+    title: 'Momentum Leaders',
+    description: 'Stocks with sustained price momentum, volume confirmation, 52-week breakouts.',
+    emoji: '⚡',
+    factors: ['12M Momentum > 30%', 'Volatility < 30%', 'P/E < 20', 'Revenue CAGR > 10%', 'Current Ratio > 1.2'],
+    bgColor: '#1A1F2E',
+    borderColor: '#2E4D8E',
+    accentColor: '#2E4D8E',
+  },
+  {
+    id: 'multibagger-early',
+    title: 'Multibagger Early',
+    description: 'High-growth small/mid caps with strong ROE, low debt, and early momentum.',
+    emoji: '🚀',
+    factors: ['Revenue CAGR > 25%', 'EPS CAGR > 20%', 'P/E < 30', 'ROE > 10%', 'Debt/Equity < 1.0'],
+    bgColor: '#1A1F2E',
+    borderColor: '#B45309',
+    accentColor: '#B45309',
+  },
+  {
+    id: 'low-risk-alpha',
+    title: 'Low Risk Alpha',
+    description: 'Low volatility, low beta with quality fundamentals. Defensive portfolio.',
+    emoji: '🛡️',
+    factors: ['Volatility < 20%', 'Dividend Yield > 2%', 'Debt/Equity < 0.4', 'Current Ratio > 1.8', 'ROE > 12%'],
+    bgColor: '#1A1F2E',
+    borderColor: '#0D7C8C',
+    accentColor: '#0D7C8C',
+  },
+]
+
+export default function ScreenerPage() {
+  const [activeTab, setActiveTab] = useState<'prebuilt' | 'custom'>('prebuilt')
+
+  return (
+    <div style={{ backgroundColor: '#0F1419', minHeight: '100vh' }}>
+      {/* Header */}
+      <div style={{ backgroundColor: '#1A1F2E', borderBottom: '1px solid #2D3748' }}>
+        <div className="max-w-full mx-auto px-6 py-4">
+          <h1 className="text-sm font-bold text-white tracking-wide" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            INSTITUTIONAL SCREENER
+          </h1>
+          <p style={{ color: '#A0AEC0', fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '12px', marginTop: '4px' }}>
+            Click any model to instantly rank the universe
+          </p>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={{ backgroundColor: '#1A1F2E', borderBottom: '1px solid #2D3748' }}>
+        <div className="max-w-full mx-auto px-6">
+          <div className="flex gap-8">
+            {[
+              { id: 'prebuilt', label: 'Screener' },
+              { id: 'custom', label: 'Compare' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className="px-4 py-3 font-medium border-b-2 transition-all text-sm"
+                style={{
+                  color: activeTab === tab.id ? '#FFFFFF' : '#718096',
+                  borderColor: activeTab === tab.id ? '#0D7C8C' : 'transparent',
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content - 50/50 Split */}
+      <div className="max-w-full mx-auto px-6 py-6">
+        {activeTab === 'prebuilt' && (
+          <div className="flex gap-6">
+            {/* Left: Screener Cards - 50% */}
+            <div className="w-1/2">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p style={{ color: '#A0AEC0', fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '12px' }}>
+                    Prebuilt Screeners
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <span style={{ color: '#718096', fontSize: '11px' }}>Top</span>
+                    <input
+                      type="number"
+                      defaultValue="2"
+                      className="w-10 px-2 py-1 rounded text-white text-xs border"
+                      style={{
+                        backgroundColor: '#2D3748',
+                        borderColor: '#3D4758',
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      }}
+                    />
+                    <span style={{ color: '#718096', fontSize: '11px' }}>stocks</span>
+                  </div>
+                  <button
+                    className="px-3 py-1 rounded text-xs font-medium"
+                    style={{
+                      backgroundColor: '#2D3748',
+                      color: '#A0AEC0',
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  >
+                    Custom Screener
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {SCREENERS.map((screener) => (
+                  <ScreenerCard key={screener.id} {...screener} />
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Logic Builder - 50% */}
+            <div className="w-1/2">
+              <div className="p-6 rounded-lg" style={{ backgroundColor: '#1A1F2E', border: '1px solid #2D3748' }}>
+                <h3 className="text-white font-bold text-sm mb-5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  Logic Builder
+                </h3>
+
+                {/* Describe Criteria */}
+                <div className="mb-5">
+                  <p style={{ color: '#A0AEC0', fontSize: '11px', marginBottom: '8px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    Describe your criteria
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="e.g. 'high quality, low debt, strong g'"
+                    className="w-full px-3 py-2 rounded text-xs border"
+                    style={{
+                      backgroundColor: '#0F1419',
+                      borderColor: '#2D3748',
+                      color: '#FFFFFF',
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  />
+                </div>
+
+                {/* Parse Button */}
+                <button
+                  className="w-full px-3 py-2 rounded text-xs font-bold text-white mb-5"
+                  style={{
+                    backgroundColor: '#6366F1',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  }}
+                >
+                  Parse Natural Language
+                </button>
+
+                {/* Manual Factor Filters */}
+                <div className="mb-5 pt-5 border-t" style={{ borderColor: '#2D3748' }}>
+                  <p style={{ color: '#A0AEC0', fontSize: '11px', marginBottom: '8px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    Manual Factor Filters
+                  </p>
+                  <button
+                    className="w-full px-3 py-2 rounded text-xs font-medium"
+                    style={{
+                      backgroundColor: '#2D3748',
+                      color: '#A0AEC0',
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  >
+                    + Add Filter
+                  </button>
+                </div>
+
+                {/* Rank Results By */}
+                <div className="mb-5 pt-5 border-t" style={{ borderColor: '#2D3748' }}>
+                  <p style={{ color: '#A0AEC0', fontSize: '11px', marginBottom: '8px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    RANK RESULTS BY
+                  </p>
+                  <button
+                    className="w-full px-3 py-2 rounded text-xs font-medium text-left"
+                    style={{
+                      backgroundColor: '#2D3748',
+                      color: '#FFFFFF',
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  >
+                    ⭐ Quality Compounders
+                  </button>
+                </div>
+
+                {/* Run Screener Button */}
+                <button
+                  className="w-full px-3 py-3 rounded text-xs font-bold text-white"
+                  style={{
+                    backgroundColor: '#6366F1',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  }}
+                >
+                  ▶ Run Screener
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {activeTab === 'custom' && (
+          <div className="text-center py-12">
+            <p style={{ color: '#718096', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              Compare Models coming soon...
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

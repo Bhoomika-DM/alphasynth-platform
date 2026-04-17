@@ -1,14 +1,21 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Intro from '@/components/intro/Intro'
+import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
   const [showIntro, setShowIntro] = useState(true)
+  const router = useRouter()
 
   const handleIntroComplete = () => {
-    // Redirect to the static HTML landing page
-    window.location.href = '/index.html'
+    // Hide intro first
+    setShowIntro(false)
+    
+    // Then redirect to dashboard after a brief delay
+    setTimeout(() => {
+      router.push('/dashboard')
+    }, 300)
   }
 
   if (showIntro) {

@@ -104,8 +104,8 @@ export const subOptions: Record<string, OnboardingOption[]> = {
       icon: IconFilter,
       title: 'Stock Screener',
       subtitle: 'Filter stocks by criteria',
-      route: '/stock-analysis?ticker=AAPL',
-      gradient: 'from-blue-500 to-cyan-500',
+      route: '/institutional-screener',
+      gradient: 'from-teal-500 to-cyan-500',
     },
     {
       id: 'ideas',

@@ -22,6 +22,8 @@ export default function DashboardPage() {
   const [currencySnapshotTab, setCurrencySnapshotTab] = useState(0) // 0: INR Contracts, 1: Cross Currency Contracts
   const [selectedIndexId, setSelectedIndexId] = useState(0) // Default to NIFTY 50 (index 0)
   const [marketSnapshotTab, setMarketSnapshotTab] = useState(0) // 0: Gainers, 1: Losers, 2: Most Active(Value), 3: Most Active(Volume), 4: ETFs(Volume)
+  const [shouldAutoAnalyze, setShouldAutoAnalyze] = useState(false)
+  const [isFirstLogin, setIsFirstLogin] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = createClient()
@@ -57,13 +59,22 @@ export default function DashboardPage() {
       // Check if user has EVER completed onboarding
       const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding')
       
+      // Check if this is first login (user just completed onboarding)
+      const isFirstLoginSession = localStorage.getItem('isFirstLoginSession')
+      
       if ((shouldShowOnboardingFromStorage === 'true' || shouldShowOnboardingFromUrl === 'true') && !hasCompletedOnboarding) {
         // Clear the flag immediately
         localStorage.removeItem('showOnboarding')
+        // Mark as first login session
+        localStorage.setItem('isFirstLoginSession', 'true')
         // Open modal after a short delay
         setTimeout(() => {
           setShowOnboarding(true)
         }, 300)
+      } else if (isFirstLoginSession === 'true' && hasCompletedOnboarding === 'true') {
+        // Auto-trigger analyze on first login after onboarding
+        setIsFirstLogin(true)
+        localStorage.removeItem('isFirstLoginSession')
       }
       
       setLoading(false)
@@ -71,6 +82,21 @@ export default function DashboardPage() {
 
     getUser()
   }, [message, supabase, searchParams])
+
+  // Auto-trigger analyze after onboarding completes or on first login
+  useEffect(() => {
+    if (shouldAutoAnalyze || isFirstLogin) {
+      // Delay to allow UI to settle
+      const timer = setTimeout(() => {
+        // Navigate to portfolio-results with default NIFTY 50 basket
+        router.push('/portfolio-results?baskets=nifty50')
+        setShouldAutoAnalyze(false)
+        setIsFirstLogin(false)
+      }, 500)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [shouldAutoAnalyze, isFirstLogin, router])
 
   const handleSignOut = async () => {
     // Clear onboarding flags so modal shows again on next login
@@ -341,6 +367,8 @@ export default function DashboardPage() {
         <OnboardingModal onClose={() => {
           setShowOnboarding(false)
           localStorage.setItem('hasCompletedOnboarding', 'true')
+          // Auto-trigger analyze after onboarding completes
+          setShouldAutoAnalyze(true)
         }} />
       )}
       
