@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { IconStar, IconTarget, IconTrendingUp, IconZap, IconRocket, IconShield } from '@tabler/icons-react'
 import ScreenerCard from '@/components/institutional-screener/ScreenerCard'
 
 const SCREENERS = [
@@ -8,7 +9,7 @@ const SCREENERS = [
     id: 'quality-compounders',
     title: 'Quality Compounders',
     description: 'High ROE, ROCE conversion with low average debt for buy-and-hold compounders.',
-    emoji: '⭐',
+    icon: IconStar,
     factors: ['ROE > 15%', 'ROCE > 12%', 'Revenue CAGR > 10%', 'EPS CAGR > 10%', 'Debt/Equity < 0.5'],
     bgColor: '#FFFFFF',
     borderColor: '#0D7C8C',
@@ -18,7 +19,7 @@ const SCREENERS = [
     id: 'deep-value',
     title: 'Deep Value',
     description: 'Cheap on PE, EV/EBITDA, FCF Yield with a quality floor. Mean-reversion focused.',
-    emoji: '🎯',
+    icon: IconTarget,
     factors: ['P/E < 12', 'EV/EBITDA < 8', 'FCF Yield > 5%', 'Current Ratio > 1.5', 'Debt/Equity < 0.8'],
     bgColor: '#FFFFFF',
     borderColor: '#1A6B3A',
@@ -28,7 +29,7 @@ const SCREENERS = [
     id: 'growth-leaders',
     title: 'Growth Leaders',
     description: 'Companies accelerating revenue and EPS with strong expansion. GARP strategy.',
-    emoji: '📈',
+    icon: IconTrendingUp,
     factors: ['Revenue CAGR > 20%', 'EPS CAGR > 15%', '12M Momentum > 20%', 'P/E < 25', 'ROE > 12%'],
     bgColor: '#FFFFFF',
     borderColor: '#B8860B',
@@ -38,7 +39,7 @@ const SCREENERS = [
     id: 'momentum-leaders',
     title: 'Momentum Leaders',
     description: 'Stocks with sustained price momentum, volume confirmation, 52-week breakouts.',
-    emoji: '⚡',
+    icon: IconZap,
     factors: ['12M Momentum > 30%', 'Volatility < 30%', 'P/E < 20', 'Revenue CAGR > 10%', 'Current Ratio > 1.2'],
     bgColor: '#FFFFFF',
     borderColor: '#2E4D8E',
@@ -48,7 +49,7 @@ const SCREENERS = [
     id: 'multibagger-early',
     title: 'Multibagger Early',
     description: 'High-growth small/mid caps with strong ROE, low debt, and early momentum.',
-    emoji: '🚀',
+    icon: IconRocket,
     factors: ['Revenue CAGR > 25%', 'EPS CAGR > 20%', 'P/E < 30', 'ROE > 10%', 'Debt/Equity < 1.0'],
     bgColor: '#FFFFFF',
     borderColor: '#B45309',
@@ -58,7 +59,7 @@ const SCREENERS = [
     id: 'low-risk-alpha',
     title: 'Low Risk Alpha',
     description: 'Low volatility, low beta with quality fundamentals. Defensive portfolio.',
-    emoji: '🛡️',
+    icon: IconShield,
     factors: ['Volatility < 20%', 'Dividend Yield > 2%', 'Debt/Equity < 0.4', 'Current Ratio > 1.8', 'ROE > 12%'],
     bgColor: '#FFFFFF',
     borderColor: '#0D7C8C',
@@ -215,7 +216,7 @@ export default function ScreenerPage() {
                     RANK RESULTS BY
                   </p>
                   <button
-                    className="w-full px-3 py-2 rounded text-xs font-medium text-left"
+                    className="w-full px-3 py-2 rounded text-xs font-medium text-left flex items-center gap-2"
                     style={{
                       backgroundColor: '#F8F9FB',
                       color: '#1B2A4A',
@@ -223,7 +224,8 @@ export default function ScreenerPage() {
                       fontFamily: "'Plus Jakarta Sans', sans-serif",
                     }}
                   >
-                    ⭐ Quality Compounders
+                    <IconStar size={14} color="#0D7C8C" stroke={1.5} />
+                    Quality Compounders
                   </button>
                 </div>
 

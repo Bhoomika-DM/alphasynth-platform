@@ -7,7 +7,7 @@ interface ScreenerCardProps {
   id: string
   title: string
   description: string
-  emoji: string
+  icon: React.ComponentType<{ size?: number; stroke?: number; color?: string }>
   factors: string[]
   accentColor: string
   bgColor: string
@@ -18,7 +18,7 @@ export default function ScreenerCard({
   id,
   title,
   description,
-  emoji,
+  icon: Icon,
   factors,
   accentColor,
   bgColor,
@@ -37,7 +37,7 @@ export default function ScreenerCard({
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="flex items-start justify-between mb-2">
-        <div className="text-2xl">{emoji}</div>
+        <Icon size={24} color={accentColor} stroke={1.5} />
         <button className="p-1 rounded hover:bg-[#F8F9FB] transition-colors">
           <Info size={14} style={{ color: accentColor }} />
         </button>
