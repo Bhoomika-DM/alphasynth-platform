@@ -378,10 +378,10 @@ export default function DashboardPage() {
       {/* Success Message Toast */}
       {showMessage && message && (
         <div className="fixed top-6 right-6 z-50 animate-slide-in">
-          <div className="bg-[#0D7C8C] rounded-lg shadow-lg p-4 flex items-center gap-3 border border-[#1B2A4A]/30">
-            <IconCircleCheck className="w-5 h-5 text-[#1B2A4A]" stroke={1.5} />
-            <p className="text-[#2D3748] font-semibold">{message}</p>
-            <button onClick={() => setShowMessage(false)} className="text-[#718096] hover:text-[#2D3748]">
+          <div className="bg-[#0D7C8C] rounded-lg shadow-lg p-4 flex items-center gap-3 border border-[#0D7C8C]/20">
+            <IconCircleCheck className="w-5 h-5 text-white" stroke={1.5} />
+            <p className="text-white font-semibold">{message}</p>
+            <button onClick={() => setShowMessage(false)} className="text-white/70 hover:text-white">
               <IconX className="w-5 h-5" stroke={1.5} />
             </button>
           </div>
@@ -389,7 +389,7 @@ export default function DashboardPage() {
       )}
       
       {/* Top Ticker - Stocks */}
-      <div className="bg-white border-b border-[#1B2A4A]/20 py-2 overflow-hidden">
+      <div className="bg-white border-b border-[#E2E8F0] py-2 overflow-hidden">
         <div className="flex items-center gap-4 animate-scroll">
           {[...stockTickers, ...stockTickers].map((stock, idx) => (
             <a
@@ -397,14 +397,14 @@ export default function DashboardPage() {
               href={`https://www.nseindia.com/get-quotes/equity?symbol=${stock.symbol}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 whitespace-nowrap hover:bg-[#F8F9FB] px-3 py-1 rounded transition-colors cursor-pointer"
+              className="flex items-center gap-3 whitespace-nowrap hover:bg-[#EEF2F7] px-3 py-1 rounded transition-colors cursor-pointer"
             >
               <div className="w-0.5 h-6 bg-[#1B2A4A]"></div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-[#2D3748]">{stock.symbol}</span>
+                <span className="text-sm font-bold text-[#1B2A4A]">{stock.symbol}</span>
                 <span className="text-sm font-semibold text-[#2D3748]">{stock.price.toFixed(2)}</span>
-                <span className="text-sm font-semibold text-[#0D7C8C]">
-                  {stock.change.toFixed(2)} ({stock.changePercent.toFixed(2)}%)
+                <span className={`text-sm font-semibold ${stock.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
+                  {stock.changePercent >= 0 ? '+' : ''}{stock.change.toFixed(2)} ({stock.changePercent.toFixed(2)}%)
                 </span>
               </div>
             </a>
@@ -413,7 +413,7 @@ export default function DashboardPage() {
       </div>
 
       {/* NIFTY Indices Ticker */}
-      <div className="bg-[#F8F9FB] border-b border-[#1B2A4A]/20 py-3 relative z-10">
+      <div className="bg-white border-b border-[#E2E8F0] py-3 relative z-10">
         <div className="px-6 flex items-center gap-4">
           {/* Left Arrow */}
           <button
@@ -425,8 +425,8 @@ export default function DashboardPage() {
             disabled={niftyStartIndex === 0}
             className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all z-20 ${
               niftyStartIndex === 0
-                ? 'bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed'
-                : 'bg-[#0D7C8C] text-[#2D3748] hover:bg-[#5A7A61] cursor-pointer active:scale-95'
+                ? 'bg-[#E2E8F0] text-[#A0AEC0] cursor-not-allowed'
+                : 'bg-[#0D7C8C] text-white hover:bg-[#0A6B7A] cursor-pointer active:scale-95'
             }`}
             type="button"
             aria-label="Previous NIFTY indices"
@@ -449,22 +449,22 @@ export default function DashboardPage() {
                   }}
                   className={`text-center p-2 rounded transition-all cursor-pointer ${
                     isSelected 
-                      ? 'bg-[#2E4D8E]/10 border-2 border-[#2E4D8E] shadow-md' 
+                      ? 'bg-[#E0F4F6] border-2 border-[#0D7C8C] shadow-md' 
                       : 'bg-transparent hover:bg-[#F8F9FB] border-2 border-transparent'
                   }`}
                   type="button"
                   aria-label={`Select ${index.name}`}
                 >
                   <div className={`text-xs font-bold uppercase mb-1 ${
-                    isSelected ? 'text-[#2E4D8E]' : 'text-[#718096]'
+                    isSelected ? 'text-[#0D7C8C]' : 'text-[#718096]'
                   }`}>
                     {index.name}
                   </div>
-                  <div className="text-lg font-black text-[#2D3748] mb-0.5">
+                  <div className="text-lg font-black text-[#1B2A4A] mb-0.5">
                     {index.value.toLocaleString()}
                   </div>
-                  <div className="text-sm font-semibold text-[#0D7C8C]">
-                    +{index.change.toFixed(2)} ({index.changePercent.toFixed(2)}%)
+                  <div className={`text-sm font-semibold ${index.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
+                    {index.changePercent >= 0 ? '+' : ''}{index.change.toFixed(2)} ({index.changePercent.toFixed(2)}%)
                   </div>
                 </button>
               )
@@ -481,8 +481,8 @@ export default function DashboardPage() {
             disabled={niftyStartIndex >= niftyIndices.length - 5}
             className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all z-20 ${
               niftyStartIndex >= niftyIndices.length - 5
-                ? 'bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed'
-                : 'bg-[#0D7C8C] text-[#2D3748] hover:bg-[#5A7A61] cursor-pointer active:scale-95'
+                ? 'bg-[#E2E8F0] text-[#A0AEC0] cursor-not-allowed'
+                : 'bg-[#0D7C8C] text-white hover:bg-[#0A6B7A] cursor-pointer active:scale-95'
             }`}
             type="button"
             aria-label="Next NIFTY indices"
@@ -498,7 +498,7 @@ export default function DashboardPage() {
         {/* Row 1: Selected NIFTY Index Chart + Market Statistics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Selected NIFTY Index with Compact NSE Layout */}
-          <div className="bg-white rounded-lg border border-[#2E4D8E]/20 p-4 shadow-sm">
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-4 shadow-sm">
             {/* Header Row: Title + Updated Time */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-2">
@@ -530,8 +530,8 @@ export default function DashboardPage() {
                 <div className="text-2xl font-black text-[#1B2A4A] leading-none mb-1">
                   {selectedIndex.value.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
                 </div>
-                <div className="text-sm font-semibold text-[#1A6B3A]">
-                  +{selectedIndex.change.toFixed(2)} ({selectedIndex.changePercent.toFixed(2)}%)
+                <div className={`text-sm font-semibold ${selectedIndex.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
+                  {selectedIndex.changePercent >= 0 ? '+' : ''}{selectedIndex.change.toFixed(2)} ({selectedIndex.changePercent.toFixed(2)}%)
                 </div>
               </div>
 
@@ -574,8 +574,8 @@ export default function DashboardPage() {
                     onClick={() => setSelectedPeriod(period)}
                     className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${
                       selectedPeriod === period
-                        ? 'bg-[#0D7C8C] text-[#FFFFFF]'
-                        : 'bg-[#F8F9FB] text-[#718096] hover:bg-[#E5E7EB]'
+                        ? 'bg-[#0D7C8C] text-white'
+                        : 'bg-[#F8F9FB] text-[#718096] hover:bg-[#E2E8F0]'
                     }`}
                   >
                     {period}
@@ -589,7 +589,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Market Statistics */}
-          <div className="bg-white rounded-lg border border-[#2E4D8E]/20 p-4 shadow-sm">
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-4 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-black text-[#1B2A4A]">Market Statistics</h3>
               <div className="text-sm text-[#718096]">As on {marketStats.date} 16:00 IST</div>
@@ -610,19 +610,19 @@ export default function DashboardPage() {
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-[#E8F5E9] rounded-lg p-3 border-l-4 border-[#16a34a] hover:shadow-lg transition-all cursor-pointer"
+                className="bg-[#E8F5E9] rounded-lg p-3 border-l-4 border-[#1A6B3A] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Advances</div>
-                <div className="text-2xl font-black text-[#16a34a]">{marketStats.advances}</div>
+                <div className="text-2xl font-black text-[#1A6B3A]">{marketStats.advances}</div>
               </a>
               <a 
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-[#FEF2F2] rounded-lg p-3 border-l-4 border-[#dc2626] hover:shadow-lg transition-all cursor-pointer"
+                className="bg-[#FEF2F2] rounded-lg p-3 border-l-4 border-[#8C1A1A] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Declines</div>
-                <div className="text-2xl font-black text-[#dc2626]">{marketStats.declines}</div>
+                <div className="text-2xl font-black text-[#8C1A1A]">{marketStats.declines}</div>
               </a>
               <a 
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 

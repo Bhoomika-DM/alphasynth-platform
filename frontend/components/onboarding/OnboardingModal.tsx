@@ -403,7 +403,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                       <IconTrendingUp className="w-6 h-6 text-[#0D7C8C]" stroke={2.5} />
                     </div>
                     <label className="text-xl font-bold text-[#1B2A4A]">
-                      What's your investment experience level? (Select all that apply)
+                      What's your investment experience level?
                     </label>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -437,7 +437,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconTarget className="w-6 h-6 text-[#1A6B3A]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What are your investment goals? (Select all that apply)
+                        What are your investment goals?
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -472,7 +472,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconShield className="w-6 h-6 text-[#B45309]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What are your risk tolerances? (Select all that apply)
+                        What are your risk tolerances?
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -507,7 +507,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconClock className="w-6 h-6 text-[#B8860B]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What are your investment time horizons? (Select all that apply)
+                        What are your investment time horizons?
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -568,7 +568,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                       <IconShield className="w-6 h-6 text-[#5B21B6]" stroke={2.5} />
                     </div>
                     <label className="text-xl font-bold text-[#1B2A4A]">
-                      What types of institutions do you represent? (Select all that apply)
+                      What types of institutions do you represent?
                     </label>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -602,7 +602,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconTarget className="w-6 h-6 text-[#1A6B3A]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What are your primary use cases? (Select all that apply)
+                        What are your primary use cases?
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -637,7 +637,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconTrendingUp className="w-6 h-6 text-[#B45309]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What are your assets under management ranges? (Select all that apply)
+                        What are your assets under management ranges?
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -672,7 +672,7 @@ export default function OnboardingModal({ onClose, skipToStep3 = false }: Onboar
                         <IconUser className="w-6 h-6 text-[#B8860B]" stroke={2.5} />
                       </div>
                       <label className="text-xl font-bold text-[#1B2A4A]">
-                        What are your team sizes? (Select all that apply)
+                        What are your team sizes?
                       </label>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
