@@ -380,7 +380,7 @@ export default function DashboardPage() {
         <div className="fixed top-6 right-6 z-50 animate-slide-in">
           <div className="bg-[#0D7C8C] rounded-lg shadow-lg p-4 flex items-center gap-3 border border-[#0D7C8C]/20">
             <IconCircleCheck className="w-5 h-5 text-white" stroke={1.5} />
-            <p className="text-white font-semibold">{message}</p>
+            <p className="text-white font-normal">{message}</p>
             <button onClick={() => setShowMessage(false)} className="text-white/70 hover:text-white">
               <IconX className="w-5 h-5" stroke={1.5} />
             </button>
@@ -402,9 +402,9 @@ export default function DashboardPage() {
             >
               <div className="w-0.5 h-6 bg-[#1B2A4A]"></div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-[#1B2A4A]">{stock.symbol}</span>
-                <span className="text-sm font-semibold text-[#2D3748]">{stock.price.toFixed(2)}</span>
-                <span className={`text-sm font-semibold ${stock.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
+                <span className="text-sm font-normal text-[#1B2A4A]">{stock.symbol}</span>
+                <span className="text-sm font-normal text-[#2D3748]">{stock.price.toFixed(2)}</span>
+                <span className={`text-sm font-normal ${stock.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
                   {stock.changePercent >= 0 ? '+' : ''}{stock.change.toFixed(2)} ({stock.changePercent.toFixed(2)}%)
                 </span>
               </div>
@@ -457,7 +457,7 @@ export default function DashboardPage() {
                   aria-label={`Select ${index.name}`}
                   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                 >
-                  <div className={`text-xs font-bold uppercase mb-1 ${
+                  <div className={`text-xs font-normal uppercase mb-1 ${
                     isSelected ? 'text-[#0D7C8C]' : 'text-[#718096]'
                   }`}>
                     {index.name}
@@ -465,7 +465,7 @@ export default function DashboardPage() {
                   <div className="text-lg font-black text-[#1B2A4A] mb-0.5">
                     {index.value.toLocaleString()}
                   </div>
-                  <div className={`text-sm font-semibold ${index.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
+                  <div className={`text-sm font-normal ${index.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
                     {index.changePercent >= 0 ? '+' : ''}{index.change.toFixed(2)} ({index.changePercent.toFixed(2)}%)
                   </div>
                 </button>
@@ -504,7 +504,7 @@ export default function DashboardPage() {
             {/* Header Row: Title + Updated Time */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-[#1B2A4A] uppercase" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <h3 className="text-base font-normal text-[#1B2A4A] uppercase" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   {selectedIndex.name}
                 </h3>
                 <IconTrendingUp className="w-4 h-4 text-[#1A6B3A]" stroke={1.5} />
@@ -520,7 +520,7 @@ export default function DashboardPage() {
                 })} IST
                 <span className="ml-2 inline-flex items-center gap-1">
                   <span className="w-2 h-2 bg-[#1A6B3A] rounded-full animate-pulse"></span>
-                  <span className="text-[#1A6B3A] font-semibold">LIVE</span>
+                  <span className="text-[#1A6B3A] font-normal">LIVE</span>
                 </span>
               </div>
             </div>
@@ -532,7 +532,7 @@ export default function DashboardPage() {
                 <div className="text-2xl font-black text-[#1B2A4A] leading-none mb-1">
                   {selectedIndex.value.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
                 </div>
-                <div className={`text-sm font-semibold ${selectedIndex.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
+                <div className={`text-sm font-normal ${selectedIndex.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
                   {selectedIndex.changePercent >= 0 ? '+' : ''}{selectedIndex.change.toFixed(2)} ({selectedIndex.changePercent.toFixed(2)}%)
                 </div>
               </div>
@@ -544,7 +544,7 @@ export default function DashboardPage() {
                     <div className="w-2 h-2 rounded-full bg-[#2E4D8E]"></div>
                     <div className="text-xs text-[#718096]">Open</div>
                   </div>
-                  <div className="text-sm text-[#2E4D8E] font-semibold">
+                  <div className="text-sm text-[#2E4D8E] font-normal">
                     {selectedIndex.open ? selectedIndex.open.toLocaleString('en-IN', { minimumFractionDigits: 2 }) : '-'}
                   </div>
                 </div>
@@ -553,7 +553,7 @@ export default function DashboardPage() {
                     <div className="w-2 h-2 rounded-full bg-[#1A6B3A]"></div>
                     <div className="text-xs text-[#718096]">High</div>
                   </div>
-                  <div className="text-sm text-[#1A6B3A] font-semibold">
+                  <div className="text-sm text-[#1A6B3A] font-normal">
                     {selectedIndex.high ? selectedIndex.high.toLocaleString('en-IN', { minimumFractionDigits: 2 }) : '-'}
                   </div>
                 </div>
@@ -562,7 +562,7 @@ export default function DashboardPage() {
                     <div className="w-2 h-2 rounded-full bg-[#8C1A1A]"></div>
                     <div className="text-xs text-[#718096]">Low</div>
                   </div>
-                  <div className="text-sm text-[#8C1A1A] font-semibold">
+                  <div className="text-sm text-[#8C1A1A] font-normal">
                     {selectedIndex.low ? selectedIndex.low.toLocaleString('en-IN', { minimumFractionDigits: 2 }) : '-'}
                   </div>
                 </div>
@@ -574,7 +574,7 @@ export default function DashboardPage() {
                   <button
                     key={period}
                     onClick={() => setSelectedPeriod(period)}
-                    className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${
+                    className={`px-3 py-1 rounded-md text-xs font-normal transition-all ${
                       selectedPeriod === period
                         ? 'bg-[#0D7C8C] text-white'
                         : 'bg-[#F8F9FB] text-[#718096] hover:bg-[#E2E8F0]'
@@ -647,7 +647,7 @@ export default function DashboardPage() {
                   className="hover:bg-white rounded-lg p-2 transition-all cursor-pointer"
                 >
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks at</div>
-                  <div className="text-sm font-bold text-[#2D3748] mb-1">52 Week High</div>
+                  <div className="text-sm font-normal text-[#2D3748] mb-1">52 Week High</div>
                   <div className="flex items-center gap-1">
                     <IconArrowUp className="w-4 h-4 text-[#16a34a]" stroke={2} />
                     <span className="text-2xl font-black text-[#16a34a]">{marketStats.week52High}</span>
@@ -661,7 +661,7 @@ export default function DashboardPage() {
                   className="hover:bg-white rounded-lg p-2 transition-all cursor-pointer"
                 >
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks at</div>
-                  <div className="text-sm font-bold text-[#2D3748] mb-1">52 Week Low</div>
+                  <div className="text-sm font-normal text-[#2D3748] mb-1">52 Week Low</div>
                   <div className="flex items-center gap-1">
                     <IconArrowDown className="w-4 h-4 text-[#dc2626]" stroke={2} />
                     <span className="text-2xl font-black text-[#dc2626]">{marketStats.week52Low}</span>
@@ -682,7 +682,7 @@ export default function DashboardPage() {
                   className="hover:bg-white rounded-lg p-2 transition-all cursor-pointer"
                 >
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks in</div>
-                  <div className="text-sm font-bold text-[#2D3748] mb-1">Upper Circuit</div>
+                  <div className="text-sm font-normal text-[#2D3748] mb-1">Upper Circuit</div>
                   <div className="text-2xl font-black text-[#16a34a]">{marketStats.upperCircuit}</div>
                 </a>
 
@@ -693,7 +693,7 @@ export default function DashboardPage() {
                   className="hover:bg-white rounded-lg p-2 transition-all cursor-pointer"
                 >
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks in</div>
-                  <div className="text-sm font-bold text-[#2D3748] mb-1">Lower Circuit</div>
+                  <div className="text-sm font-normal text-[#2D3748] mb-1">Lower Circuit</div>
                   <div className="text-2xl font-black text-[#dc2626]">{marketStats.lowerCircuit}</div>
                 </a>
               </div>
@@ -707,11 +707,11 @@ export default function DashboardPage() {
                 rel="noopener noreferrer"
                 className="bg-[#F8F9FB] rounded-lg p-4 border-l-4 border-[#E5C76A] hover:shadow-lg transition-all cursor-pointer"
               >
-                <div className="text-sm text-[#4A5568] font-bold mb-2">Registered Investors</div>
+                <div className="text-sm text-[#4A5568] font-normal mb-2">Registered Investors</div>
                 <div className="text-2xl font-black text-[#4A5568]">{marketStats.registeredInvestors}</div>
               </a>
               <div className="bg-[#F8F9FB] rounded-lg p-4 border-l-4 border-[#E5C76A]">
-                <div className="text-sm text-[#4A5568] font-bold mb-2">Market Capitalization</div>
+                <div className="text-sm text-[#4A5568] font-normal mb-2">Market Capitalization</div>
                 <div className="text-lg font-black text-[#4A5568]">{marketStats.marketCap}</div>
                 <div className="text-xs text-[#718096] mt-1">{marketStats.date}</div>
               </div>
@@ -734,7 +734,7 @@ export default function DashboardPage() {
                 href="https://www.nseindia.com/market-data/live-market-indices" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-semibold text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
+                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-normal text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
               >
                 View More
                 <span className="text-[#E5C76A]">▶</span>
@@ -746,20 +746,20 @@ export default function DashboardPage() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                    <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>PRODUCTS</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                    <th className="text-left py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>PRODUCTS</th>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                       <div style={{ color: '#FFFFFF' }}>VOLUME</div>
                       <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(SHARES/CONTRACTS)</div>
                     </th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                       <div style={{ color: '#FFFFFF' }}>VALUE</div>
                       <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(₹ CRORES)</div>
                     </th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                       <div style={{ color: '#FFFFFF' }}>OPEN INTEREST</div>
                       <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(CONTRACTS)</div>
                     </th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UPDATED AT</th>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>UPDATED AT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -797,7 +797,7 @@ export default function DashboardPage() {
                 href="https://www.nseindia.com/market-data/live-equity-market" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-semibold text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
+                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-normal text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
               >
                 View More
                 <span className="text-[#E5C76A]">▶</span>
@@ -810,7 +810,7 @@ export default function DashboardPage() {
                 <button
                   key={tab}
                   onClick={() => setMarketSnapshotTab(index)}
-                  className={`px-4 py-3 text-sm font-bold transition-all relative ${
+                  className={`px-4 py-3 text-sm font-normal transition-all relative ${
                     marketSnapshotTab === index
                       ? 'text-[#5A8A4E]'
                       : 'text-[#718096] hover:text-[#2D3748]'
@@ -829,15 +829,15 @@ export default function DashboardPage() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                    <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>SYMBOL</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                    <th className="text-left py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>SYMBOL</th>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                       <div style={{ color: '#FFFFFF' }}>VOLUME</div>
                       <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(Lakhs)</div>
                     </th>
-                    <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                    <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                       <div style={{ color: '#FFFFFF' }}>VALUE</div>
                       <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(₹ Crores)</div>
                     </th>
@@ -848,12 +848,12 @@ export default function DashboardPage() {
                     const isPositive = stock.change >= 0
                     return (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]'} hover:bg-[#F8F9FB] transition-colors`}>
-                        <td className="py-3 px-4 text-sm font-semibold text-[#5A8A4E]">{stock.symbol}</td>
-                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-semibold">{stock.ltp.toFixed(2)}</td>
-                        <td className={`py-3 px-4 text-sm text-right font-semibold ${isPositive ? 'text-[#0D7C8C]' : 'text-[#C85A54]'}`}>
+                        <td className="py-3 px-4 text-sm font-normal text-[#5A8A4E]">{stock.symbol}</td>
+                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-normal">{stock.ltp.toFixed(2)}</td>
+                        <td className={`py-3 px-4 text-sm text-right font-normal ${isPositive ? 'text-[#0D7C8C]' : 'text-[#C85A54]'}`}>
                           {isPositive ? '+' : ''}{stock.change.toFixed(2)}
                         </td>
-                        <td className={`py-3 px-4 text-sm text-right font-semibold ${isPositive ? 'text-[#0D7C8C]' : 'text-[#C85A54]'}`}>
+                        <td className={`py-3 px-4 text-sm text-right font-normal ${isPositive ? 'text-[#0D7C8C]' : 'text-[#C85A54]'}`}>
                           {isPositive ? '+' : ''}{stock.changePercent.toFixed(2)}
                         </td>
                         <td className="py-3 px-4 text-sm text-[#2D3748] text-right">{stock.volume.toFixed(2)}</td>
@@ -886,7 +886,7 @@ export default function DashboardPage() {
               href="https://www.nseindia.com/market-data/live-derivatives-market" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-semibold text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
+              className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-normal text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
             >
               View More
               <span className="text-[#E5C76A]">▶</span>
@@ -899,16 +899,16 @@ export default function DashboardPage() {
             {/* Most Active Calls */}
             <div className="border-r border-[#5A8A4E]/20">
               <div className="bg-[#F8F9FB] px-4 py-2 border-b border-[#5A8A4E]/20">
-                <h4 className="text-sm font-bold text-[#2D3748]">Most Active Calls</h4>
+                <h4 className="text-sm font-normal text-[#2D3748]">Most Active Calls</h4>
               </div>
               <div className="max-h-[400px] overflow-y-auto table-scroll">
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
                     <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                      <th className="text-left py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                      <th className="text-left py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -944,16 +944,16 @@ export default function DashboardPage() {
             {/* Most Active Puts */}
             <div className="border-r border-[#5A8A4E]/20">
               <div className="bg-[#F8F9FB] px-4 py-2 border-b border-[#5A8A4E]/20">
-                <h4 className="text-sm font-bold text-[#2D3748]">Most Active Puts</h4>
+                <h4 className="text-sm font-normal text-[#2D3748]">Most Active Puts</h4>
               </div>
               <div className="max-h-[400px] overflow-y-auto table-scroll">
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
                     <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                      <th className="text-left py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                      <th className="text-left py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -989,16 +989,16 @@ export default function DashboardPage() {
             {/* Most Active Contracts by OI */}
             <div>
               <div className="bg-[#F8F9FB] px-4 py-2 border-b border-[#5A8A4E]/20">
-                <h4 className="text-sm font-bold text-[#2D3748]">Most Active Contracts by OI</h4>
+                <h4 className="text-sm font-normal text-[#2D3748]">Most Active Contracts by OI</h4>
               </div>
               <div className="max-h-[400px] overflow-y-auto table-scroll">
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
                     <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                      <th className="text-left py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
-                      <th className="text-right py-2 px-3 text-xs font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                      <th className="text-left py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>CONTRACT</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>CHNG</th>
+                      <th className="text-right py-2 px-3 text-xs font-normal uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1046,7 +1046,7 @@ export default function DashboardPage() {
                 href="https://www.nseindia.com/companies-listing/corporate-filings-announcements" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-semibold text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
+                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-normal text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
               >
                 View More
                 <span className="text-[#E5C76A]">▶</span>
@@ -1059,7 +1059,7 @@ export default function DashboardPage() {
                 <button
                   key={tab}
                   onClick={() => setCorporateTab(index)}
-                  className={`px-4 py-3 text-sm font-bold transition-all relative ${
+                  className={`px-4 py-3 text-sm font-normal transition-all relative ${
                     corporateTab === index
                       ? 'text-[#5A8A4E]'
                       : 'text-[#718096] hover:text-[#2D3748]'
@@ -1086,12 +1086,12 @@ export default function DashboardPage() {
                   ].map((item, index) => (
                     <div key={index} className="flex items-start justify-between gap-4 pb-4 border-b border-[#E5E7EB] last:border-0">
                       <div className="flex-1">
-                        <div className="text-sm font-bold text-[#2D3748] mb-1">{item.company}</div>
+                        <div className="text-sm font-normal text-[#2D3748] mb-1">{item.company}</div>
                         <div className="text-xs text-[#718096] mb-1">
-                          <span className="font-semibold">Subject:</span> {item.subject}
+                          <span className="font-normal">Subject:</span> {item.subject}
                         </div>
                         <div className="text-xs text-[#718096]">
-                          <span className="font-semibold">Broadcast Date:</span> {item.date}
+                          <span className="font-normal">Broadcast Date:</span> {item.date}
                         </div>
                       </div>
                       <button className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-white border border-[#E5E7EB] rounded hover:bg-[#F8F9FB] transition-colors">
@@ -1111,12 +1111,12 @@ export default function DashboardPage() {
                     { company: 'Varun Beverages Limited (VBL)', purpose: 'Dividend - Re 0.50 Per Share', series: 'EQ', exDate: '08-Apr-2026', recordDate: '08-Apr-2026' },
                   ].map((item, index) => (
                     <div key={index} className="pb-4 border-b border-[#E5E7EB] last:border-0 border-l-4 border-[#E5C76A] pl-3">
-                      <div className="text-sm font-bold text-[#2D3748] mb-2">{item.company}</div>
+                      <div className="text-sm font-normal text-[#2D3748] mb-2">{item.company}</div>
                       <div className="grid grid-cols-2 gap-2 text-xs">
-                        <div><span className="font-semibold text-[#718096]">Purpose:</span> <span className="text-[#2D3748]">{item.purpose}</span></div>
-                        <div><span className="font-semibold text-[#718096]">Series:</span> <span className="text-[#2D3748]">{item.series}</span></div>
-                        <div><span className="font-semibold text-[#718096]">Ex-Date:</span> <span className="text-[#2D3748]">{item.exDate}</span></div>
-                        <div><span className="font-semibold text-[#718096]">Record Date:</span> <span className="text-[#2D3748]">{item.recordDate}</span></div>
+                        <div><span className="font-normal text-[#718096]">Purpose:</span> <span className="text-[#2D3748]">{item.purpose}</span></div>
+                        <div><span className="font-normal text-[#718096]">Series:</span> <span className="text-[#2D3748]">{item.series}</span></div>
+                        <div><span className="font-normal text-[#718096]">Ex-Date:</span> <span className="text-[#2D3748]">{item.exDate}</span></div>
+                        <div><span className="font-normal text-[#718096]">Record Date:</span> <span className="text-[#2D3748]">{item.recordDate}</span></div>
                       </div>
                     </div>
                   ))}
@@ -1133,12 +1133,12 @@ export default function DashboardPage() {
                   ].map((item, index) => (
                     <div key={index} className="flex items-start justify-between gap-4 pb-4 border-b border-[#E5E7EB] last:border-0 border-l-4 border-[#0D7C8C] pl-3">
                       <div className="flex-1">
-                        <div className="text-sm font-bold text-[#2D3748] mb-2">{item.company}</div>
+                        <div className="text-sm font-normal text-[#2D3748] mb-2">{item.company}</div>
                         <div className="grid grid-cols-2 gap-2 text-xs mb-2">
-                          <div><span className="font-semibold text-[#718096]">Audited/Unaudited:</span> <span className="text-[#2D3748]">{item.audited}</span></div>
-                          <div><span className="font-semibold text-[#718096]">Cumulative/Non-Cumulative:</span> <span className="text-[#2D3748]">{item.cumulative}</span></div>
+                          <div><span className="font-normal text-[#718096]">Audited/Unaudited:</span> <span className="text-[#2D3748]">{item.audited}</span></div>
+                          <div><span className="font-normal text-[#718096]">Cumulative/Non-Cumulative:</span> <span className="text-[#2D3748]">{item.cumulative}</span></div>
                         </div>
-                        <div className="text-xs"><span className="font-semibold text-[#718096]">Broadcast Date:</span> <span className="text-[#2D3748]">{item.broadcastDate}</span></div>
+                        <div className="text-xs"><span className="font-normal text-[#718096]">Broadcast Date:</span> <span className="text-[#2D3748]">{item.broadcastDate}</span></div>
                       </div>
                       <button className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-white border border-[#E5E7EB] rounded hover:bg-[#F8F9FB] transition-colors">
                         <IconFileTypeXml className="w-6 h-6 text-[#16a34a]" stroke={1.5} />
@@ -1159,7 +1159,7 @@ export default function DashboardPage() {
                 href="https://www.nseindia.com/products/content/equities/ipos/homepage_ipo.htm" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-semibold text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
+                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-normal text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
               >
                 View More
                 <span className="text-[#E5C76A]">▶</span>
@@ -1271,7 +1271,7 @@ export default function DashboardPage() {
                 href="https://www.nseindia.com/all-reports" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-semibold text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
+                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-normal text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
               >
                 View More
                 <span className="text-[#E5C76A]">▶</span>
@@ -1284,7 +1284,7 @@ export default function DashboardPage() {
                 <button
                   key={tab}
                   onClick={() => setReferenceRatesTab(index)}
-                  className={`px-4 py-3 text-sm font-bold transition-all relative ${
+                  className={`px-4 py-3 text-sm font-normal transition-all relative ${
                     referenceRatesTab === index
                       ? 'text-[#5A8A4E]'
                       : 'text-[#718096] hover:text-[#2D3748]'
@@ -1305,10 +1305,10 @@ export default function DashboardPage() {
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
                     <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>CURRENCY</th>
-                      <th className="text-center py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UNIT</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>TODAY'S VALUE</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>PREVIOUS DAY VALUE</th>
+                      <th className="text-left py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>CURRENCY</th>
+                      <th className="text-center py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>UNIT</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>TODAY'S VALUE</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>PREVIOUS DAY VALUE</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1327,10 +1327,10 @@ export default function DashboardPage() {
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]'} hover:bg-[#F8F9FB] transition-colors`}>
                         <td className="py-3 px-4 text-sm text-[#2D3748] flex items-center gap-2">
                           <span className="text-lg">{item.flag}</span>
-                          <span className="font-semibold">{item.currency}</span>
+                          <span className="font-normal">{item.currency}</span>
                         </td>
                         <td className="py-3 px-4 text-sm text-[#2D3748] text-center">{item.unit}</td>
-                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-semibold">{item.today}</td>
+                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-normal">{item.today}</td>
                         <td className="py-3 px-4 text-sm text-[#718096] text-right">{item.previous}</td>
                       </tr>
                     ))}
@@ -1343,9 +1343,9 @@ export default function DashboardPage() {
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
                     <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UNDERLYING</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>PRICE</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>YIELD</th>
+                      <th className="text-left py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>UNDERLYING</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>PRICE</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>YIELD</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1364,9 +1364,9 @@ export default function DashboardPage() {
                       { underlying: '735GS2042', price: '94.5600', yield: '7.6789' },
                     ].map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]'} hover:bg-[#F8F9FB] transition-colors`}>
-                        <td className="py-3 px-4 text-sm text-[#4A5568] font-semibold">{item.underlying}</td>
-                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-semibold">{item.price}</td>
-                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-semibold">{item.yield}</td>
+                        <td className="py-3 px-4 text-sm text-[#4A5568] font-normal">{item.underlying}</td>
+                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-normal">{item.price}</td>
+                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-normal">{item.yield}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -1378,11 +1378,11 @@ export default function DashboardPage() {
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
                     <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>SYMBOL</th>
-                      <th className="text-center py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UNIT</th>
-                      <th className="text-center py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>UPDATED DATE</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>SPOT PRICE (IN ₹)<br/>POLLED AT 12:30 HRS</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>SPOT PRICE (IN ₹)<br/>POLLED AT 16:30 HRS</th>
+                      <th className="text-left py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>SYMBOL</th>
+                      <th className="text-center py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>UNIT</th>
+                      <th className="text-center py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>UPDATED DATE</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>SPOT PRICE (IN ₹)<br/>POLLED AT 12:30 HRS</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>SPOT PRICE (IN ₹)<br/>POLLED AT 16:30 HRS</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1401,11 +1401,11 @@ export default function DashboardPage() {
                       { symbol: 'COPPER', unit: '1 Kg', date: '06-APR-2026', price1230: '845.60', price1630: '847.20' },
                     ].map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]'} hover:bg-[#F8F9FB] transition-colors`}>
-                        <td className="py-3 px-4 text-sm text-[#4A5568] font-semibold">{item.symbol}</td>
+                        <td className="py-3 px-4 text-sm text-[#4A5568] font-normal">{item.symbol}</td>
                         <td className="py-3 px-4 text-sm text-[#2D3748] text-center">{item.unit}</td>
                         <td className="py-3 px-4 text-sm text-[#2D3748] text-center">{item.date}</td>
-                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-semibold">{item.price1230}</td>
-                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-semibold">{item.price1630}</td>
+                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-normal">{item.price1230}</td>
+                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-normal">{item.price1630}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -1426,7 +1426,7 @@ export default function DashboardPage() {
                 href="https://www.nseindia.com/market-data/currency-derivatives" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-semibold text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
+                className="px-4 py-2 bg-white border border-[#E5E7EB] rounded-md text-sm font-normal text-[#2D3748] hover:bg-[#F8F9FB] transition-colors flex items-center gap-2 cursor-pointer relative z-10"
               >
                 View More
                 <span className="text-[#E5C76A]">▶</span>
@@ -1439,7 +1439,7 @@ export default function DashboardPage() {
                 <button
                   key={tab}
                   onClick={() => setCurrencySnapshotTab(index)}
-                  className={`px-4 py-3 text-sm font-bold transition-all relative ${
+                  className={`px-4 py-3 text-sm font-normal transition-all relative ${
                     currencySnapshotTab === index
                       ? 'text-[#5A8A4E]'
                       : 'text-[#718096] hover:text-[#2D3748]'
@@ -1460,18 +1460,18 @@ export default function DashboardPage() {
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
                     <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACTS</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>CONTRACTS</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                         <div style={{ color: '#FFFFFF' }}>VOLUME</div>
                         <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(Contracts)</div>
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                         <div style={{ color: '#FFFFFF' }}>TURNOVER</div>
                         <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(₹ Crores)</div>
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>OPEN INTEREST</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>OPEN INTEREST</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1488,9 +1488,9 @@ export default function DashboardPage() {
                       { contract: 'GBPINR 28MAY26 FUT', ltp: '123.1200', change: 0.1234, volume: '734', turnover: '9.04', oi: '11,234' },
                     ].map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]'} hover:bg-[#F8F9FB] transition-colors`}>
-                        <td className="py-3 px-4 text-sm text-[#4A5568] font-semibold">{item.contract}</td>
-                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-semibold">{item.ltp}</td>
-                        <td className={`py-3 px-4 text-sm text-right font-semibold ${item.change >= 0 ? 'text-[#0D7C8C]' : 'text-[#C85A54]'}`}>
+                        <td className="py-3 px-4 text-sm text-[#4A5568] font-normal">{item.contract}</td>
+                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-normal">{item.ltp}</td>
+                        <td className={`py-3 px-4 text-sm text-right font-normal ${item.change >= 0 ? 'text-[#0D7C8C]' : 'text-[#C85A54]'}`}>
                           {item.change >= 0 ? '+' : ''}{item.change.toFixed(4)}
                         </td>
                         <td className="py-3 px-4 text-sm text-[#2D3748] text-right">{item.volume}</td>
@@ -1507,18 +1507,18 @@ export default function DashboardPage() {
                 <table className="w-full">
                   <thead className="sticky top-0 z-10">
                     <tr className="bg-[#1B2A4A]" style={{ color: '#FFFFFF' }}>
-                      <th className="text-left py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>CONTRACTS</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <th className="text-left py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>CONTRACTS</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>LTP</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>%CHNG</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                         <div style={{ color: '#FFFFFF' }}>VOLUME</div>
                         <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(Contracts)</div>
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>
                         <div style={{ color: '#FFFFFF' }}>TURNOVER</div>
                         <div className="text-xs font-normal" style={{ color: '#FFFFFF' }}>(₹ Crores)</div>
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-bold uppercase" style={{ color: '#FFFFFF' }}>OPEN INTEREST</th>
+                      <th className="text-right py-3 px-4 text-sm font-normal uppercase" style={{ color: '#FFFFFF' }}>OPEN INTEREST</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1535,9 +1535,9 @@ export default function DashboardPage() {
                       { contract: 'GBPJPY 28APR26 FUT', ltp: '213.78', change: 0.0789, volume: '-', turnover: '-', oi: '78' },
                     ].map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]'} hover:bg-[#F8F9FB] transition-colors`}>
-                        <td className="py-3 px-4 text-sm text-[#4A5568] font-semibold">{item.contract}</td>
-                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-semibold">{item.ltp}</td>
-                        <td className={`py-3 px-4 text-sm text-right font-semibold ${item.change >= 0 ? 'text-[#0D7C8C]' : 'text-[#C85A54]'}`}>
+                        <td className="py-3 px-4 text-sm text-[#4A5568] font-normal">{item.contract}</td>
+                        <td className="py-3 px-4 text-sm text-[#2D3748] text-right font-normal">{item.ltp}</td>
+                        <td className={`py-3 px-4 text-sm text-right font-normal ${item.change >= 0 ? 'text-[#0D7C8C]' : 'text-[#C85A54]'}`}>
                           {item.ltp === '-' ? '-' : (item.change >= 0 ? '+' : '') + item.change.toFixed(4)}
                         </td>
                         <td className="py-3 px-4 text-sm text-[#2D3748] text-right">{item.volume}</td>

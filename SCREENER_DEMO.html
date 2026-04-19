@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional Screener - Horizontal Scrolling Table Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #F8F9FB;
+            padding: 20px;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 2px solid #0D7C8C;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0D7C8C10, #0D7C8C05);
+            padding: 24px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .header h1 {
+            color: #1B2A4A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 600px;
+            /* Prevent background scroll when scrolling inside table */
+            overscroll-behavior: contain;
+        }
+        
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .table-container::-webkit-scrollbar-track {
+            background: #E2E8F0;
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb {
+            background: #0D7C8C;
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #0A6B7A;
+        }
+        
+        .table-container::-webkit-scrollbar-corner {
+            background: #E2E8F0;
+        }
+        
+        table {
+            width: 100%;
+            min-width: 1600px;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #F8F9FB;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        th.sticky-col {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            border-right: 1px solid #E2E8F0;
+        }
+        
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #F1F5F9;
+            font-size: 14px;
+        }
+        
+        td.sticky-col {
+            position: sticky;
+            left: 0;
+            background: white;
+            border-right: 1px solid #E2E8F0;
+            z-index: 10;
+        }
+        
+        tr:hover {
+            background: #F8F9FB;
+        }
+        
+        tr:hover td.sticky-col {
+            background: #F8F9FB;
+        }
+        
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #0D7C8C;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        
+        .stock-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .stock-details h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1B2A4A;
+            margin-bottom: 2px;
+        }
+        
+        .stock-details p {
+            font-size: 12px;
+            color: #718096;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .score-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 40px;
+        }
+        
+        .score-high { background: #22C55E20; color: #22C55E; }
+        .score-medium { background: #EAB30820; color: #EAB308; }
+        .score-low { background: #F9731620; color: #F97316; }
+        .score-poor { background: #EF444420; color: #EF4444; }
+        
+        .grade-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 40px;
+        }
+        
+        .grade-a { background: #22C55E20; color: #22C55E; }
+        .grade-b { background: #EAB30820; color: #EAB308; }
+        .grade-c { background: #F9731620; color: #F97316; }
+        
+        .footer {
+            padding: 20px 24px;
+            background: #F8F9FB;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-info {
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .footer-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #0D7C8C;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #0D7C8C;
+            border: 1px solid #0D7C8C;
+        }
+        
+        .btn-tertiary {
+            background: white;
+            color: #718096;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .demo-note {
+            background: #0D7C8C10;
+            border: 1px solid #0D7C8C30;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #0D7C8C;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-note">
+        🎯 <strong>Demo:</strong> This shows how the horizontal scrolling table will appear when you click on any screener card. 
+        The table displays 14 columns with stock data that can be sorted and scrolled horizontally.
+        <br><br>
+        ✅ <strong>Fixed:</strong> Background page scrolling is now prevented when scrolling inside the table modal.
+    </div>
+    
+    <div class="demo-container">
+        <div class="header">
+            <h1>Quality Compounders Results</h1>
+            <p>Top 20 stocks ranked by quality compounders criteria</p>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky-col" style="min-width: 180px;">Stock ↑</th>
+                        <th style="min-width: 80px;">Quality</th>
+                        <th style="min-width: 80px;">Value</th>
+                        <th style="min-width: 80px;">Growth</th>
+                        <th style="min-width: 80px;">Risk</th>
+                        <th style="min-width: 80px;">EMP</th>
+                        <th style="min-width: 90px;">Target</th>
+                        <th style="min-width: 80px;">Grade</th>
+                        <th style="min-width: 100px;">Mkt Cap</th>
+                        <th style="min-width: 80px;">ROIC</th>
+                        <th style="min-width: 90px;">Sales</th>
+                        <th style="min-width: 90px;">EBITDA</th>
+                        <th style="min-width: 80px;">FCF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="sticky-col">
+                            <div class="stock-info">
+                                <div class="rank-badge">1</div>
+                                <div class="stock-details">
+                                    <h4>JNJ</h4>
+                                    <p>Johnson & Johnson</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="score-badge score-high">77</span></td>
+                        <td><span class="score-badge score-medium">65</span></td>
+                        <td><span class="score-badge score-low">45</span></td>
+                        <td><span class="score-badge score-high">25</span></td>
+                        <td><span class="score-badge score-high">85</span></td>
+                        <td><strong>$180</strong></td>
+                        <td><span class="grade-badge grade-a">A+</span></td>
+                        <td><strong>441.2B</strong></td>
+                        <td><strong>15.2%</strong></td>
+                        <td><strong>$94.9B</strong></td>
+                        <td><strong>$28.1B</strong></td>
+                        <td><strong>$22.5B</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="sticky-col">
+                            <div class="stock-info">
+                                <div class="rank-badge">2</div>
+                                <div class="stock-details">
+                                    <h4>MSFT</h4>
+                                    <p>Microsoft Corporation</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="score-badge score-high">85</span></td>
+                        <td><span class="score-badge score-medium">55</span></td>
+                        <td><span class="score-badge score-high">75</span></td>
+                        <td><span class="score-badge score-high">20</span></td>
+                        <td><span class="score-badge score-high">92</span></td>
+                        <td><strong>$420</strong></td>
+                        <td><span class="grade-badge grade-a">A+</span></td>
+                        <td><strong>2.8T</strong></td>
+                        <td><strong>18.7%</strong></td>
+                        <td><strong>$211.9B</strong></td>
+                        <td><strong>$89.4B</strong></td>
+                        <td><strong>$65.2B</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="sticky-col">
+                            <div class="stock-info">
+                                <div class="rank-badge">3</div>
+                                <div class="stock-details">
+                                    <h4>AAPL</h4>
+                                    <p>Apple Inc.</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="score-badge score-high">82</span></td>
+                        <td><span class="score-badge score-low">48</span></td>
+                        <td><span class="score-badge score-medium">68</span></td>
+                        <td><span class="score-badge score-high">22</span></td>
+                        <td><span class="score-badge score-high">88</span></td>
+                        <td><strong>$200</strong></td>
+                        <td><span class="grade-badge grade-a">A</span></td>
+                        <td><strong>3.1T</strong></td>
+                        <td><strong>26.3%</strong></td>
+                        <td><strong>$383.3B</strong></td>
+                        <td><strong>$123.7B</strong></td>
+                        <td><strong>$99.8B</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="sticky-col">
+                            <div class="stock-info">
+                                <div class="rank-badge">4</div>
+                                <div class="stock-details">
+                                    <h4>GOOGL</h4>
+                                    <p>Alphabet Inc.</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="score-badge score-high">79</span></td>
+                        <td><span class="score-badge score-medium">52</span></td>
+                        <td><span class="score-badge score-high">72</span></td>
+                        <td><span class="score-badge score-medium">28</span></td>
+                        <td><span class="score-badge score-high">85</span></td>
+                        <td><strong>$165</strong></td>
+                        <td><span class="grade-badge grade-a">A</span></td>
+                        <td><strong>2.1T</strong></td>
+                        <td><strong>22.1%</strong></td>
+                        <td><strong>$307.4B</strong></td>
+                        <td><strong>$84.3B</strong></td>
+                        <td><strong>$69.5B</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="sticky-col">
+                            <div class="stock-info">
+                                <div class="rank-badge">5</div>
+                                <div class="stock-details">
+                                    <h4>NVDA</h4>
+                                    <p>NVIDIA Corporation</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="score-badge score-high">75</span></td>
+                        <td><span class="score-badge score-poor">35</span></td>
+                        <td><span class="score-badge score-high">95</span></td>
+                        <td><span class="score-badge score-low">45</span></td>
+                        <td><span class="score-badge score-high">90</span></td>
+                        <td><strong>$950</strong></td>
+                        <td><span class="grade-badge grade-b">A-</span></td>
+                        <td><strong>2.9T</strong></td>
+                        <td><strong>35.8%</strong></td>
+                        <td><strong>$126.0B</strong></td>
+                        <td><strong>$73.0B</strong></td>
+                        <td><strong>$58.1B</strong></td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-info">
+                Showing 20 stocks • Scroll horizontally to see all 14 columns
+            </div>
+            <div class="footer-buttons">
+                <button class="btn btn-primary">📊 Export CSV</button>
+                <button class="btn btn-secondary">📈 View Charts</button>
+                <button class="btn btn-tertiary">Close</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
