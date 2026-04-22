@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { getCachedUser } from '@/lib/authCache'
 import { IconCircleCheck, IconX, IconTrendingUp, IconArrowUp, IconArrowDown, IconChevronLeft, IconChevronRight, IconChartBar, IconChartLine, IconChartArcs, IconFileTypePdf, IconDownload, IconFileTypeXml } from '@tabler/icons-react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import LightweightAreaChart from '@/components/charts/LightweightAreaChart'
@@ -24,6 +25,7 @@ export default function DashboardPage() {
   const [marketSnapshotTab, setMarketSnapshotTab] = useState(0) // 0: Gainers, 1: Losers, 2: Most Active(Value), 3: Most Active(Volume), 4: ETFs(Volume)
   const [shouldAutoAnalyze, setShouldAutoAnalyze] = useState(false)
   const [isFirstLogin, setIsFirstLogin] = useState(false)
+  const [shouldShowQuickNav, setShouldShowQuickNav] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = createClient()
@@ -41,7 +43,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getCachedUser()
       
       // Allow access without authentication - just set user if logged in
       setUser(user)
@@ -62,6 +64,9 @@ export default function DashboardPage() {
       // Check if this is first login (user just completed onboarding)
       const isFirstLoginSession = localStorage.getItem('isFirstLoginSession')
       
+      // Check if analyze button has been auto-triggered before
+      const hasAutoTriggeredAnalyze = localStorage.getItem('hasAutoTriggeredAnalyze')
+      
       if ((shouldShowOnboardingFromStorage === 'true' || shouldShowOnboardingFromUrl === 'true') && !hasCompletedOnboarding) {
         // Clear the flag immediately
         localStorage.removeItem('showOnboarding')
@@ -71,10 +76,12 @@ export default function DashboardPage() {
         setTimeout(() => {
           setShowOnboarding(true)
         }, 300)
-      } else if (isFirstLoginSession === 'true' && hasCompletedOnboarding === 'true') {
-        // Auto-trigger analyze on first login after onboarding
-        setIsFirstLogin(true)
-        localStorage.removeItem('isFirstLoginSession')
+      } else if (user && hasCompletedOnboarding === 'true' && hasAutoTriggeredAnalyze !== 'true') {
+        // Auto-trigger analyze button ONCE after user signs in
+        setTimeout(() => {
+          setShouldShowQuickNav(true)
+          localStorage.setItem('hasAutoTriggeredAnalyze', 'true')
+        }, 800)
       }
       
       setLoading(false)
@@ -83,20 +90,7 @@ export default function DashboardPage() {
     getUser()
   }, [message, supabase, searchParams])
 
-  // Auto-trigger analyze after onboarding completes or on first login
-  useEffect(() => {
-    if (shouldAutoAnalyze || isFirstLogin) {
-      // Delay to allow UI to settle
-      const timer = setTimeout(() => {
-        // Navigate to portfolio-results with default NIFTY 50 basket
-        router.push('/portfolio-results?baskets=nifty50')
-        setShouldAutoAnalyze(false)
-        setIsFirstLogin(false)
-      }, 500)
-      
-      return () => clearTimeout(timer)
-    }
-  }, [shouldAutoAnalyze, isFirstLogin, router])
+  // No longer needed - removed auto-navigation to portfolio-results
 
   const handleSignOut = async () => {
     // Clear onboarding flags so modal shows again on next login
@@ -367,9 +361,15 @@ export default function DashboardPage() {
         <OnboardingModal onClose={() => {
           setShowOnboarding(false)
           localStorage.setItem('hasCompletedOnboarding', 'true')
-          // Auto-trigger analyze after onboarding completes
-          setShouldAutoAnalyze(true)
         }} />
+      )}
+      
+      {/* Quick Nav Modal - Auto-triggered once after sign in */}
+      {shouldShowQuickNav && (
+        <OnboardingModal 
+          onClose={() => setShouldShowQuickNav(false)} 
+          skipToStep3={true}
+        />
       )}
       
       {/* Dashboard Navbar with Quick Navigate */}
@@ -529,7 +529,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-3 gap-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               {/* Left: Price and Change */}
               <div className="flex-shrink-0">
-                <div className="text-2xl font-black text-[#1B2A4A] leading-none mb-1">
+                <div className="text-xl font-black text-[#1B2A4A] leading-none mb-1">
                   {selectedIndex.value.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
                 </div>
                 <div className={`text-sm font-normal ${selectedIndex.changePercent >= 0 ? 'text-[#1A6B3A]' : 'text-[#8C1A1A]'}`}>
@@ -606,7 +606,7 @@ export default function DashboardPage() {
                 className="bg-[#F8F9FB] rounded-lg p-3 border-l-4 border-[#718096] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Stock Traded</div>
-                <div className="text-2xl font-black text-[#718096]">{marketStats.stockTraded}</div>
+                <div className="text-xl font-black text-[#718096]">{marketStats.stockTraded}</div>
               </a>
               <a 
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 
@@ -615,7 +615,7 @@ export default function DashboardPage() {
                 className="bg-[#E8F5E9] rounded-lg p-3 border-l-4 border-[#1A6B3A] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Advances</div>
-                <div className="text-2xl font-black text-[#1A6B3A]">{marketStats.advances}</div>
+                <div className="text-xl font-black text-[#1A6B3A]">{marketStats.advances}</div>
               </a>
               <a 
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 
@@ -624,7 +624,7 @@ export default function DashboardPage() {
                 className="bg-[#FEF2F2] rounded-lg p-3 border-l-4 border-[#8C1A1A] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Declines</div>
-                <div className="text-2xl font-black text-[#8C1A1A]">{marketStats.declines}</div>
+                <div className="text-xl font-black text-[#8C1A1A]">{marketStats.declines}</div>
               </a>
               <a 
                 href="https://www.nseindia.com/market-data/advance-decline-market-breadth" 
@@ -633,7 +633,7 @@ export default function DashboardPage() {
                 className="bg-[#F8F9FB] rounded-lg p-3 border-l-4 border-[#718096] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-xs text-[#718096] mb-1">Unchanged</div>
-                <div className="text-2xl font-black text-[#718096]">{marketStats.unchanged}</div>
+                <div className="text-xl font-black text-[#718096]">{marketStats.unchanged}</div>
               </a>
             </div>
 
@@ -650,7 +650,7 @@ export default function DashboardPage() {
                   <div className="text-sm font-normal text-[#2D3748] mb-1">52 Week High</div>
                   <div className="flex items-center gap-1">
                     <IconArrowUp className="w-4 h-4 text-[#16a34a]" stroke={2} />
-                    <span className="text-2xl font-black text-[#16a34a]">{marketStats.week52High}</span>
+                    <span className="text-lg font-bold text-[#16a34a]">{marketStats.week52High}</span>
                   </div>
                 </a>
                 
@@ -664,7 +664,7 @@ export default function DashboardPage() {
                   <div className="text-sm font-normal text-[#2D3748] mb-1">52 Week Low</div>
                   <div className="flex items-center gap-1">
                     <IconArrowDown className="w-4 h-4 text-[#dc2626]" stroke={2} />
-                    <span className="text-2xl font-black text-[#dc2626]">{marketStats.week52Low}</span>
+                    <span className="text-lg font-bold text-[#dc2626]">{marketStats.week52Low}</span>
                   </div>
                 </a>
 
@@ -683,7 +683,7 @@ export default function DashboardPage() {
                 >
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks in</div>
                   <div className="text-sm font-normal text-[#2D3748] mb-1">Upper Circuit</div>
-                  <div className="text-2xl font-black text-[#16a34a]">{marketStats.upperCircuit}</div>
+                  <div className="text-lg font-bold text-[#16a34a]">{marketStats.upperCircuit}</div>
                 </a>
 
                 <a 
@@ -694,7 +694,7 @@ export default function DashboardPage() {
                 >
                   <div className="text-xs text-[#718096] mb-1">No. of Stocks in</div>
                   <div className="text-sm font-normal text-[#2D3748] mb-1">Lower Circuit</div>
-                  <div className="text-2xl font-black text-[#dc2626]">{marketStats.lowerCircuit}</div>
+                  <div className="text-lg font-bold text-[#dc2626]">{marketStats.lowerCircuit}</div>
                 </a>
               </div>
             </div>
@@ -708,7 +708,7 @@ export default function DashboardPage() {
                 className="bg-[#F8F9FB] rounded-lg p-4 border-l-4 border-[#E5C76A] hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="text-sm text-[#4A5568] font-normal mb-2">Registered Investors</div>
-                <div className="text-2xl font-black text-[#4A5568]">{marketStats.registeredInvestors}</div>
+                <div className="text-lg font-bold text-[#4A5568]">{marketStats.registeredInvestors}</div>
               </a>
               <div className="bg-[#F8F9FB] rounded-lg p-4 border-l-4 border-[#E5C76A]">
                 <div className="text-sm text-[#4A5568] font-normal mb-2">Market Capitalization</div>
@@ -1176,7 +1176,7 @@ export default function DashboardPage() {
                 className="bg-gradient-to-br from-[#E8EAF6] to-[#C5CAE9] rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg transition-all duration-200 relative z-10"
               >
                 <div>
-                  <div className="text-3xl font-black text-[#4A5568] mb-1">219</div>
+                  <div className="text-xl font-bold text-[#4A5568] mb-1">219</div>
                   <div className="text-xs text-[#718096]">IPOs in the Year</div>
                 </div>
                 <IconChartBar className="w-12 h-12 text-[#5B4B8A] opacity-60" stroke={1.5} />
@@ -1190,7 +1190,7 @@ export default function DashboardPage() {
                 className="bg-gradient-to-br from-[#E8EAF6] to-[#C5CAE9] rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg transition-all duration-200 relative z-10"
               >
                 <div>
-                  <div className="text-3xl font-black text-[#4A5568] mb-1">109</div>
+                  <div className="text-xl font-bold text-[#4A5568] mb-1">109</div>
                   <div className="text-xs text-[#718096]">IPOs on NSE SME Segment</div>
                 </div>
                 <IconChartBar className="w-12 h-12 text-[#5B4B8A] opacity-60" stroke={1.5} />
@@ -1204,7 +1204,7 @@ export default function DashboardPage() {
                 className="bg-gradient-to-br from-[#E8F5E9] to-[#C8E6C9] rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg transition-all duration-200 relative z-10"
               >
                 <div>
-                  <div className="text-3xl font-black text-[#0D7C8C] mb-1">84</div>
+                  <div className="text-xl font-bold text-[#0D7C8C] mb-1">84</div>
                   <div className="text-xs text-[#718096]">IPOs in Gain w.r.t. Issue Price</div>
                 </div>
                 <IconChartLine className="w-12 h-12 text-[#0D7C8C] opacity-60" stroke={1.5} />
@@ -1218,7 +1218,7 @@ export default function DashboardPage() {
                 className="bg-gradient-to-br from-[#FFEBEE] to-[#FFCDD2] rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg transition-all duration-200 relative z-10"
               >
                 <div>
-                  <div className="text-3xl font-black text-[#C85A54] mb-1">135</div>
+                  <div className="text-xl font-bold text-[#C85A54] mb-1">135</div>
                   <div className="text-xs text-[#718096]">IPOs in Loss w.r.t. Issue Price</div>
                 </div>
                 <IconChartLine className="w-12 h-12 text-[#C85A54] opacity-60" stroke={1.5} />
@@ -1232,7 +1232,7 @@ export default function DashboardPage() {
                 className="bg-gradient-to-br from-[#E8F5E9] to-[#C8E6C9] rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg transition-all duration-200 relative z-10"
               >
                 <div>
-                  <div className="text-3xl font-black text-[#0D7C8C] mb-1">137</div>
+                  <div className="text-xl font-bold text-[#0D7C8C] mb-1">137</div>
                   <div className="text-xs text-[#718096]">IPOs in Gain on Listing Date</div>
                 </div>
                 <IconChartLine className="w-12 h-12 text-[#0D7C8C] opacity-60" stroke={1.5} />
@@ -1246,7 +1246,7 @@ export default function DashboardPage() {
                 className="bg-gradient-to-br from-[#FFEBEE] to-[#FFCDD2] rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg transition-all duration-200 relative z-10"
               >
                 <div>
-                  <div className="text-3xl font-black text-[#C85A54] mb-1">82</div>
+                  <div className="text-xl font-bold text-[#C85A54] mb-1">82</div>
                   <div className="text-xs text-[#718096]">IPOs in Loss on Listing Date</div>
                 </div>
                 <IconChartLine className="w-12 h-12 text-[#C85A54] opacity-60" stroke={1.5} />
@@ -1558,6 +1558,7 @@ export default function DashboardPage() {
     </ErrorBoundary>
   )
 }
+
 
 
 

@@ -112,13 +112,39 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
     setIsSearchFocused(false)
   }
 
-  const handleSignOut = async () => {
-    // Clear onboarding flags so modal shows again on next login
-    localStorage.removeItem('hasCompletedOnboarding')
-    localStorage.removeItem('showOnboarding')
+  const handleSignOut = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     
-    await supabase.auth.signOut()
-    router.push('/')
+    try {
+      console.log('Sign out initiated...')
+      
+      // Clear onboarding flags so modal shows again on next login
+      localStorage.removeItem('hasCompletedOnboarding')
+      localStorage.removeItem('showOnboarding')
+      localStorage.removeItem('hasAutoTriggeredAnalyze')
+      localStorage.removeItem('isFirstLoginSession')
+      
+      // Sign out from Supabase
+      const { error } = await supabase.auth.signOut()
+      
+      if (error) {
+        console.error('Supabase sign out error:', error)
+      } else {
+        console.log('Successfully signed out from Supabase')
+      }
+      
+      // Close the dropdown
+      setIsUserMenuOpen(false)
+      
+      // Redirect to home page
+      console.log('Redirecting to home page...')
+      window.location.href = '/'
+    } catch (error) {
+      console.error('Sign out error:', error)
+      // Still redirect even if there's an error
+      window.location.href = '/'
+    }
   }
 
   return (
@@ -289,10 +315,12 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
                       </Link>
                       <button
                         onClick={handleSignOut}
-                        className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-[#F8F9FB] transition-colors text-left"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        type="button"
+                        className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-[#F8F9FB] transition-colors text-left cursor-pointer relative z-10"
                       >
-                        <IconLogout className="w-5 h-5 text-[#C85A54]" stroke={1.5} />
-                        <span className="text-sm font-semibold text-[#C85A54]">
+                        <IconLogout className="w-5 h-5 text-[#C85A54] pointer-events-none" stroke={1.5} />
+                        <span className="text-sm font-semibold text-[#C85A54] pointer-events-none">
                           Sign Out
                         </span>
                       </button>

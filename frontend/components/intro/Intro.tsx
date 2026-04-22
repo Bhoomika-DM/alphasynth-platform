@@ -12,6 +12,27 @@ export default function Intro({ onComplete }: IntroProps) {
   const completedRef = useRef(false)
 
   useEffect(() => {
+    // Try to play video immediately when component mounts
+    const playVideo = async () => {
+      if (videoRef.current) {
+        try {
+          // Set volume to 0 to ensure muted
+          videoRef.current.volume = 0
+          videoRef.current.muted = true
+          
+          // Try to play
+          await videoRef.current.play()
+          console.log('Video playing successfully')
+        } catch (error) {
+          console.error('Video autoplay failed:', error)
+          // If autoplay fails, complete intro after short delay
+          setTimeout(completeIntro, 500)
+        }
+      }
+    }
+
+    playVideo()
+
     // Auto-complete after 8 seconds as fallback
     const timer = setTimeout(() => {
       completeIntro()
@@ -31,7 +52,8 @@ export default function Intro({ onComplete }: IntroProps) {
     completeIntro()
   }
 
-  const handleVideoError = () => {
+  const handleVideoError = (e: any) => {
+    console.error('Video error:', e)
     // If video fails to load, complete intro after short delay
     setTimeout(completeIntro, 500)
   }
@@ -39,9 +61,19 @@ export default function Intro({ onComplete }: IntroProps) {
   const handleCanPlay = () => {
     // Ensure video plays when it's ready
     if (videoRef.current) {
-      videoRef.current.play().catch(() => {
+      videoRef.current.play().catch((error) => {
+        console.error('Play on canplay failed:', error)
         // If autoplay fails, complete intro
         completeIntro()
+      })
+    }
+  }
+
+  const handleLoadedData = () => {
+    // Try to play when video data is loaded
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.error('Play on loadeddata failed:', error)
       })
     }
   }
@@ -56,9 +88,11 @@ export default function Intro({ onComplete }: IntroProps) {
         muted
         playsInline
         loop={false}
+        preload="auto"
         onEnded={handleVideoEnd}
         onError={handleVideoError}
         onCanPlay={handleCanPlay}
+        onLoadedData={handleLoadedData}
         className="w-[70%] max-w-5xl h-auto rounded-2xl shadow-2xl"
         style={{ 
           border: '4px solid rgba(255, 255, 255, 0.1)',
@@ -68,6 +102,14 @@ export default function Intro({ onComplete }: IntroProps) {
         <source src="/intro.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+      
+      {/* Skip button for user control */}
+      <button
+        onClick={completeIntro}
+        className="absolute bottom-8 right-8 px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg backdrop-blur-sm transition-all border border-white/20"
+      >
+        Skip Intro
+      </button>
     </div>
   )
 }

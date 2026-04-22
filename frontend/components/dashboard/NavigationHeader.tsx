@@ -58,14 +58,15 @@ export default function NavigationHeader() {
         />
       )}
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 relative z-20">
         {/* Analyze Button */}
         <button
           onClick={handleMarketClick}
-          className="p-2.5 bg-[#0D7C8C] border border-[#2E4D8E]/30 rounded-md hover:bg-[#2E4D8E] hover:scale-105 transition-all duration-200 group"
+          className="relative z-10 px-4 py-2.5 bg-[#0D7C8C] border border-[#2E4D8E]/30 rounded-md hover:bg-[#2E4D8E] hover:scale-105 transition-all duration-200 group cursor-pointer shadow-sm"
           title="Analyze"
+          type="button"
         >
-          <span className="text-sm font-bold text-[#FFFFFF] group-hover:text-white transition-colors">Analyze</span>
+          <span className="text-sm font-bold text-[#FFFFFF] group-hover:text-white transition-colors pointer-events-none">Analyze</span>
         </button>
       </div>
     </>

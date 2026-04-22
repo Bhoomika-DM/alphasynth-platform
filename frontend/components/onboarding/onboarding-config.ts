@@ -49,6 +49,7 @@ export interface OnboardingOption {
   subtitle: string
   route?: string
   gradient: string
+  isPro?: boolean
 }
 
 export const mainOptions: OnboardingOption[] = [
@@ -86,6 +87,7 @@ export const mainOptions: OnboardingOption[] = [
     title: 'Forensic & Advanced Analytics',
     subtitle: 'Advanced diagnostics and predictive models uncover risks, challenge biases, and surface hidden alpha.',
     gradient: 'from-red-500 to-pink-500',
+    isPro: true,
   },
   {
     id: 'portfolio',
@@ -93,6 +95,7 @@ export const mainOptions: OnboardingOption[] = [
     title: 'Portfolio Management & Risk Analytics',
     subtitle: 'Institutional-grade portfolio tools to measure performance, manage risk, and optimise capital allocation with precision.',
     gradient: 'from-teal-500 to-cyan-500',
+    isPro: true,
   },
 ]
 
@@ -108,12 +111,20 @@ export const subOptions: Record<string, OnboardingOption[]> = {
       gradient: 'from-teal-500 to-cyan-500',
     },
     {
-      id: 'ideas',
-      icon: IconBulb,
-      title: 'High-Conviction Ideas',
-      subtitle: 'Top-rated opportunities',
-      route: '/institutional-screener?tab=prebuilt&screener=quality-compounders&view=results',
+      id: 'automated-screener',
+      icon: IconRocket,
+      title: 'Automated Screener',
+      subtitle: 'Pattern-based trade ideas across NIFTY-50 & Next-50',
+      route: '/screener/automated',
       gradient: 'from-cyan-500 to-teal-500',
+    },
+    {
+      id: 'manual-screener',
+      icon: IconAdjustments,
+      title: 'Manual Screener',
+      subtitle: 'Build custom criteria and filter stocks',
+      route: '/screener/manual',
+      gradient: 'from-purple-500 to-indigo-500',
     },
     {
       id: 'compare',
@@ -122,14 +133,6 @@ export const subOptions: Record<string, OnboardingOption[]> = {
       subtitle: 'Side-by-side analysis',
       route: '/institutional-screener?tab=custom&action=compare',
       gradient: 'from-indigo-500 to-blue-500',
-    },
-    {
-      id: 'logic-builder',
-      icon: IconAdjustments,
-      title: 'Logic Builder',
-      subtitle: 'Build custom criteria',
-      route: '/institutional-screener?tab=prebuilt&panel=custom',
-      gradient: 'from-purple-500 to-indigo-500',
     },
   ],
   market: [
@@ -236,6 +239,14 @@ export const subOptions: Record<string, OnboardingOption[]> = {
   ],
   forensic: [
     {
+      id: 'golden-cross',
+      icon: IconChartLine,
+      title: 'Golden Cross Detection',
+      subtitle: 'Technical momentum signals',
+      route: '/golden-cross',
+      gradient: 'from-blue-500 to-cyan-500',
+    },
+    {
       id: 'risk',
       icon: IconAlertTriangle,
       title: 'Risk Assessment',
@@ -259,14 +270,6 @@ export const subOptions: Record<string, OnboardingOption[]> = {
       route: '/stock-analysis?ticker=TCS&act=synthesis',
       gradient: 'from-rose-500 to-red-500',
     },
-    {
-      id: 'alpha',
-      icon: IconBolt,
-      title: 'Alpha Discovery',
-      subtitle: 'Uncover hidden opportunities',
-      route: '/stock-analysis?ticker=TCS&act=synthesis',
-      gradient: 'from-fuchsia-500 to-pink-500',
-    },
   ],
   portfolio: [
     {
@@ -274,7 +277,7 @@ export const subOptions: Record<string, OnboardingOption[]> = {
       icon: IconChartPie,
       title: 'Performance Tracking',
       subtitle: 'Returns & attribution analysis',
-      route: '/portfolio-results?view=performance',
+      route: '/portfolio/performance',
       gradient: 'from-teal-500 to-cyan-500',
     },
     {
@@ -282,7 +285,7 @@ export const subOptions: Record<string, OnboardingOption[]> = {
       icon: IconShield,
       title: 'Risk Management',
       subtitle: 'VaR, drawdowns, volatility',
-      route: '/portfolio-results?view=optimize',
+      route: '/portfolio/risk',
       gradient: 'from-cyan-500 to-blue-500',
     },
     {
@@ -290,7 +293,7 @@ export const subOptions: Record<string, OnboardingOption[]> = {
       icon: IconStack2,
       title: 'Asset Allocation',
       subtitle: 'Optimize your portfolio mix',
-      route: '/portfolio-results?view=allocation',
+      route: '/portfolio/allocation',
       gradient: 'from-blue-500 to-indigo-500',
     },
     {
@@ -298,7 +301,7 @@ export const subOptions: Record<string, OnboardingOption[]> = {
       icon: IconAdjustments,
       title: 'Rebalancing',
       subtitle: 'Maintain target weights',
-      route: '/portfolio-results?view=optimize',
+      route: '/portfolio/rebalance',
       gradient: 'from-indigo-500 to-purple-500',
     },
   ],

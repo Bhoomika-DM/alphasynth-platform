@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { getCachedUser } from '@/lib/authCache'
 import DashboardNavbar from '@/components/dashboard/DashboardNavbar'
 import MarketSnapshot from '@/components/dashboard/MarketSnapshot'
 import SentimentCard from '@/components/dashboard/SentimentCard'
@@ -33,7 +34,7 @@ export default function TradingDashboard() {
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getCachedUser()
       
       if (!user) {
         // Redirect to signup page with return URL
@@ -58,7 +59,7 @@ export default function TradingDashboard() {
 
   const handleAuthSuccess = async () => {
     // Refresh user data after successful authentication
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = await getCachedUser()
     setUser(user)
     setShowAuthModal(false)
   }

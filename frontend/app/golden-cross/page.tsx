@@ -1,0 +1,794 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { IconSearch, IconChartLine, IconTrendingUp, IconAlertTriangle, IconInfoCircle, IconCalendar, IconTarget, IconActivity, IconCommand, IconX } from '@tabler/icons-react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts'
+
+export default function GoldenCrossPage() {
+  const [ticker, setTicker] = useState('')
+  const [activeTab, setActiveTab] = useState<'predict' | 'backtest' | 'model' | 'about'>('predict')
+  const [hasSearched, setHasSearched] = useState(false)
+  const [isCommandCenterOpen, setIsCommandCenterOpen] = useState(false)
+  const [commandInput, setCommandInput] = useState('')
+  const [chatMessages, setChatMessages] = useState<Array<{ role: 'user' | 'assistant', content: string }>>([])
+
+  // Mock data for Golden Cross visualization
+  const chartData = [
+    { date: 'Jan', price: 150, ma50: 145, ma200: 155 },
+    { date: 'Feb', price: 155, ma50: 148, ma200: 154 },
+    { date: 'Mar', price: 160, ma50: 152, ma200: 153 },
+    { date: 'Apr', price: 165, ma50: 156, ma200: 152 },
+    { date: 'May', price: 170, ma50: 160, ma200: 151 },
+    { date: 'Jun', price: 175, ma50: 164, ma200: 150 },
+    { date: 'Jul', price: 180, ma50: 168, ma200: 149 },
+    { date: 'Aug', price: 185, ma50: 172, ma200: 148 },
+  ]
+
+  const handleSearch = () => {
+    if (ticker.trim()) {
+      setHasSearched(true)
+      console.log('Searching for:', ticker)
+    }
+  }
+
+  const handleSendMessage = () => {
+    if (commandInput.trim()) {
+      // Add user message
+      setChatMessages([...chatMessages, 
+        { role: 'user', content: commandInput },
+        { role: 'assistant', content: `Based on your Golden Cross analysis, here's what I found regarding "${commandInput}". This is a demo response - connect to your AI backend for real analysis.` }
+      ])
+      setCommandInput('')
+    }
+  }
+
+  const handleQuestionClick = (question: string) => {
+    setCommandInput(question)
+    // Optionally auto-send
+    setChatMessages([...chatMessages, 
+      { role: 'user', content: question },
+      { role: 'assistant', content: `Based on your Golden Cross analysis, here's what I found regarding "${question}". This is a demo response - connect to your AI backend for real analysis.` }
+    ])
+  }
+
+  return (
+    <div style={{ 
+      backgroundColor: '#F8F9FB', 
+      minHeight: '100vh', 
+      fontFamily: "'Plus Jakarta Sans', sans-serif",
+      color: '#1B2A4A'
+    }}>
+      {/* Header */}
+      <div style={{ 
+        backgroundColor: '#FFFFFF', 
+        borderBottom: '1px solid #E2E8F0',
+        padding: '16px 24px'
+      }}>
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center gap-3">
+            {/* Logo */}
+            <Link href="/dashboard" className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#E0F4F6' }}>
+                <img 
+                  src="/logo.jpeg" 
+                  alt="AlphaSynth Logo" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex items-center gap-1">
+                  <span className="text-lg font-bold" style={{ color: '#1B2A4A' }}>Alpha</span>
+                  <span className="text-lg font-bold" style={{ color: '#0D7C8C' }}>Synth</span>
+                </div>
+                <p className="text-xs" style={{ color: '#718096' }}>Golden Cross Detection</p>
+              </div>
+            </Link>
+          </div>
+
+          {/* Navigation Tabs */}
+          <div className="flex gap-2">
+            {[
+              { id: 'predict', label: 'PREDICT' },
+              { id: 'backtest', label: 'BACKTEST' },
+              { id: 'model', label: 'MODEL' },
+              { id: 'about', label: 'ABOUT' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className="px-6 py-2 rounded-lg text-sm font-medium transition-all"
+                style={{
+                  backgroundColor: activeTab === tab.id ? '#0D7C8C' : 'transparent',
+                  color: activeTab === tab.id ? '#FFFFFF' : '#1B2A4A',
+                  border: activeTab === tab.id ? 'none' : '1px solid #E2E8F0',
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Left Sidebar - Search (only on PREDICT and BACKTEST tabs) */}
+          {(activeTab === 'predict' || activeTab === 'backtest') && (
+            <div className="lg:col-span-1">
+              <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                <div className="mb-6">
+                  <label className="block text-xs font-medium mb-2" style={{ color: '#718096', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    {activeTab === 'predict' ? 'TARGET ASSET' : 'BACKTEST TICKER'}
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={ticker}
+                      onChange={(e) => setTicker(e.target.value.toUpperCase())}
+                      onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                      placeholder="AAPL"
+                      className="w-full px-4 py-3 rounded-lg text-sm border focus:outline-none focus:ring-2 focus:ring-[#0D7C8C]"
+                      style={{
+                        backgroundColor: '#F8F9FB',
+                        borderColor: '#E2E8F0',
+                        color: '#1B2A4A',
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      }}
+                    />
+                    <button
+                      onClick={handleSearch}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:opacity-80"
+                      style={{ backgroundColor: '#0D7C8C' }}
+                    >
+                      <IconSearch size={16} color="#FFFFFF" stroke={2} />
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  className="w-full px-4 py-3 rounded-lg text-sm font-medium transition-all hover:opacity-90"
+                  style={{
+                    backgroundColor: activeTab === 'predict' ? '#0D7C8C' : '#DC2626',
+                    color: '#FFFFFF',
+                  }}
+                >
+                  {activeTab === 'predict' ? 'RETRAIN V13.4 ENSEMBLE' : 'RUN ML BACKTEST'}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Main Content Area */}
+          <div className={`${(activeTab === 'predict' || activeTab === 'backtest') ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
+            {activeTab === 'predict' && (
+              <div className="space-y-6">
+                {!hasSearched ? (
+                  <div className="rounded-lg p-8" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', minHeight: '600px' }}>
+                    <div className="flex flex-col items-center justify-center h-full">
+                      <IconChartLine size={64} color="#E2E8F0" stroke={1.5} className="mb-4" />
+                      <p className="text-lg font-medium mb-2" style={{ color: '#1B2A4A' }}>
+                        Enter a ticker to begin institutional audit
+                      </p>
+                      <p className="text-sm" style={{ color: '#718096' }}>
+                        Golden Cross detection and advanced technical analysis
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {/* Signal Status Card */}
+                    <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '2px solid #22C55E' }}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#22C55E20' }}>
+                            <IconTrendingUp size={28} color="#22C55E" stroke={2} />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-medium mb-1" style={{ color: '#1B2A4A' }}>
+                              Golden Cross Detected
+                            </h3>
+                            <p className="text-sm" style={{ color: '#718096' }}>
+                              {ticker || 'AAPL'} • 50-day MA crossed above 200-day MA
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold mb-1" style={{ color: '#22C55E' }}>
+                            +12.5%
+                          </div>
+                          <p className="text-xs" style={{ color: '#718096' }}>
+                            Avg. 90-day return
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Chart */}
+                    <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                      <h3 className="text-lg font-medium mb-4" style={{ color: '#1B2A4A' }}>
+                        Moving Average Crossover Analysis
+                      </h3>
+                      <ResponsiveContainer width="100%" height={400}>
+                        <LineChart data={chartData}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+                          <XAxis 
+                            dataKey="date" 
+                            stroke="#718096" 
+                            style={{ fontSize: '12px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                          />
+                          <YAxis 
+                            stroke="#718096" 
+                            style={{ fontSize: '12px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                          />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: '#FFFFFF',
+                              border: '1px solid #E2E8F0',
+                              borderRadius: '8px',
+                              fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            }}
+                          />
+                          <Legend 
+                            wrapperStyle={{ 
+                              fontFamily: "'Plus Jakarta Sans', sans-serif",
+                              paddingTop: '20px'
+                            }}
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="price" 
+                            stroke="#1B2A4A" 
+                            strokeWidth={2}
+                            name="Price"
+                            dot={false}
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="ma50" 
+                            stroke="#0D7C8C" 
+                            strokeWidth={2}
+                            name="50-day MA"
+                            dot={false}
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="ma200" 
+                            stroke="#B8860B" 
+                            strokeWidth={2}
+                            name="200-day MA"
+                            dot={false}
+                          />
+                          <ReferenceLine 
+                            x="May" 
+                            stroke="#0D7C8C" 
+                            strokeDasharray="3 3"
+                            label={{ value: 'Golden Cross', fill: '#0D7C8C', fontSize: 12 }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    {/* Metrics Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="rounded-lg p-4" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <IconCalendar size={18} color="#0D7C8C" stroke={2} />
+                          <h4 className="text-sm font-medium" style={{ color: '#718096' }}>Signal Date</h4>
+                        </div>
+                        <p className="text-xl font-bold" style={{ color: '#1B2A4A' }}>May 15, 2024</p>
+                        <p className="text-xs mt-1" style={{ color: '#718096' }}>3 months ago</p>
+                      </div>
+
+                      <div className="rounded-lg p-4" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <IconTarget size={18} color="#1A6B3A" stroke={2} />
+                          <h4 className="text-sm font-medium" style={{ color: '#718096' }}>Accuracy Rate</h4>
+                        </div>
+                        <p className="text-xl font-bold" style={{ color: '#1B2A4A' }}>78.5%</p>
+                        <p className="text-xs mt-1" style={{ color: '#718096' }}>Historical success rate</p>
+                      </div>
+
+                      <div className="rounded-lg p-4" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <IconActivity size={18} color="#B8860B" stroke={2} />
+                          <h4 className="text-sm font-medium" style={{ color: '#718096' }}>Volume Confirmation</h4>
+                        </div>
+                        <p className="text-xl font-bold" style={{ color: '#1B2A4A' }}>Strong</p>
+                        <p className="text-xs mt-1" style={{ color: '#718096' }}>+45% above average</p>
+                      </div>
+                    </div>
+
+                    {/* Signal Diagnostic Trace */}
+                    <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                      <div className="flex items-center gap-2 mb-6">
+                        <IconActivity size={20} color="#0D7C8C" stroke={2} />
+                        <h3 className="text-lg font-medium" style={{ color: '#1B2A4A' }}>
+                          SIGNAL DIAGNOSTIC TRACE
+                        </h3>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        {/* SMA GAP */}
+                        <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#E2E8F0' }}>
+                          <div>
+                            <p className="text-sm font-medium" style={{ color: '#1B2A4A' }}>SMA GAP</p>
+                            <p className="text-xs mt-1" style={{ color: '#718096' }}>Gap between 50/200 & 20/50 (MACD)</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold" style={{ color: '#0D7C8C' }}>-2.11%</p>
+                          </div>
+                        </div>
+
+                        {/* CONVERGENCE SCORE */}
+                        <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#E2E8F0' }}>
+                          <div>
+                            <p className="text-sm font-medium" style={{ color: '#1B2A4A' }}>CONVERGENCE SCORE</p>
+                            <p className="text-xs mt-1" style={{ color: '#718096' }}>Velocity of approach—SMA → present</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold" style={{ color: '#0D7C8C' }}>0.196</p>
+                          </div>
+                        </div>
+
+                        {/* HABIT EXPONENT */}
+                        <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#E2E8F0' }}>
+                          <div>
+                            <p className="text-sm font-medium" style={{ color: '#1B2A4A' }}>HABIT EXPONENT</p>
+                            <p className="text-xs mt-1" style={{ color: '#718096' }}>P &lt; 0.5 trending down / &ge; 0.5 mean-reverting</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold" style={{ color: '#0D7C8C' }}>0.160</p>
+                          </div>
+                        </div>
+
+                        {/* PRICE V/S MA50B */}
+                        <div className="flex items-center justify-between py-3">
+                          <div>
+                            <p className="text-sm font-medium" style={{ color: '#1B2A4A' }}>PRICE V/S MA50B</p>
+                            <p className="text-xs mt-1" style={{ color: '#718096' }}>Mean bull flow</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold" style={{ color: '#8C1A1A' }}>-323.0k</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Analysis Details */}
+                    <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                      <h3 className="text-lg font-medium mb-4" style={{ color: '#1B2A4A' }}>
+                        Signal Analysis
+                      </h3>
+                      <div className="space-y-3">
+                        <div className="flex items-start gap-3">
+                          <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: '#1A6B3A' }}></div>
+                          <div>
+                            <p className="font-medium mb-1" style={{ color: '#1B2A4A' }}>Bullish Momentum Confirmed</p>
+                            <p className="text-sm" style={{ color: '#718096' }}>
+                              The 50-day moving average has crossed above the 200-day moving average, indicating strong upward momentum and potential for continued price appreciation.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: '#0D7C8C' }}></div>
+                          <div>
+                            <p className="font-medium mb-1" style={{ color: '#1B2A4A' }}>Volume Support</p>
+                            <p className="text-sm" style={{ color: '#718096' }}>
+                              Trading volume has increased significantly during the crossover, suggesting institutional participation and strong conviction in the upward move.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: '#B8860B' }}></div>
+                          <div>
+                            <p className="font-medium mb-1" style={{ color: '#1B2A4A' }}>Risk Considerations</p>
+                            <p className="text-sm" style={{ color: '#718096' }}>
+                              While the signal is bullish, monitor for potential false breakouts. Consider setting stop-loss levels below the 50-day MA for risk management.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'backtest' && (
+              <div className="space-y-6">
+                <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                  <h2 className="text-xl font-medium mb-4" style={{ color: '#1B2A4A' }}>Backtest Strategy</h2>
+                  <p className="mb-6" style={{ color: '#718096' }}>Historical performance analysis of Golden Cross signals</p>
+                  
+                  {/* Backtest Results */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div className="rounded-lg p-4" style={{ backgroundColor: '#F8F9FB', border: '1px solid #E2E8F0' }}>
+                      <p className="text-sm mb-2" style={{ color: '#718096' }}>Total Signals (5 years)</p>
+                      <p className="text-2xl font-bold" style={{ color: '#1B2A4A' }}>127</p>
+                    </div>
+                    <div className="rounded-lg p-4" style={{ backgroundColor: '#F8F9FB', border: '1px solid #E2E8F0' }}>
+                      <p className="text-sm mb-2" style={{ color: '#718096' }}>Win Rate</p>
+                      <p className="text-2xl font-bold" style={{ color: '#1A6B3A' }}>78.5%</p>
+                    </div>
+                    <div className="rounded-lg p-4" style={{ backgroundColor: '#F8F9FB', border: '1px solid #E2E8F0' }}>
+                      <p className="text-sm mb-2" style={{ color: '#718096' }}>Avg. Return (90 days)</p>
+                      <p className="text-2xl font-bold" style={{ color: '#1A6B3A' }}>+12.5%</p>
+                    </div>
+                    <div className="rounded-lg p-4" style={{ backgroundColor: '#F8F9FB', border: '1px solid #E2E8F0' }}>
+                      <p className="text-sm mb-2" style={{ color: '#718096' }}>Max Drawdown</p>
+                      <p className="text-2xl font-bold" style={{ color: '#8C1A1A' }}>-8.3%</p>
+                    </div>
+                  </div>
+
+                  <div className="rounded-lg p-4" style={{ backgroundColor: '#F8F9FB', border: '1px solid #E2E8F0' }}>
+                    <h3 className="text-sm font-medium mb-3" style={{ color: '#1B2A4A' }}>Performance by Market Condition</h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm" style={{ color: '#718096' }}>Bull Market</span>
+                        <span className="text-sm font-medium" style={{ color: '#1A6B3A' }}>+18.2%</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm" style={{ color: '#718096' }}>Sideways Market</span>
+                        <span className="text-sm font-medium" style={{ color: '#B8860B' }}>+6.8%</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm" style={{ color: '#718096' }}>Bear Market</span>
+                        <span className="text-sm font-medium" style={{ color: '#8C1A1A' }}>-2.1%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'model' && (
+              <div className="space-y-6">
+                <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                  <h2 className="text-xl font-medium mb-4" style={{ color: '#1B2A4A' }}>Model Configuration</h2>
+                  <p className="mb-6" style={{ color: '#718096' }}>Customize ensemble parameters and technical indicators</p>
+                  
+                  {/* Configuration Options */}
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2" style={{ color: '#1B2A4A' }}>
+                        Short-term MA Period
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="50"
+                        className="w-full px-4 py-2 rounded-lg text-sm border focus:outline-none focus:ring-2 focus:ring-[#0D7C8C]"
+                        style={{
+                          backgroundColor: '#F8F9FB',
+                          borderColor: '#E2E8F0',
+                          color: '#1B2A4A',
+                        }}
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium mb-2" style={{ color: '#1B2A4A' }}>
+                        Long-term MA Period
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="200"
+                        className="w-full px-4 py-2 rounded-lg text-sm border focus:outline-none focus:ring-2 focus:ring-[#0D7C8C]"
+                        style={{
+                          backgroundColor: '#F8F9FB',
+                          borderColor: '#E2E8F0',
+                          color: '#1B2A4A',
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-2" style={{ color: '#1B2A4A' }}>
+                        Volume Confirmation Threshold
+                      </label>
+                      <select
+                        className="w-full px-4 py-2 rounded-lg text-sm border focus:outline-none focus:ring-2 focus:ring-[#0D7C8C]"
+                        style={{
+                          backgroundColor: '#F8F9FB',
+                          borderColor: '#E2E8F0',
+                          color: '#1B2A4A',
+                        }}
+                      >
+                        <option>Standard (+20% above average)</option>
+                        <option>Moderate (+35% above average)</option>
+                        <option>Strong (+50% above average)</option>
+                      </select>
+                    </div>
+
+                    <div className="pt-4">
+                      <button
+                        className="w-full px-4 py-3 rounded-lg text-sm font-medium transition-all hover:opacity-90"
+                        style={{
+                          backgroundColor: '#0D7C8C',
+                          color: '#FFFFFF',
+                        }}
+                      >
+                        Update Model Parameters
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Current Settings */}
+                <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                  <h3 className="text-lg font-medium mb-4" style={{ color: '#1B2A4A' }}>Current Settings</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between py-2 border-b" style={{ borderColor: '#E2E8F0' }}>
+                      <span className="text-sm" style={{ color: '#718096' }}>Model Version</span>
+                      <span className="text-sm font-medium" style={{ color: '#1B2A4A' }}>v13.4 Ensemble</span>
+                    </div>
+                    <div className="flex items-center justify-between py-2 border-b" style={{ borderColor: '#E2E8F0' }}>
+                      <span className="text-sm" style={{ color: '#718096' }}>MA Type</span>
+                      <span className="text-sm font-medium" style={{ color: '#1B2A4A' }}>Exponential (EMA)</span>
+                    </div>
+                    <div className="flex items-center justify-between py-2 border-b" style={{ borderColor: '#E2E8F0' }}>
+                      <span className="text-sm" style={{ color: '#718096' }}>Signal Sensitivity</span>
+                      <span className="text-sm font-medium" style={{ color: '#1B2A4A' }}>Medium</span>
+                    </div>
+                    <div className="flex items-center justify-between py-2">
+                      <span className="text-sm" style={{ color: '#718096' }}>Last Updated</span>
+                      <span className="text-sm font-medium" style={{ color: '#1B2A4A' }}>2 hours ago</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'about' && (
+              <div className="space-y-6">
+                {/* Main About Card */}
+                <div className="rounded-lg p-8" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                  <h2 className="text-2xl font-bold mb-6" style={{ color: '#1B2A4A' }}>
+                    Institutional Analytical Depth (v14.2)
+                  </h2>
+
+                  {/* Model Architecture Section */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-semibold mb-4" style={{ color: '#1B2A4A' }}>
+                      Model Architecture
+                    </h3>
+                    <ul className="space-y-3">
+                      <li className="flex items-start gap-3">
+                        <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: '#0D7C8C' }}></div>
+                        <div>
+                          <span className="font-semibold" style={{ color: '#1B2A4A' }}>Model A:</span>
+                          <span className="text-sm ml-2" style={{ color: '#718096' }}>Binary signal ensemble (XGBoost)</span>
+                        </div>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: '#0D7C8C' }}></div>
+                        <div>
+                          <span className="font-semibold" style={{ color: '#1B2A4A' }}>Model B:</span>
+                          <span className="text-sm ml-2" style={{ color: '#718096' }}>High-recall baseline (9GB × 2 weight)</span>
+                        </div>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: '#0D7C8C' }}></div>
+                        <div>
+                          <span className="font-semibold" style={{ color: '#1B2A4A' }}>Model C:</span>
+                          <span className="text-sm ml-2" style={{ color: '#718096' }}>Continuous Days-to-Cross Regressor</span>
+                        </div>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: '#0D7C8C' }}></div>
+                        <div>
+                          <span className="text-sm" style={{ color: '#718096' }}>Purged walk-forward validation (v13 standard)</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* About Golden Cross */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-semibold mb-4" style={{ color: '#1B2A4A' }}>
+                      About Golden Cross
+                    </h3>
+                    <p className="text-sm mb-4" style={{ color: '#718096' }}>
+                      The Golden Cross is a bullish technical indicator that occurs when a short-term moving average crosses above a long-term moving average, typically the 50-day MA crossing above the 200-day MA.
+                    </p>
+                    <div className="flex items-start gap-3 p-4 rounded-lg" style={{ backgroundColor: '#E0F4F6' }}>
+                      <IconInfoCircle size={20} color="#0D7C8C" stroke={2} />
+                      <div>
+                        <p className="font-medium mb-2" style={{ color: '#1B2A4A' }}>Key Features</p>
+                        <ul className="text-sm space-y-1" style={{ color: '#718096' }}>
+                          <li>• 50-day MA crossing above 200-day MA</li>
+                          <li>• Strong bullish momentum signal</li>
+                          <li>• Institutional-grade detection algorithm</li>
+                          <li>• Historical accuracy tracking</li>
+                          <li>• Volume confirmation analysis</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Critical Fixes Audit Card */}
+                <div className="rounded-lg p-6" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+                  <h3 className="text-lg font-semibold mb-4" style={{ color: '#1B2A4A' }}>
+                    CRITICAL FIXES AUDIT
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start justify-between p-4 rounded-lg" style={{ backgroundColor: '#F8F9FB' }}>
+                      <div>
+                        <p className="font-medium mb-1" style={{ color: '#0D7C8C' }}>Gap Velocity</p>
+                        <p className="text-xs" style={{ color: '#718096' }}>Fixed first-order derivative noise</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-between p-4 rounded-lg" style={{ backgroundColor: '#F8F9FB' }}>
+                      <div>
+                        <p className="font-medium mb-1" style={{ color: '#0D7C8C' }}>ATR Sizing</p>
+                        <p className="text-xs" style={{ color: '#718096' }}>Switched from fixed % to 2×ATR floor</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-between p-4 rounded-lg" style={{ backgroundColor: '#F8F9FB' }}>
+                      <div>
+                        <p className="font-medium mb-1" style={{ color: '#0D7C8C' }}>Survival Bias</p>
+                        <p className="text-xs" style={{ color: '#718096' }}>Purged de-listed tickers automatically</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Version Info */}
+                <div className="rounded-lg p-4" style={{ backgroundColor: '#E0F4F6', border: '1px solid #0D7C8C' }}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-semibold" style={{ color: '#1B2A4A' }}>Current Version</p>
+                      <p className="text-xs" style={{ color: '#718096' }}>v14.2 - Golden Cross Detection</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold" style={{ color: '#1B2A4A' }}>Last Updated</p>
+                      <p className="text-xs" style={{ color: '#718096' }}>January 2025</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Info Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div className="rounded-lg p-4" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+            <div className="flex items-center gap-3 mb-2">
+              <IconTrendingUp size={20} color="#1A6B3A" stroke={2} />
+              <h3 className="text-sm font-medium" style={{ color: '#1B2A4A' }}>Bullish Signal</h3>
+            </div>
+            <p className="text-xs" style={{ color: '#718096' }}>
+              Identifies strong upward momentum when short-term MA crosses above long-term MA
+            </p>
+          </div>
+
+          <div className="rounded-lg p-4" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+            <div className="flex items-center gap-3 mb-2">
+              <IconChartLine size={20} color="#0D7C8C" stroke={2} />
+              <h3 className="text-sm font-medium" style={{ color: '#1B2A4A' }}>Technical Analysis</h3>
+            </div>
+            <p className="text-xs" style={{ color: '#718096' }}>
+              Advanced moving average analysis with volume confirmation and trend strength
+            </p>
+          </div>
+
+          <div className="rounded-lg p-4" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}>
+            <div className="flex items-center gap-3 mb-2">
+              <IconAlertTriangle size={20} color="#B8860B" stroke={2} />
+              <h3 className="text-sm font-medium" style={{ color: '#1B2A4A' }}>Risk Assessment</h3>
+            </div>
+            <p className="text-xs" style={{ color: '#718096' }}>
+              Evaluates signal reliability with historical accuracy and market conditions
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Command Center Button */}
+      <button
+        onClick={() => setIsCommandCenterOpen(true)}
+        className="fixed bottom-8 right-8 w-16 h-16 bg-[#0D7C8C] hover:bg-[#0A6B7A] rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 z-40"
+      >
+        <IconCommand size={28} color="#FFFFFF" stroke={2} />
+      </button>
+
+      {/* Command Center Modal */}
+      {isCommandCenterOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+          <div className="relative w-full max-w-3xl h-[600px] bg-white border-2 border-[#2E4D8E]/30 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+            
+            {/* Close button */}
+            <button
+              onClick={() => setIsCommandCenterOpen(false)}
+              className="absolute top-6 right-6 w-10 h-10 bg-[#F8F9FB] hover:bg-[#0D7C8C] rounded-full flex items-center justify-center transition-all z-10"
+            >
+              <IconX className="w-5 h-5 text-[#2D3748]" stroke={2} />
+            </button>
+
+            {/* Header */}
+            <div className="p-6 border-b border-[#2E4D8E]/20 bg-[#F8F9FB]">
+              <h2 className="text-2xl font-black text-[#2D3748] mb-1">Command Center</h2>
+              <p className="text-sm text-[#718096]">Ask anything about Golden Cross signals, technical analysis, or market conditions</p>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-white">
+              {chatMessages.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-base text-[#718096] mb-8">
+                    Ask anything about Golden Cross signals, technical analysis, or market conditions
+                  </p>
+                  
+                  {/* Suggested Questions */}
+                  <div className="grid grid-cols-2 gap-3 max-w-2xl mx-auto">
+                    <button 
+                      onClick={() => handleQuestionClick('What is the current signal strength?')}
+                      className="p-3 bg-white hover:bg-[#F8F9FB] border border-[#2E4D8E]/20 hover:border-[#2E4D8E]/30 rounded-xl text-left text-sm text-[#2D3748] transition-all"
+                    >
+                      What is the current signal strength?
+                    </button>
+                    <button 
+                      onClick={() => handleQuestionClick('Show me historical accuracy')}
+                      className="p-3 bg-white hover:bg-[#F8F9FB] border border-[#2E4D8E]/20 hover:border-[#2E4D8E]/30 rounded-xl text-left text-sm text-[#2D3748] transition-all"
+                    >
+                      Show me historical accuracy
+                    </button>
+                    <button 
+                      onClick={() => handleQuestionClick('Compare with Death Cross signals')}
+                      className="p-3 bg-white hover:bg-[#F8F9FB] border border-[#2E4D8E]/20 hover:border-[#2E4D8E]/30 rounded-xl text-left text-sm text-[#2D3748] transition-all"
+                    >
+                      Compare with Death Cross signals
+                    </button>
+                    <button 
+                      onClick={() => handleQuestionClick('Review volume confirmation')}
+                      className="p-3 bg-white hover:bg-[#F8F9FB] border border-[#2E4D8E]/20 hover:border-[#2E4D8E]/30 rounded-xl text-left text-sm text-[#2D3748] transition-all"
+                    >
+                      Review volume confirmation
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {chatMessages.map((message, index) => (
+                    <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[80%] p-4 rounded-2xl ${
+                        message.role === 'user' 
+                          ? 'bg-[#0D7C8C] text-white' 
+                          : 'bg-[#F8F9FB] text-[#2D3748] border border-[#2E4D8E]/20'
+                      }`}>
+                        <p className="text-sm leading-relaxed">{message.content}</p>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+
+            {/* Input */}
+            <div className="p-6 border-t border-[#2E4D8E]/20 bg-[#F8F9FB]">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={commandInput}
+                  onChange={(e) => setCommandInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  placeholder="Ask about your analysis..."
+                  className="w-full px-6 py-4 bg-white border border-[#2E4D8E]/20 focus:border-[#2E4D8E]/40 rounded-2xl text-[#2D3748] placeholder-[#718096] text-base outline-none transition-all pr-14"
+                />
+                <button 
+                  onClick={handleSendMessage}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#2E4D8E] hover:bg-[#0D7C8C] rounded-xl flex items-center justify-center transition-all"
+                >
+                  <IconSearch className="w-5 h-5 text-white" stroke={2} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
