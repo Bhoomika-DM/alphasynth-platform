@@ -3,6 +3,7 @@
 import { useRouter, usePathname } from 'next/navigation'
 import { IconSparkles, IconBell, IconRadar, IconRocket, IconAdjustments, IconStar, IconFileText, IconBook, IconUser } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
+import Logo from '@/components/Logo'
 
 export default function ScreenerSidebar() {
   const router = useRouter()
@@ -36,15 +37,7 @@ export default function ScreenerSidebar() {
     <div className="w-64 h-screen bg-[#1B2A4A] text-white flex flex-col fixed left-0 top-0 z-50">
       {/* Logo */}
       <div className="p-6 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#0D7C8C] rounded-lg flex items-center justify-center">
-            <span className="text-xl font-black text-white">A</span>
-          </div>
-          <div>
-            <span className="text-xl font-bold text-white">Alpha</span>
-            <span className="text-xl font-bold text-[#0D7C8C]">Synth</span>
-          </div>
-        </div>
+        <Logo />
       </div>
 
       {/* Workspace Section */}
