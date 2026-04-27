@@ -87,7 +87,6 @@ export const mainOptions: OnboardingOption[] = [
     title: 'Forensic & Advanced Analytics',
     subtitle: 'Advanced diagnostics and predictive models uncover risks, challenge biases, and surface hidden alpha.',
     gradient: 'from-red-500 to-pink-500',
-    isPro: true,
   },
   {
     id: 'portfolio',
@@ -95,7 +94,6 @@ export const mainOptions: OnboardingOption[] = [
     title: 'Portfolio Management & Risk Analytics',
     subtitle: 'Institutional-grade portfolio tools to measure performance, manage risk, and optimise capital allocation with precision.',
     gradient: 'from-teal-500 to-cyan-500',
-    isPro: true,
   },
 ]
 

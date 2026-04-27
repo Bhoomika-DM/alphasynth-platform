@@ -12,6 +12,8 @@ export default function AutomatedScreenerPage() {
   const [showApiModal, setShowApiModal] = useState(false)
   const [selectedDataSource, setSelectedDataSource] = useState('CSV')
   const [uploadedFile, setUploadedFile] = useState('')
+  const [sortColumn, setSortColumn] = useState<string>('rank')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 
   // Mock data for charts - different for each tab
   const getChartDataForTab = (tab: string) => {
@@ -175,6 +177,48 @@ export default function AutomatedScreenerPage() {
     { rank: 15, symbol: 'IOC', company: 'Indian Oil Corp', score: 61, price: 76.5, roe: 0.7, actual: 12.5, projected: 1.0, estimate: 22.5, dividend: 12.0, low: 1.1, high: 142.50 },
   ]
 
+  // Static rows that should always appear first
+  const staticRows = [
+    { rank: 1, symbol: 'HINDALCO', company: 'Hindalco Industries', score: 80, price: 14.0, roe: 0.6, actual: 11.0, projected: 0.9, estimate: 10.5, dividend: 5.0, low: 1.3, high: 1185.0 },
+    { rank: 2, symbol: 'NESTLIND', company: 'Nestle India', score: 76, price: 89.0, roe: 0.9, actual: 2.0, projected: 1.0, estimate: 9.5, dividend: 19.0, low: 0.6, high: 4130.0 },
+  ]
+
+  // Sorting function
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortColumn(column)
+      setSortDirection('asc')
+    }
+  }
+
+  // Sort the data
+  const sortedResults = [...screenerResults].sort((a, b) => {
+    const aValue = a[sortColumn as keyof typeof a]
+    const bValue = b[sortColumn as keyof typeof b]
+    
+    if (typeof aValue === 'string' && typeof bValue === 'string') {
+      return sortDirection === 'asc' 
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue)
+    }
+    
+    if (typeof aValue === 'number' && typeof bValue === 'number') {
+      return sortDirection === 'asc' 
+        ? aValue - bValue
+        : bValue - aValue
+    }
+    
+    return 0
+  })
+
+  // Get sort indicator
+  const getSortIndicator = (column: string) => {
+    if (sortColumn !== column) return '↕'
+    return sortDirection === 'asc' ? '↑' : '↓'
+  }
+
   const universeStats = {
     total: 76,
     records: 72,
@@ -247,38 +291,84 @@ export default function AutomatedScreenerPage() {
               {/* Active Model Profile */}
               <div className="bg-white rounded-lg border border-[#E2E8F0] p-4">
                 <h3 className="text-sm font-bold text-[#1B2A4A] mb-3">ACTIVE MODEL PROFILE</h3>
-                <div className="space-y-2">
-                  <div className="text-sm text-[#718096]">☑ Quality Compounders</div>
-                  <div className="text-sm text-[#718096]">Coffee Can Style — Low</div>
-                  <div className="text-sm text-[#718096]">churn, high governance</div>
-                  <div className="text-sm text-[#718096]">ROE(%) ≥ 20%</div>
-                  <div className="text-sm text-[#718096]">FCF / PAT ≥ 1%</div>
-                  <div className="text-sm text-[#718096]">Accrual Ratio ≤ 15%</div>
-                  <div className="text-sm text-[#718096]">Promoter Stability ≥ 70%</div>
-                  <div className="text-sm text-[#718096]">Revenue CAGR-5Y (%) ≥ 10%</div>
-                  <div className="text-sm text-[#718096]">Dividend Growth-5Y (%) ≥ 5%</div>
-                  <div className="text-sm text-[#718096]">Low Beta ≤ 1.0%</div>
+                <div className="text-xs text-[#718096] mb-3">☑ Quality Compounders - Coffee Can Style</div>
+                
+                {/* Criteria Table */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="border-b border-[#E2E8F0]">
+                        <th className="text-left py-2 text-[#1B2A4A] font-bold">Metric</th>
+                        <th className="text-right py-2 text-[#1B2A4A] font-bold">Threshold</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#E2E8F0]">
+                        <td className="py-2 text-[#718096]">ROE (%)</td>
+                        <td className="py-2 text-right text-[#718096]">≥ 20%</td>
+                      </tr>
+                      <tr className="border-b border-[#E2E8F0]">
+                        <td className="py-2 text-[#718096]">FCF / PAT</td>
+                        <td className="py-2 text-right text-[#718096]">≥ 1%</td>
+                      </tr>
+                      <tr className="border-b border-[#E2E8F0]">
+                        <td className="py-2 text-[#718096]">Accrual Ratio</td>
+                        <td className="py-2 text-right text-[#718096]">≤ 15%</td>
+                      </tr>
+                      <tr className="border-b border-[#E2E8F0]">
+                        <td className="py-2 text-[#718096]">Promoter Stability</td>
+                        <td className="py-2 text-right text-[#718096]">≥ 70%</td>
+                      </tr>
+                      <tr className="border-b border-[#E2E8F0]">
+                        <td className="py-2 text-[#718096]">Revenue CAGR-5Y</td>
+                        <td className="py-2 text-right text-[#718096]">≥ 10%</td>
+                      </tr>
+                      <tr className="border-b border-[#E2E8F0]">
+                        <td className="py-2 text-[#718096]">Dividend Growth-5Y</td>
+                        <td className="py-2 text-right text-[#718096]">≥ 5%</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 text-[#718096]">Low Beta</td>
+                        <td className="py-2 text-right text-[#718096]">≤ 1.0%</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div className="mt-3 pt-3 border-t border-[#E2E8F0]">
-                  <div className="text-xs text-[#EF4444]">⚫ DISQUALIFIED</div>
-                  <div className="bg-[#FEE2E2] p-2 rounded mt-2">
-                    <div className="text-sm text-[#EF4444]">AUROPHARMAA Pharma</div>
-                    <div className="text-xs text-[#EF4444]">Removed disqualified 58 + 50%</div>
-                  </div>
-                  <div className="bg-[#FEE2E2] p-2 rounded mt-2">
-                    <div className="text-sm text-[#EF4444]">WHIRLPOOL Consumer</div>
-                    <div className="text-xs text-[#EF4444]">Disc</div>
-                  </div>
-                  <div className="bg-[#FEE2E2] p-2 rounded mt-2">
-                    <div className="text-sm text-[#EF4444]">DLF Real Estate</div>
-                    <div className="text-xs text-[#EF4444]">Removed disqualified 58 + 50%</div>
-                  </div>
-                  <div className="bg-[#FEE2E2] p-2 rounded mt-2">
-                    <div className="text-sm text-[#EF4444]">BHEL Infrastructure</div>
-                    <div className="text-xs text-[#EF4444]">Removed disqualified 58 + 50%</div>
+
+                {/* Disqualified Table */}
+                <div className="mt-4 pt-4 border-t border-[#E2E8F0]">
+                  <div className="text-xs font-bold text-[#EF4444] mb-2">⚫ DISQUALIFIED</div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="bg-[#FEE2E2]">
+                          <th className="text-left py-2 px-2 text-[#EF4444] font-bold">Symbol</th>
+                          <th className="text-left py-2 px-2 text-[#EF4444] font-bold">Sector</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-[#FEE2E2]">
+                          <td className="py-2 px-2 text-[#EF4444] font-semibold">AUROPHARMAA</td>
+                          <td className="py-2 px-2 text-[#EF4444]">Pharma</td>
+                        </tr>
+                        <tr className="border-b border-[#FEE2E2]">
+                          <td className="py-2 px-2 text-[#EF4444] font-semibold">WHIRLPOOL</td>
+                          <td className="py-2 px-2 text-[#EF4444]">Consumer</td>
+                        </tr>
+                        <tr className="border-b border-[#FEE2E2]">
+                          <td className="py-2 px-2 text-[#EF4444] font-semibold">DLF</td>
+                          <td className="py-2 px-2 text-[#EF4444]">Real Estate</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 px-2 text-[#EF4444] font-semibold">BHEL</td>
+                          <td className="py-2 px-2 text-[#EF4444]">Infrastructure</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                <div className="mt-3 text-xs text-[#718096]">
+                
+                <div className="mt-3 text-xs text-[#718096] italic">
                   // Screener refreshed
                 </div>
               </div>
@@ -287,35 +377,60 @@ export default function AutomatedScreenerPage() {
               <div className="bg-white rounded-lg border border-[#E2E8F0] p-4">
                 <h3 className="text-sm font-bold text-[#1B2A4A] mb-3">★ Conviction Signals</h3>
                 <div className="text-xs text-[#718096] mb-3">Top-tier multi-factor alpha</div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="border border-[#E2E8F0] rounded-lg p-3">
-                    <div className="text-sm font-bold text-[#1B2A4A] mb-1">MAZDOCK</div>
-                    <div className="text-xs text-[#718096] mb-2">Mazagon Dock</div>
-                    <div className="text-2xl font-black text-[#0D7C8C] mb-1">73</div>
-                    <div className="text-xs text-[#0D7C8C]">ALPHA SCORE</div>
-                    <div className="text-xs text-[#718096] mt-2">Momentum | Dividend #1</div>
-                  </div>
-                  <div className="border border-[#E2E8F0] rounded-lg p-3">
-                    <div className="text-sm font-bold text-[#1B2A4A] mb-1">BAJFINANCE</div>
-                    <div className="text-xs text-[#718096] mb-2">Bajaj Finance</div>
-                    <div className="text-2xl font-black text-[#0D7C8C] mb-1">73</div>
-                    <div className="text-xs text-[#0D7C8C]">ALPHA SCORE</div>
-                    <div className="text-xs text-[#718096] mt-2">NIFTY | Standard #7</div>
-                  </div>
-                  <div className="border border-[#E2E8F0] rounded-lg p-3">
-                    <div className="text-sm font-bold text-[#1B2A4A] mb-1">MUTHOOTFIN</div>
-                    <div className="text-xs text-[#718096] mb-2">Muthoot Finance</div>
-                    <div className="text-2xl font-black text-[#0D7C8C] mb-1">67</div>
-                    <div className="text-xs text-[#0D7C8C]">ALPHA SCORE</div>
-                    <div className="text-xs text-[#718096] mt-2">NIFTY | Standard #5</div>
-                  </div>
-                  <div className="border border-[#E2E8F0] rounded-lg p-3">
-                    <div className="text-sm font-bold text-[#1B2A4A] mb-1">DIVISLAB</div>
-                    <div className="text-xs text-[#718096] mb-2">Divi's Labs</div>
-                    <div className="text-2xl font-black text-[#0D7C8C] mb-1">61</div>
-                    <div className="text-xs text-[#0D7C8C]">ALPHA SCORE</div>
-                    <div className="text-xs text-[#718096] mt-2">Pharma | Standard #4</div>
-                  </div>
+                
+                {/* Conviction Signals Table */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="bg-[#F8F9FB] border-b border-[#E2E8F0]">
+                        <th className="text-left py-2 px-2 text-[#1B2A4A] font-bold">Symbol</th>
+                        <th className="text-center py-2 px-2 text-[#1B2A4A] font-bold">Score</th>
+                        <th className="text-left py-2 px-2 text-[#1B2A4A] font-bold">Category</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#E2E8F0] hover:bg-[#F8F9FB]">
+                        <td className="py-2 px-2">
+                          <div className="font-bold text-[#1B2A4A]">MAZDOCK</div>
+                          <div className="text-[#718096]">Mazagon Dock</div>
+                        </td>
+                        <td className="py-2 px-2 text-center">
+                          <div className="text-lg font-black text-[#17A2B8]">73</div>
+                        </td>
+                        <td className="py-2 px-2 text-[#718096]">Momentum | Dividend #1</td>
+                      </tr>
+                      <tr className="border-b border-[#E2E8F0] hover:bg-[#F8F9FB]">
+                        <td className="py-2 px-2">
+                          <div className="font-bold text-[#1B2A4A]">BAJFINANCE</div>
+                          <div className="text-[#718096]">Bajaj Finance</div>
+                        </td>
+                        <td className="py-2 px-2 text-center">
+                          <div className="text-lg font-black text-[#17A2B8]">73</div>
+                        </td>
+                        <td className="py-2 px-2 text-[#718096]">NIFTY | Standard #7</td>
+                      </tr>
+                      <tr className="border-b border-[#E2E8F0] hover:bg-[#F8F9FB]">
+                        <td className="py-2 px-2">
+                          <div className="font-bold text-[#1B2A4A]">MUTHOOTFIN</div>
+                          <div className="text-[#718096]">Muthoot Finance</div>
+                        </td>
+                        <td className="py-2 px-2 text-center">
+                          <div className="text-lg font-black text-[#17A2B8]">67</div>
+                        </td>
+                        <td className="py-2 px-2 text-[#718096]">NIFTY | Standard #5</td>
+                      </tr>
+                      <tr className="hover:bg-[#F8F9FB]">
+                        <td className="py-2 px-2">
+                          <div className="font-bold text-[#1B2A4A]">DIVISLAB</div>
+                          <div className="text-[#718096]">Divi's Labs</div>
+                        </td>
+                        <td className="py-2 px-2 text-center">
+                          <div className="text-lg font-black text-[#17A2B8]">61</div>
+                        </td>
+                        <td className="py-2 px-2 text-[#718096]">Pharma | Standard #4</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -417,50 +532,62 @@ export default function AutomatedScreenerPage() {
                   <table className="w-full">
                     <thead>
                       <tr className="bg-[#1B2A4A] text-white">
-                        <th className="text-left py-3 px-2 text-xs font-bold uppercase">#</th>
-                        <th className="text-left py-3 px-2 text-xs font-bold uppercase">SYMBOL ↑</th>
-                        <th className="text-left py-3 px-2 text-xs font-bold uppercase">COMPANY</th>
-                        <th className="text-center py-3 px-2 text-xs font-bold uppercase">SCORE ↑</th>
-                        <th className="text-right py-3 px-2 text-xs font-bold uppercase">PRICE ↑</th>
-                        <th className="text-right py-3 px-2 text-xs font-bold uppercase">ROE ↑</th>
-                        <th className="text-right py-3 px-2 text-xs font-bold uppercase">ACTUAL ↑</th>
-                        <th className="text-right py-3 px-2 text-xs font-bold uppercase">PROJECTED ↑</th>
-                        <th className="text-right py-3 px-2 text-xs font-bold uppercase">ESTIMATE ↑</th>
-                        <th className="text-right py-3 px-2 text-xs font-bold uppercase">DIVIDEND ↑</th>
-                        <th className="text-right py-3 px-2 text-xs font-bold uppercase">LOW ↑</th>
-                        <th className="text-right py-3 px-2 text-xs font-bold uppercase">52 CAP ↑</th>
+                        <th className="text-left py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('rank')}>
+                          # {getSortIndicator('rank')}
+                        </th>
+                        <th className="text-left py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('symbol')}>
+                          SYMBOL {getSortIndicator('symbol')}
+                        </th>
+                        <th className="text-left py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('company')}>
+                          COMPANY {getSortIndicator('company')}
+                        </th>
+                        <th className="text-center py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('score')}>
+                          SCORE {getSortIndicator('score')}
+                        </th>
+                        <th className="text-right py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('price')}>
+                          PRICE {getSortIndicator('price')}
+                        </th>
+                        <th className="text-right py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('roe')}>
+                          ROE {getSortIndicator('roe')}
+                        </th>
+                        <th className="text-right py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('actual')}>
+                          ACTUAL {getSortIndicator('actual')}
+                        </th>
+                        <th className="text-right py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('projected')}>
+                          PROJECTED {getSortIndicator('projected')}
+                        </th>
+                        <th className="text-right py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('estimate')}>
+                          ESTIMATE {getSortIndicator('estimate')}
+                        </th>
+                        <th className="text-right py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('dividend')}>
+                          DIVIDEND {getSortIndicator('dividend')}
+                        </th>
+                        <th className="text-right py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('low')}>
+                          LOW {getSortIndicator('low')}
+                        </th>
+                        <th className="text-right py-3 px-2 text-xs font-bold uppercase cursor-pointer hover:bg-[#2D3E50] transition-colors" onClick={() => handleSort('high')}>
+                          52 CAP {getSortIndicator('high')}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="border-b border-[#E2E8F0] hover:bg-[#F8F9FB]">
-                        <td className="py-3 px-2 text-sm text-[#718096]">1</td>
-                        <td className="py-3 px-2 text-sm font-bold text-[#1B2A4A]">HINDALCO</td>
-                        <td className="py-3 px-2 text-sm text-[#718096]">Hindalco Industries</td>
-                        <td className="py-3 px-2 text-center text-sm font-bold text-[#1B2A4A]">80</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">14.0</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">0.6</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">11.0</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">0.9</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">10.5</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">5.0</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">1.3</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">₹1185.0</td>
-                      </tr>
-                      <tr className="border-b border-[#E2E8F0] hover:bg-[#F8F9FB]">
-                        <td className="py-3 px-2 text-sm text-[#718096]">2</td>
-                        <td className="py-3 px-2 text-sm font-bold text-[#1B2A4A]">NESTLIND</td>
-                        <td className="py-3 px-2 text-sm text-[#718096]">Nestle India</td>
-                        <td className="py-3 px-2 text-center text-sm font-bold text-[#1B2A4A]">76</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">89.0</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">0.9</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">2.0</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">1.0</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">9.5</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">19.0</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">0.6</td>
-                        <td className="py-3 px-2 text-right text-sm text-[#718096]">₹4130.0</td>
-                      </tr>
-                      {screenerResults.map((result, index) => (
+                      {staticRows.map((result, index) => (
+                        <tr key={`static-${index}`} className="border-b border-[#E2E8F0] hover:bg-[#F8F9FB]">
+                          <td className="py-3 px-2 text-sm text-[#718096]">{result.rank}</td>
+                          <td className="py-3 px-2 text-sm font-bold text-[#1B2A4A]">{result.symbol}</td>
+                          <td className="py-3 px-2 text-sm text-[#718096]">{result.company}</td>
+                          <td className="py-3 px-2 text-center text-sm font-bold text-[#1B2A4A]">{result.score}</td>
+                          <td className="py-3 px-2 text-right text-sm text-[#718096]">{result.price}</td>
+                          <td className="py-3 px-2 text-right text-sm text-[#718096]">{result.roe}</td>
+                          <td className="py-3 px-2 text-right text-sm text-[#718096]">{result.actual}</td>
+                          <td className="py-3 px-2 text-right text-sm text-[#718096]">{result.projected}</td>
+                          <td className="py-3 px-2 text-right text-sm text-[#718096]">{result.estimate}</td>
+                          <td className="py-3 px-2 text-right text-sm text-[#718096]">{result.dividend}</td>
+                          <td className="py-3 px-2 text-right text-sm text-[#718096]">{result.low}</td>
+                          <td className="py-3 px-2 text-right text-sm text-[#718096]">₹{result.high}</td>
+                        </tr>
+                      ))}
+                      {sortedResults.map((result, index) => (
                         <tr key={index} className="border-b border-[#E2E8F0] hover:bg-[#F8F9FB]">
                           <td className="py-3 px-2 text-sm text-[#718096]">{result.rank}</td>
                           <td className="py-3 px-2 text-sm font-bold text-[#1B2A4A]">{result.symbol}</td>
